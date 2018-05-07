@@ -24,7 +24,6 @@ $_printLink = false;
 
 {{-- Header Extras to be Included --}}
 @section('head-extras')
-
 @endsection
 
 @section('content')
@@ -97,5 +96,4 @@ $_printLink = false;
 
 {{-- Footer Extras to be Included --}}
 @section('footer-extras')
-
 @endsection

@@ -35,6 +35,21 @@
       </div>
       <!-- ./col -->
      
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+          <div class="inner">
+            <h3>{{ $reports->getTotalCategory()}}</h3>
+
+            <p>Categories</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
+          </div>
+          <a href="{{ route('admin::categories.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <!-- ./col -->
 @endsection
 
 {{-- Footer Extras to be Included --}}

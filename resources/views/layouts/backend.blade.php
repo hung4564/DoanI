@@ -152,7 +152,6 @@
         </script>
 
         @yield('footer-extras')
-        
         @stack('footer-scripts')
     </body>
 </html>
