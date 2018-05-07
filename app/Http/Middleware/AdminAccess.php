@@ -23,11 +23,11 @@ class AdminAccess
             }
         }
 
-        flash()->error('Access Denied');
+        //flash()->error('Access Denied');
         if ($request->ajax()) {
             return response('Unauthorized.', 401);
         } else {
-            return redirect()->back(); //todo h peut-etre une fenetre modale pour dire acces refusé ici...
+            return redirect(route('login'));
         }
     }
 }
