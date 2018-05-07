@@ -56,6 +56,10 @@
     $('.textarea').wysihtml5()
   })
 </script>
+@parent
+@endsection
+@section('footer-extras')
 <!-- CSS for wysihtml5 -->>
 <link rel="stylesheet" href="{{asset('/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
+@parent
 @endsection
