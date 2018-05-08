@@ -2,28 +2,29 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Support\Facades\Auth;
 use Closure;
 
 class AdminAccess
 {
-    /**
+     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
+     * @param  string|null $guard
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::check()) {
             if (Auth::user()->isAdmin()) {
                 return $next($request);
-            } else {
-                return redirect(route('dashboard::index'));
             }
-        } else {
-          flash()->error('Access Denied');
-            return view('auth.login');
         }
+
+        flash()->error('Access Denied');
+
+        return redirect('/');
     }
 }

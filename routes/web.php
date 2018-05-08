@@ -19,7 +19,7 @@ Auth::routes();
 // Redirect to /dashboard
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::namespace ('Admin')->group(function () {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
         Route::prefix('admin')->group(function () {
@@ -28,32 +28,46 @@ Route::group(['middleware' => 'auth'], function () {
                 // Route assigned name "admin::"...
 
                 Route::get('/', 'IndexController@index')->name('index');
-
+                /**
+                 * User resource
+                 * namespace Admin\UserController
+                 * /admin/users
+                 * adminn::users
+                 */
                 Route::resource('users', 'UserController');
-
+                /**
+                 * Category resource
+                 * namespace Admin\CategoryController
+                 * /admin/categories
+                 * adminn::categories
+                 */
                 Route::resource('categories', 'CategoryController');
-
+                /**
+                 * Visual resource
+                 * namespace Admin/VisualController
+                 * /admin/visuals
+                 * adminn::visuals
+                 */
                 Route::resource('visuals', 'VisualController');
             });
         });
     });
-    Route::namespace ('Dashboard')->group(function () {
-        // Controllers Within The "App\Http\Controllers\Dashboard" Namespace
-        Route::prefix('dashboard')->group(function () {
-            // Matches The "/dashboard/" URL
-            Route::name('dashboard::')->group(function () {
-                // Route assigned name "dashboard::"...
+});
 
-                Route::get('/', 'IndexController@index')->name('index');
-                /**
-                 * Profile
-                 * // Route named "dashboard::profile"
-                 */
-            });
+Route::namespace ('Dashboard')->group(function () {
+    // Controllers Within The "App\Http\Controllers\Dashboard" Namespace
+    Route::prefix('dashboard')->group(function () {
+        // Matches The "/dashboard/" URL
+        Route::name('dashboard::')->group(function () {
+            // Route assigned name "dashboard::"...
+
+            Route::get('/', 'IndexController@index')->name('index');
+
         });
     });
-
-    Route::get('profile', 'ProfileController@showProfile')->name('profile');
-    Route::post('profile', 'ProfileController@updateProfile')->name('profile.update');
-
 });
+/**
+ * Profile
+ */
+Route::get('profile', 'ProfileController@showProfile')->name('profile');
+Route::post('profile', 'ProfileController@updateProfile')->name('profile.update');
