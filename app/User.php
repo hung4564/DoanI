@@ -33,7 +33,14 @@ class User extends Authenticatable
     {
         return (int) $this->is_admin === 1;
     }
-
+    /**
+     * @return boolean
+     */
+    public function canAccess($modelname,$method){
+      if(isAdmin()) return true;
+      
+      return false;
+    }
     /**
      * @return string
      */

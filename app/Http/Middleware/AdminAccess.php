@@ -21,13 +21,9 @@ class AdminAccess
             } else {
                 return redirect(route('dashboard::index'));
             }
-        }
-
-        //flash()->error('Access Denied');
-        if ($request->ajax()) {
-            return response('Unauthorized.', 401);
         } else {
-            return redirect(route('login'));
+          //flash()->error('Access Denied');
+            return view('auth.login');
         }
     }
 }

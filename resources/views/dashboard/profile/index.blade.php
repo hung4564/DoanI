@@ -48,7 +48,7 @@ $_pageSubtitle = '';
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="settings">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('dashboard::profile.update') }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('profile.update') }}">
                             {!! csrf_field() !!}
 
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

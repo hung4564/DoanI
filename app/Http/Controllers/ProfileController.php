@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers;
 
 use App\Utils;
 use Illuminate\Support\Facades\Auth;
@@ -47,11 +47,11 @@ class ProfileController extends Controller
         }
 
         if ($user->update($updateValues)) {
-            flash()->success('Profile updated successfully.');
+           // flash()->success('Profile updated successfully.');
         } else {
-            flash()->info('Profile was not updated.');
+            //flash()->info('Profile was not updated.');
         }
 
-        return redirect(route('dashboard::profile'));
+        return redirect(route('profile'));
     }
 }

@@ -27,12 +27,12 @@ Route::group(['middleware' => 'auth'], function () {
             Route::name('admin::')->group(function () {
                 // Route assigned name "admin::"...
 
-                Route::get('/', ['as' => 'index', 'uses' => 'IndexController@index']);
-                
+                Route::get('/', 'IndexController@index')->name('index');
+
                 Route::resource('users', 'UserController');
 
                 Route::resource('categories', 'CategoryController');
-                
+
                 Route::resource('visuals', 'VisualController');
             });
         });
@@ -44,15 +44,16 @@ Route::group(['middleware' => 'auth'], function () {
             Route::name('dashboard::')->group(function () {
                 // Route assigned name "dashboard::"...
 
-                Route::get('/', ['as' => 'index', 'uses' => 'IndexController@index']);
+                Route::get('/', 'IndexController@index')->name('index');
                 /**
                  * Profile
                  * // Route named "dashboard::profile"
                  */
-                Route::get('profile', ['as' => 'profile', 'uses' => 'ProfileController@showProfile']);
-                Route::post('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@updateProfile']);
-
             });
         });
     });
+
+    Route::get('profile', 'ProfileController@showProfile')->name('profile');
+    Route::post('profile', 'ProfileController@updateProfile')->name('profile.update');
+
 });
