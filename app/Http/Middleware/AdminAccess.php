@@ -22,7 +22,7 @@ class AdminAccess
                 return redirect(route('dashboard::index'));
             }
         } else {
-          //flash()->error('Access Denied');
+          flash()->error('Access Denied');
             return view('auth.login');
         }
     }

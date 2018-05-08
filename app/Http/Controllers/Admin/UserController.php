@@ -121,7 +121,7 @@ class UserController extends Controller
   private function checkDestroy($record)
   {
       if (Auth::user()->id == $record->id) {
-          //flash()->error('You can not delete your own user.');
+          flash()->error('You can not delete your own user.');
 
           return false;
       }
