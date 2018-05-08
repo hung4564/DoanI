@@ -3,6 +3,7 @@
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
+{!! Breadcrumbs::render('dashboard') !!}
 @endsection
 
 {{-- Page Title --}}

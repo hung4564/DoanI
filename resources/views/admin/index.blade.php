@@ -4,6 +4,7 @@
 --}} 
 @section('page-subtitle', 'Control panel') {{-- Breadcrumbs --}} 
 @section('breadcrumbs')
+{!! Breadcrumbs::render('admin') !!}
 @endsection
  {{-- Header Extras
 to be Included --}} 

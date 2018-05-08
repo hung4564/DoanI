@@ -8,6 +8,7 @@
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
+{!! Breadcrumbs::render('register') !!}
 @endsection
 
 @section('content')

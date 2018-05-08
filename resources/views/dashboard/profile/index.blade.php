@@ -8,6 +8,7 @@ $_pageSubtitle = '';
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
+{!! Breadcrumbs::render('profile') !!}
 @endsection
 
 {{-- Page Title --}}
