@@ -13,4 +13,11 @@
             </a>
         </li>
     @endif
+    @if (Auth::user()->can('viewList', \App\Category::class))
+        <li class="{{ \App\Utils::checkRoute(['admin::categories.index', 'admin::categories.create']) ? 'active': '' }}">
+            <a href="{{ route('admin::categories.index') }}">
+                <i class="fa fa-user-secret"></i> <span>Categories</span>
+            </a>
+        </li>
+    @endif
 </ul>
