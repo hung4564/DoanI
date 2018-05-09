@@ -27,7 +27,7 @@
                 <td class="table-text">
                     <a href="{{ $editLink }}">{{ $record->name }}</a>
                 </td>
-                <td>{{ $record->detail }}</td>
+                <td>{!! $record->detail !!}</td>
                 <!-- we will also add show, edit, and delete buttons -->
                 <td>
                     <div class="btn-group">

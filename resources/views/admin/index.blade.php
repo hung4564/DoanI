@@ -49,7 +49,7 @@ to be Included --}}
     <!-- small box -->
     <div class="small-box bg-yellow">
       <div class="inner">
-        <h3>44</h3>
+        <h3>{{ $reports->getTotalVisual()}}</h3>
 
         <p>Visual</p>
       </div>
