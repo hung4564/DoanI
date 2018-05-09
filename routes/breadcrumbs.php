@@ -38,7 +38,7 @@ Breadcrumbs::register('dashboard', function ($breadcrumbs) {
 // Dashboard > Profile
 Breadcrumbs::register('profile', function ($breadcrumbs) {
     $breadcrumbs->parent('dashboard');
-    $breadcrumbs->push('Profile', route('dashboard::profile'));
+    $breadcrumbs->push('Profile', route('profile'));
 });
 
 // Admin
@@ -49,6 +49,8 @@ Breadcrumbs::register('admin', function ($breadcrumbs) {
 // Admin / {Resource} / {List|Edit|Create}
 $resources = [
     'users' => 'Users',
+    'categories'=>'Categories',
+    'visuals'=>'Visuals',
 ];
 foreach ($resources as $resource => $data) {
     $parent = 'admin';
