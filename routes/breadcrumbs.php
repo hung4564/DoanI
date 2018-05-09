@@ -1,7 +1,7 @@
 <?php
 // Home
 Breadcrumbs::register('home', function ($breadcrumbs) {
-    $breadcrumbs->push('Home', route('home'));
+    $breadcrumbs->push('Home', route('welcome'));
 });
 
 // Home > Login
@@ -30,27 +30,29 @@ Breadcrumbs::register('password-reset', function ($breadcrumbs) {
     $breadcrumbs->push('Reset Password', route('password.reset'));
 });
 
-// Dashboard
+// Home > Dashboard
 Breadcrumbs::register('dashboard', function ($breadcrumbs) {
+  $breadcrumbs->parent('home');
     $breadcrumbs->push('Dashboard', route('dashboard::index'));
 });
 
-// Dashboard > Profile
+// Home > Dashboard > Profile
 Breadcrumbs::register('profile', function ($breadcrumbs) {
     $breadcrumbs->parent('dashboard');
     $breadcrumbs->push('Profile', route('profile'));
 });
 
-// Admin
+// Home > Admin
 Breadcrumbs::register('admin', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
     $breadcrumbs->push('Admin', route('admin::index'));
 });
 
-// Admin / {Resource} / {List|Edit|Create}
+// Home > Admin / {Resource} / {List|Edit|Create}
 $resources = [
     'users' => 'Users',
-    'categories'=>'Categories',
-    'visuals'=>'Visuals',
+    'categories' => 'Categories',
+    'visuals' => 'Visuals',
 ];
 foreach ($resources as $resource => $data) {
     $parent = 'admin';
@@ -64,16 +66,16 @@ foreach ($resources as $resource => $data) {
     // List
     Breadcrumbs::register($resource, function ($breadcrumbs) use ($resource, $title, $parent) {
         $breadcrumbs->parent($parent);
-        $breadcrumbs->push($title, route($resource.'.index'));
+        $breadcrumbs->push($title, route($resource . '.index'));
     });
     // Create
-    Breadcrumbs::register($resource.'.create', function ($breadcrumbs) use ($resource) {
+    Breadcrumbs::register($resource . '.create', function ($breadcrumbs) use ($resource) {
         $breadcrumbs->parent($resource);
-        $breadcrumbs->push('Create', route($resource.'.create'));
+        $breadcrumbs->push('Create', route($resource . '.create'));
     });
     // Edit
-    Breadcrumbs::register($resource.'.edit', function ($breadcrumbs, $id) use ($resource) {
+    Breadcrumbs::register($resource . '.edit', function ($breadcrumbs, $id) use ($resource) {
         $breadcrumbs->parent($resource);
-        $breadcrumbs->push('Edit', route($resource.'.edit', $id));
+        $breadcrumbs->push('Edit', route($resource . '.edit', $id));
     });
 }

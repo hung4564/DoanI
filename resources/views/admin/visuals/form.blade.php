@@ -1,6 +1,3 @@
-
-
-
 <div class="col-md-12">
   <div class="col-md-12">
     <div class="form-group margin-b-5 margin-t-5{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -16,31 +13,44 @@
 
 
   <div class="col-md-12">
-        <form>
-          <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
-            {{ old('detail', $record->path) }}
+    <div class="form-group margin-b-5 margin-t-5{{ $errors->has('path') ? ' has-error' : '' }}">
+      <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
+            {{ old('path', $record->path) }}
+            @foreach($record->getCategory as $category)
+                <br>{{$category->name}}
+            @endforeach
           </textarea>
-        </form>
+    </div>
     <!-- /.form-group -->
   </div>
   <!-- /.col-md-12 -->
-</div>
-<!-- /.col-md-12 -->
+  <div class="col-md-12">
+    <div class="form-group margin-b-5 margin-t-5{{ $errors->has('detail') ? ' has-error' : '' }}">
+      <label>Category</label>
+      <select class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
+              @foreach(\App\Category::getAll() as $category)
+              <option>{{$category->name}}</option>
+              @endforeach
+      </select> {{-- </div> --}}
+    <!-- /.col-md-12 -->
+  </div>
+  <!-- /.col-md-12 -->
 
-{{-- Footer Extras to be Included --}}
+  {{-- Footer Extras to be Included --}} 
 @section('footer-extras')
-<!-- Js for wysihtml5 -->
-<script src="{{asset('/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
-<script>
-  $(function () {
+  <!-- Js for wysihtml5 -->
+  <script src="{{asset('/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
+  <script>
+    $(function () {
     //bootstrap WYSIHTML5 - text editor
     $('.textarea').wysihtml5()
   })
-</script>
-@parent
+
+  </script>
+  @parent
 @endsection
+ 
 @section('footer-extras')
-<!-- CSS for wysihtml5 -->>
-<link rel="stylesheet" href="{{asset('/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
-@parent
+  <!-- CSS for wysihtml5 -->>
+  <link rel="stylesheet" href="{{asset('/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}"> @parent
 @endsection

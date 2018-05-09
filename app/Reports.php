@@ -3,12 +3,12 @@
 namespace App;
 
 use App\User;
-use Illuminate\Support\Facades\Auth;
 
 class Reports
 {
     private $totalUsers;
-    private $TotalCategory;
+    private $totalCategory;
+    private $totalVisual;
     /**
      * @return integer
      */
@@ -20,12 +20,26 @@ class Reports
 
         return $this->totalUsers;
     }
+    /**
+     * @return integer
+     */
     public function getTotalCategory()
     {
-        if (is_null($this->TotalCategory)) {
-            $this->TotalCategory = Category::count();
+        if (is_null($this->totalCategory)) {
+            $this->totalCategory = Category::count();
         }
 
-        return $this->TotalCategory;
+        return $this->totalCategory;
+    }
+    /**
+     * @return integer
+     */
+    public function getTotalVisual()
+    {
+        if (is_null($this->totalVisual)) {
+            $this->totalVisual = Visual::count();
+        }
+
+        return $this->totalVisual;
     }
 }
