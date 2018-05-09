@@ -47,6 +47,8 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> @yield('head-extras')
+
+  @yield('header-extras') 
 </head>
 
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
@@ -132,7 +134,8 @@
             })(jQuery);
   </script>
 
-  @yield('footer-extras') @stack('footer-scripts')
+  @yield('footer-extras') 
+  @stack('footer-scripts')
 </body>
 
 </html>

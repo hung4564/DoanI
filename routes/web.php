@@ -71,3 +71,5 @@ Route::namespace ('Dashboard')->group(function () {
  */
 Route::get('profile', 'ProfileController@showProfile')->name('profile');
 Route::post('profile', 'ProfileController@updateProfile')->name('profile.update');
+
+Route::get('{id}/{path}.html','VisualController@showVisual')->name('visual');

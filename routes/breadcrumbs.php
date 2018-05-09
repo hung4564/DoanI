@@ -1,49 +1,54 @@
 <?php
 // Home
-Breadcrumbs::register('home', function ($breadcrumbs) {
+Breadcrumbs::for('home', function ($breadcrumbs) {
     $breadcrumbs->push('Home', route('welcome'));
 });
 
+// Home > {Visual}
+Breadcrumbs::for('visual', function ($breadcrumbs, $visual) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push($visual->name, route('visual',['id'=>$visual->id,'path'=>$visual->path]));
+});
 // Home > Login
-Breadcrumbs::register('login', function ($breadcrumbs) {
+Breadcrumbs::for('login', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Login', route('login'));
 });
 
 if (config('adminlte.registration_open')) {
     // Home > Register
-    Breadcrumbs::register('register', function ($breadcrumbs) {
+    Breadcrumbs::for('register', function ($breadcrumbs) {
         $breadcrumbs->parent('home');
         $breadcrumbs->push('Register', route('register'));
     });
 }
 
 // Home > Login > Forgot Password
-Breadcrumbs::register('password-request', function ($breadcrumbs) {
+Breadcrumbs::for('password-request', function ($breadcrumbs) {
     $breadcrumbs->parent('login');
     $breadcrumbs->push('Forgot Password', route('password.request'));
 });
 
 // Home > Login > Forgot Password > Reset Password
-Breadcrumbs::register('password-reset', function ($breadcrumbs) {
+Breadcrumbs::for('password-reset', function ($breadcrumbs) {
     $breadcrumbs->parent('password-request');
     $breadcrumbs->push('Reset Password', route('password.reset'));
 });
 
 // Home > Dashboard
-Breadcrumbs::register('dashboard', function ($breadcrumbs) {
-  $breadcrumbs->parent('home');
+Breadcrumbs::for('dashboard', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
     $breadcrumbs->push('Dashboard', route('dashboard::index'));
 });
 
 // Home > Dashboard > Profile
-Breadcrumbs::register('profile', function ($breadcrumbs) {
+Breadcrumbs::for('profile', function ($breadcrumbs) {
     $breadcrumbs->parent('dashboard');
     $breadcrumbs->push('Profile', route('profile'));
 });
 
 // Home > Admin
-Breadcrumbs::register('admin', function ($breadcrumbs) {
+Breadcrumbs::for('admin', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Admin', route('admin::index'));
 });
@@ -64,17 +69,17 @@ foreach ($resources as $resource => $data) {
     $resource = 'admin::' . $resource;
 
     // List
-    Breadcrumbs::register($resource, function ($breadcrumbs) use ($resource, $title, $parent) {
+    Breadcrumbs::for($resource, function ($breadcrumbs) use ($resource, $title, $parent) {
         $breadcrumbs->parent($parent);
         $breadcrumbs->push($title, route($resource . '.index'));
     });
     // Create
-    Breadcrumbs::register($resource . '.create', function ($breadcrumbs) use ($resource) {
+    Breadcrumbs::for($resource . '.create', function ($breadcrumbs) use ($resource) {
         $breadcrumbs->parent($resource);
         $breadcrumbs->push('Create', route($resource . '.create'));
     });
     // Edit
-    Breadcrumbs::register($resource . '.edit', function ($breadcrumbs, $id) use ($resource) {
+    Breadcrumbs::for($resource . '.edit', function ($breadcrumbs, $id) use ($resource) {
         $breadcrumbs->parent($resource);
         $breadcrumbs->push('Edit', route($resource . '.edit', $id));
     });
