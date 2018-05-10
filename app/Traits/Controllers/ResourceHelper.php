@@ -2,8 +2,8 @@
 
 namespace App\Traits\Controllers;
 
-use Validator;
 use Illuminate\Http\Request;
+use Validator;
 
 trait ResourceHelper
 {
@@ -12,7 +12,7 @@ trait ResourceHelper
      */
     private function getResourceAlias()
     {
-        if (property_exists($this, 'resourceAlias') && ! empty($this->resourceAlias)) {
+        if (property_exists($this, 'resourceAlias') && !empty($this->resourceAlias)) {
             return $this->resourceAlias;
         } else {
             throw new \InvalidArgumentException('The property "resourceAlias" is not defined');
@@ -24,7 +24,7 @@ trait ResourceHelper
      */
     private function getResourceRoutesAlias()
     {
-        if (property_exists($this, 'resourceRoutesAlias') && ! empty($this->resourceRoutesAlias)) {
+        if (property_exists($this, 'resourceRoutesAlias') && !empty($this->resourceRoutesAlias)) {
             return $this->resourceRoutesAlias;
         } else {
             return $this->getResourceAlias();
@@ -36,7 +36,7 @@ trait ResourceHelper
      */
     private function getResourceTitle()
     {
-        if (property_exists($this, 'resourceTitle') && ! empty($this->resourceTitle)) {
+        if (property_exists($this, 'resourceTitle') && !empty($this->resourceTitle)) {
             return $this->resourceTitle;
         } else {
             return $this->getResourceAlias();
@@ -48,7 +48,7 @@ trait ResourceHelper
      */
     private function getResourceModel()
     {
-        if (property_exists($this, 'resourceModel') && ! empty($this->resourceModel)) {
+        if (property_exists($this, 'resourceModel') && !empty($this->resourceModel)) {
             return $this->resourceModel;
         } else {
             throw new \InvalidArgumentException('The property "resourceModel" is not defined');
@@ -73,7 +73,7 @@ trait ResourceHelper
         $validation['rules'] = is_array($validation['rules']) ? $validation['rules'] : [];
         $validation['messages'] = is_array($validation['messages']) ? $validation['messages'] : [];
         $validation['attributes'] = is_array($validation['attributes']) ? $validation['attributes'] : [];
-        if (! isset($validation['advanced']) || ! is_array($validation['advanced'])) {
+        if (!isset($validation['advanced']) || !is_array($validation['advanced'])) {
             $validation['advanced'] = [];
         }
 
@@ -143,7 +143,8 @@ trait ResourceHelper
         return $request->only($this->getResourceModel()::getFillableFields());
     }
 
-    private function alterValuesToSave(Request $request, $values) {
+    private function alterValuesToSave(Request $request, $values)
+    {
         return $values;
     }
 
@@ -155,7 +156,11 @@ trait ResourceHelper
     {
         return true;
     }
-
+    
+    private function updateRelations(Request $request, $id)
+    {
+      
+    }
     /**
      * Classes using this trait have to implement this method.
      * Retrieve the list of the resource.
@@ -176,7 +181,7 @@ trait ResourceHelper
      */
     private function getRedirectAfterSave($record)
     {
-        return redirect(route($this->getResourceRoutesAlias().'.index'));
+        return redirect(route($this->getResourceRoutesAlias() . '.index'));
     }
 
     /**

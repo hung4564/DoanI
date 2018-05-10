@@ -25,7 +25,7 @@ trait ResourceController
             $paginatorData['show'] = $show;
         }
         $search = trim($request->input('search', ''));
-        if (! empty($search)) {
+        if (!empty($search)) {
             $paginatorData['search'] = $search;
         }
         $records = $this->getSearchRecords($request, $show, $search);
@@ -73,8 +73,9 @@ trait ResourceController
         $valuesToSave = $this->getValuesToSave($request);
         $request->merge($valuesToSave);
         $this->resourceValidate($request, 'store');
-
         if ($record = $this->getResourceModel()::create($this->alterValuesToSave($request, $valuesToSave))) {
+
+            $this->updateRelations($request, $id);
             flash()->success('Element successfully inserted.');
 
             return $this->getRedirectAfterSave($record);
@@ -82,7 +83,7 @@ trait ResourceController
             flash()->info('Element was not inserted.');
         }
 
-        return redirect(route($this->getResourceRoutesAlias().'.index'));
+        return redirect(route($this->getResourceRoutesAlias() . '.index'));
     }
 
     /**
@@ -93,7 +94,7 @@ trait ResourceController
      */
     public function show($id)
     {
-        return redirect(route($this->getResourceRoutesAlias().'.edit', $id));
+        return redirect(route($this->getResourceRoutesAlias() . '.edit', $id));
     }
 
     /**
@@ -135,8 +136,9 @@ trait ResourceController
         $valuesToSave = $this->getValuesToSave($request);
         $request->merge($valuesToSave);
         $this->resourceValidate($request, 'update', $record);
-
         if ($record->update($this->alterValuesToSave($request, $valuesToSave))) {
+
+            $this->updateRelations($request, $id);
             flash()->success('Element successfully updated.');
 
             return $this->getRedirectAfterSave($record);
@@ -144,7 +146,7 @@ trait ResourceController
             flash()->info('Element was not updated.');
         }
 
-        return redirect(route($this->getResourceRoutesAlias().'.index'));
+        return redirect(route($this->getResourceRoutesAlias() . '.index'));
     }
 
     /**
@@ -160,8 +162,8 @@ trait ResourceController
 
         $this->authorize('delete', $record);
 
-        if (! $this->checkDestroy($record)) {
-            return redirect(route($this->getResourceRoutesAlias().'.index'));
+        if (!$this->checkDestroy($record)) {
+            return redirect(route($this->getResourceRoutesAlias() . '.index'));
         }
 
         if ($record->delete()) {
@@ -170,6 +172,6 @@ trait ResourceController
             flash()->info('Element was not deleted.');
         }
 
-        return redirect(route($this->getResourceRoutesAlias().'.index'));
+        return redirect(route($this->getResourceRoutesAlias() . '.index'));
     }
 }
