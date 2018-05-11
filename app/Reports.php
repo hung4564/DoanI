@@ -9,6 +9,7 @@ class Reports
     private $totalUsers;
     private $totalCategory;
     private $totalVisual;
+    private $totalQuiz;
     /**
      * @return integer
      */
@@ -41,5 +42,13 @@ class Reports
         }
 
         return $this->totalVisual;
+    } 
+    public function getTotalQuiz()
+    {
+        if (is_null($this->totalQuiz)) {
+            $this->totalQuiz = Quiz::count();
+        }
+
+        return $this->totalQuiz;
     }
 }

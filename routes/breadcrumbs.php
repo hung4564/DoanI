@@ -58,6 +58,7 @@ $resources = [
     'users' => 'Users',
     'categories' => 'Categories',
     'visuals' => 'Visuals',
+    'quizzes'=>'Quiz'
 ];
 foreach ($resources as $resource => $data) {
     $parent = 'admin';

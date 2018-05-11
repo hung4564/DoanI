@@ -17,8 +17,16 @@ class CategorySeeder extends Seeder
             'detail' => 'Cấu trúc dữ liệu',
         ],
         [
-          'name' => 'Alog',
+          'name' => 'Algorithm',
           'detail' => 'Thuật toán',
+        ],
+        [
+          'name' => 'Sort',
+          'detail' => 'Sắp xếp',
+        ],
+        [
+          'name' => 'Array',
+          'detail' => 'Mảng',
         ]
     ]);
     }

@@ -75,7 +75,7 @@ trait ResourceController
         $this->resourceValidate($request, 'store');
         if ($record = $this->getResourceModel()::create($this->alterValuesToSave($request, $valuesToSave))) {
 
-            $this->updateRelations($request, $id);
+            $this->updateRelations($request, $record->id);
             flash()->success('Element successfully inserted.');
 
             return $this->getRedirectAfterSave($record);

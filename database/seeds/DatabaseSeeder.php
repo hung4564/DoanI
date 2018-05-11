@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class,
         CategoryTableSeeder::class,
         VisualTableSeeder::class,
-        Category_VisualTableSeeder::class
+        Category_VisualTableSeeder::class,
+        QuestionTableSeeder::class
       );
     }
 }

@@ -86,21 +86,6 @@ class CategoryController extends Controller
       return $values;
   }
 
-  private function alterValuesToSave(Request $request, $values)
-  {
-
-      return $values;
-  }
-
-  /**
-   * @param $record
-   * @return bool
-   */
-  private function checkDestroy($record)
-  {
-      return true;
-  }
-
   /**
    * Retrieve the list of the resource.
    *

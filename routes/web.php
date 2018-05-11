@@ -48,7 +48,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
                  * /admin/visuals
                  * adminn::visuals
                  */
-                Route::resource('visuals', 'VisualController');
+                Route::resource('visuals', 'VisualController'); 
+                /**
+                * Quiz resource
+                * namespace Admin/QuizController
+                * /admin/quizzes
+                * adminn::quizzes
+                */
+               Route::resource('quizzes', 'QuizController');
             });
         });
     });
