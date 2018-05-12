@@ -48,14 +48,20 @@ Route::middleware(['auth', 'admin'])->group(function () {
                  * /admin/visuals
                  * adminn::visuals
                  */
-                Route::resource('visuals', 'VisualController'); 
+                Route::resource('visuals', 'VisualController');
                 /**
-                * Quiz resource
-                * namespace Admin/QuizController
-                * /admin/quizzes
-                * adminn::quizzes
-                */
-               Route::resource('quizzes', 'QuizController');
+                 * Quiz resource
+                 * namespace Admin/QuizController
+                 * /admin/quizzes
+                 * adminn::quizzes
+                 */
+                Route::resource('quizzes', 'QuizController');
+                Route::prefix('quiz')->group(function () {
+                    Route::get('{quizid}', 'QuestionController@getListbyQuiz')->name('listQuestion');                    
+                    Route::get('{quizid}/{questionID}/edit', 'QuestionController@editByQuiz')->name('editQuestion');
+                });
+
+                Route::resource('questions', 'QuestionController');
             });
         });
     });
@@ -79,4 +85,4 @@ Route::namespace ('Dashboard')->group(function () {
 Route::get('profile', 'ProfileController@showProfile')->name('profile');
 Route::post('profile', 'ProfileController@updateProfile')->name('profile.update');
 
-Route::get('{id}/{path}.html','VisualController@showVisual')->name('visual');
+Route::get('{id}/{path}.html', 'VisualController@showVisual')->name('visual');

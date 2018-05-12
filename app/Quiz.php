@@ -9,18 +9,18 @@ class Quiz extends Model
     protected $fillable = [
         'name', 'status', 'visual_id',
     ];
-    public function Question()
+    public function Visual()
     {
         return $this->belongsTo('App\Visual');
+    }
+    public function Questions()
+    {
+        return $this->belongsToMany('App\Question');
     }
     public function Disabe()
     {
         return $this->status;
     }
-
-    /**
-     * @return mixed
-     */
     public function getRecordTitle()
     {
         return $this->name;

@@ -3,36 +3,36 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Question;
+use App\Quiz;
 use App\Traits\Controllers\ResourceController;
-use App\Visual;
 use Illuminate\Http\Request;
 
-class VisualController extends Controller
+class QuestionController extends Controller
 {
-
     use ResourceController;
+    protected $quizID = null;
+    /**
+     * @var string
+     */
+    protected $resourceAlias = 'admin.questions';
 
     /**
      * @var string
      */
-    protected $resourceAlias = 'admin.visuals';
-
-    /**
-     * @var string
-     */
-    protected $resourceRoutesAlias = 'admin::visuals';
+    protected $resourceRoutesAlias = 'admin::questions';
 
     /**
      * Fully qualified class name
      *
      * @var string
      */
-    protected $resourceModel = Visual::class;
+    protected $resourceModel = Question::class;
 
     /**
      * @var string
      */
-    protected $resourceTitle = 'Visuals';
+    protected $resourceTitle = 'Questions';
 
     /**
      * Used to validate store.
@@ -43,7 +43,7 @@ class VisualController extends Controller
     {
         return [
             'rules' => [
-                'name' => 'required|min:3|max:255|unique:visuals,name',
+                'name' => 'required|min:3|max:255',
             ],
             'messages' => [],
             'attributes' => [],
@@ -58,6 +58,7 @@ class VisualController extends Controller
      */
     private function resourceUpdateValidationData($record)
     {
+
         return [
             'rules' => [
                 'name' => 'required|min:3|max:255',
@@ -77,22 +78,10 @@ class VisualController extends Controller
         $creating = is_null($record);
         $values = [];
         $values['name'] = $request->input('name', '');
-        $values['path'] = strtolower($values['name']);
+        $values['choices'] = $request->input('choices', '');
+        $values['answer'] = $request->input('answer', '');
+        $values['points'] = $request->input('points', '');
         return $values;
-    }
-
-    private function alterValuesToSave(Request $request, $values)
-    {
-        return $values;
-    }
-
-    /**
-     * @param $record
-     * @return bool
-     */
-    private function checkDestroy($record)
-    {
-        return true;
     }
 
     /**
@@ -108,15 +97,34 @@ class VisualController extends Controller
         if (!empty($search)) {
             return $this->getResourceModel()::like('name', $search)->paginate($show);
         }
-
+        if ($this->quizID != null) {
+            return Quiz::findOrFail($this->quizID)->Questions()->paginate($show);
+        }
         return $this->getResourceModel()::paginate($show);
     }
-    private function updateRelations(Request $request, $id)
+    public function getListbyQuiz(Request $request, $quizID)
     {
-        // $categorys sẽ lưu dữ liệu của các thẻ mới
-        
-        $record = $this->getResourceModel()::findOrFail($id);
-        $categorys = $request->input('categorys', '');
-        $record->getCategory()->sync($categorys);
+        $this->quizID = $quizID;
+        return $this->index($request);
+    }
+    public function editByQuiz(Request $request, $quizID, $questionID)
+    {
+        $this->quizID = $quizID;
+        return $this->edit($questionID);
+    }
+    private function filterSearchViewData(Request $request, $data = [])
+    {
+        if ($this->quizID != null) {
+            $data['resourceTitle'] = Quiz::findOrFail($this->quizID)->name;
+            $data['quizID'] = $this->quizID;
+        }
+        return $data;
+    }
+    private function filterEditViewData($record, $data = [])
+    {
+        if ($this->quizID != null) {
+            $data['quizID'] = $this->quizID;
+        }
+        return $data;
     }
 }

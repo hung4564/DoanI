@@ -75,6 +75,21 @@ to be Included --}}
     </div>
   </div>
   <!-- ./col -->
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-red">
+      <div class="inner">
+        <h3>{{ $reports->getTotalQuiz()}}</h3>
+
+        <p>Quiz</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-pie-graph"></i>
+      </div>
+      <a href="{{ route('admin::questions.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <!-- ./col -->
 @endsection
  {{-- Footer Extras to be Included --}} 
 @section('footer-extras')

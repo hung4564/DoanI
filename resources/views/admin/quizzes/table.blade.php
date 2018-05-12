@@ -35,8 +35,9 @@
           <td>
             <div class="btn-group">
               @can('update', $record)
-              <a href="{{ $editLink }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a> @endcan @can('delete',
-              $record)
+              <a href="{{ $editLink }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a> 
+              @endcan 
+              @can('delete',$record)
               <a href="#" class="btn btn-danger btn-sm btnOpenerModalConfirmModelDelete" data-form-id="{{ $formId }}"><i class="fa fa-trash-o"></i></a> 
               @endcan
 

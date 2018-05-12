@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Quiz;
+use App\Question;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class QuizPolicy
+class QuestionPolicy
 {
     use HandlesAuthorization;
     protected $policies = [
@@ -33,20 +33,21 @@ class QuizPolicy
     {
         return $user->isAdmin();
     }
+
     /**
-     * Determine whether the user can view the quiz.
+     * Determine whether the user can view the question.
      *
      * @param  \App\User  $user
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Question  $question
      * @return mixed
      */
-    public function view(User $user, Quiz $quiz)
+    public function view(User $user, Question $question)
     {
         return $user->isAdmin();
     }
 
     /**
-     * Determine whether the user can create quizzes.
+     * Determine whether the user can create questions.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -57,25 +58,25 @@ class QuizPolicy
     }
 
     /**
-     * Determine whether the user can update the quiz.
+     * Determine whether the user can update the question.
      *
      * @param  \App\User  $user
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Question  $question
      * @return mixed
      */
-    public function update(User $user, Quiz $quiz)
+    public function update(User $user, Question $question)
     {
         return $user->isAdmin();
     }
 
     /**
-     * Determine whether the user can delete the quiz.
+     * Determine whether the user can delete the question.
      *
      * @param  \App\User  $user
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Question  $question
      * @return mixed
      */
-    public function delete(User $user, Quiz $quiz)
+    public function delete(User $user, Question $question)
     {
         return $user->isAdmin();
     }
