@@ -11,16 +11,6 @@
   </div>
   <!-- /.col-md-12 -->
 
-
-  <div class="col-md-12">
-    <div class="form-group margin-b-5 margin-t-5{{ $errors->has('path') ? ' has-error' : '' }}">
-      <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
-            {{ old('path', $record->path) }}
-          </textarea>
-    </div>
-    <!-- /.form-group -->
-  </div>
-  <!-- /.col-md-12 -->
   <div class="col-md-12">
     <div class="form-group margin-b-5 margin-t-5{{ $errors->has('detail') ? ' has-error' : '' }}">
       <label>Category</label>
@@ -42,13 +32,7 @@
 </div>
 {{-- Footer Extras to be Included --}} 
 @section('footer-extras')
-<!-- Js for wysihtml5 -->
-<script src="{{asset('/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
 <script>
-  $(function () {
-    //bootstrap WYSIHTML5 - text editor
-    $('.textarea').wysihtml5()
-  })
   var data = [];
 
   $('#category_php p').each(function(){
@@ -60,8 +44,4 @@
 
 </script>
 @parent
-@endsection
-@section('footer-extras')
-<!-- CSS for wysihtml5 -->>
-<link rel="stylesheet" href="{{asset('/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}"> @parent
 @endsection

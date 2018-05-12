@@ -157,7 +157,8 @@
             })(jQuery);
   </script>
 
-  @yield('footer-extras') @stack('footer-scripts')
+  @yield('footer-extras') 
+  @stack('footer-scripts')
 </body>
 
 </html>

@@ -37,8 +37,8 @@
               @can('update', $record)
               <a href="{{ $editLink }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a> @endcan @can('delete',
               $record)
-              <a href="#" class="btn btn-danger btn-sm btnOpenerModalConfirmModelDelete" data-form-id="{{ $formId }}"><i class="fa fa-trash-o"></i></a>              @endcan
-            </div>
+              <a href="#" class="btn btn-danger btn-sm btnOpenerModalConfirmModelDelete" data-form-id="{{ $formId }}"><i class="fa fa-trash-o"></i></a> 
+              @endcan
 
             @can('delete', $record)
             <!-- Delete Record Form -->
@@ -47,6 +47,7 @@
               <button type="submit" class="btn btn-danger">Delete</button>
             </form>
             @endcan
+          </div>
           </td>
 
         </tr>
