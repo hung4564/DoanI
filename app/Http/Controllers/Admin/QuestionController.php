@@ -112,11 +112,24 @@ class QuestionController extends Controller
         $this->quizID = $quizID;
         return $this->edit($questionID);
     }
+    public function createByQuiz(){
+      
+    }
+    public function destroyByQuiz(){
+
+    }
+    public function storeByQuiz(){
+
+    }
+    public function updateByQuiz(){
+
+    }
     private function filterSearchViewData(Request $request, $data = [])
     {
         if ($this->quizID != null) {
             $data['resourceTitle'] = Quiz::findOrFail($this->quizID)->name;
             $data['quizID'] = $this->quizID;
+            $data['resourceRoutesAlias']="admin::QuizQuestion";
         }
         return $data;
     }
@@ -124,6 +137,7 @@ class QuestionController extends Controller
     {
         if ($this->quizID != null) {
             $data['quizID'] = $this->quizID;
+            $data['resourceRoutesAlias']="admin::QuizQuestion";
         }
         return $data;
     }

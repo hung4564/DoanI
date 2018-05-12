@@ -4,9 +4,14 @@
 <?php
 $_pageTitle = (isset($addVarsForView['_pageTitle']) && ! empty($addVarsForView['_pageTitle']) ? $addVarsForView['_pageTitle'] : ucwords($resourceTitle));
 $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsForView['_pageSubtitle']) ? $addVarsForView['_pageSubtitle'] : 'List');
-$_listLink = route($resourceRoutesAlias.'.index');
-$_createLink = route($resourceRoutesAlias.'.create');
-
+if(isset($quizID)){
+  $_listLink = route($resourceRoutesAlias.'.index',['quizID'=>$quizID]);
+  $_createLink = route($resourceRoutesAlias.'.create',['quizID'=>$quizID]);
+}
+else {    
+  $_listLink = route($resourceRoutesAlias.'.index');
+  $_createLink = route($resourceRoutesAlias.'.create');
+}
 $tableCounter = 0;
 $total = 0;
 if (count($records) > 0) {
@@ -18,7 +23,12 @@ if (count($records) > 0) {
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
-    {!! Breadcrumbs::render($resourceRoutesAlias) !!}
+@if(isset($quizID))
+{!! Breadcrumbs::render($resourceRoutesAlias,$quizID) !!}
+
+@else   
+ {!! Breadcrumbs::render($resourceRoutesAlias) !!}
+@endif
 @endsection
 
 {{-- Page Title --}}

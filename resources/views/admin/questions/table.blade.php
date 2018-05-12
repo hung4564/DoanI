@@ -16,8 +16,8 @@
             $tableCounter++;
             if(isset($quizID))
             {                
-            $editLink = route('admin::editQuestion', ['quizID'=>$quizID,'questionID'=>$record->id]);
-            $deleteLink = route($resourceRoutesAlias.'.destroy', $record->id);
+            $editLink = route('admin::QuizQuestion.edit', ['quizID'=>$quizID,'questionID'=>$record->id]);
+            $deleteLink = route('admin::QuizQuestion.destroy', ['quizID'=>$quizID,'questionID'=>$record->id]);
             }
             else{              
             $editLink = route($resourceRoutesAlias.'.edit', $record->id);

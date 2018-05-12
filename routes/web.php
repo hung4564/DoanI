@@ -32,35 +32,44 @@ Route::middleware(['auth', 'admin'])->group(function () {
                  * User resource
                  * namespace Admin\UserController
                  * /admin/users
-                 * adminn::users
+                 * admin::users
                  */
                 Route::resource('users', 'UserController');
                 /**
                  * Category resource
                  * namespace Admin\CategoryController
                  * /admin/categories
-                 * adminn::categories
+                 * admin::categories
                  */
                 Route::resource('categories', 'CategoryController');
                 /**
                  * Visual resource
                  * namespace Admin/VisualController
                  * /admin/visuals
-                 * adminn::visuals
+                 * admin::visuals
                  */
                 Route::resource('visuals', 'VisualController');
                 /**
                  * Quiz resource
                  * namespace Admin/QuizController
                  * /admin/quizzes
-                 * adminn::quizzes
+                 * admin::quizzes
                  */
                 Route::resource('quizzes', 'QuizController');
+                /**
+                 * Quiz resource
+                 * namespace Admin/QuestionController
+                 * /admin/quiz/
+                 * admin::QuizQuestion
+                 */
                 Route::prefix('quiz')->group(function () {
-                    Route::get('{quizid}', 'QuestionController@getListbyQuiz')->name('listQuestion');                    
-                    Route::get('{quizid}/{questionID}/edit', 'QuestionController@editByQuiz')->name('editQuestion');
+                    Route::get('{quizid}', 'QuestionController@getListbyQuiz')->name('QuizQuestion.index');                    
+                    Route::get('{quizid}/{questionID}/edit', 'QuestionController@editByQuiz')->name('QuizQuestion.edit');           
+                    Route::get('{quizid}/create', 'QuestionController@createByQuiz')->name('QuizQuestion.create'); 
+                    Route::delete('{quizid}/{questionID}', 'QuestionController@destroyByQuiz')->name('QuizQuestion.destroy');
+                    Route::post('{quizid}', 'QuestionController@storeByQuiz')->name('QuizQuestion.store');
+                    Route::put('{quizid}/{questionID}', 'QuestionController@updateByQuiz')->name('QuizQuestion.update');
                 });
-
                 Route::resource('questions', 'QuestionController');
             });
         });

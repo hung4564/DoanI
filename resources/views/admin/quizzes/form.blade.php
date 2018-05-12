@@ -47,7 +47,7 @@
     <div class="question">
       @if(isset($record->id))
       <button type="button" class="btn btn-info" onclick="">
-        <a href="{{route('admin::listQuestion',['id' => $record->id])}}">
+        <a href="{{route('admin::QuizQuestion.index',['id' => $record->id])}}">
         <i class="fa fa-save"></i> <span>List Question</span></a>
       </button> @else
       <p>You need create quiz first</p>

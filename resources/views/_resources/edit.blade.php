@@ -5,15 +5,27 @@
 $_pageTitle = (isset($addVarsForView['_pageTitle']) && !empty($addVarsForView['_pageTitle']) ? $addVarsForView['_pageTitle'] : ucwords($resourceTitle));
 $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && !empty($addVarsForView['_pageSubtitle']) ? $addVarsForView['_pageSubtitle'] : "Edit " . str_singular($_pageTitle));
 $_formFiles = isset($addVarsForView['formFiles']) ? $addVarsForView['formFiles'] : false;
-$_listLink = route($resourceRoutesAlias.'.index');
-$_createLink = route($resourceRoutesAlias.'.create');
-$_updateLink = route($resourceRoutesAlias.'.update', $record->id);
+if(isset($quizID)){
+  $_listLink = route($resourceRoutesAlias.'.index',['quizID'=>$quizID]);
+  $_createLink = route($resourceRoutesAlias.'.create',['quizID'=>$quizID]);
+  $_updateLink = route($resourceRoutesAlias.'.update', ['quizID'=>$quizID,'question'=>$record->id]);
+}
+else {    
+  $_listLink = route($resourceRoutesAlias.'.index');
+  $_createLink = route($resourceRoutesAlias.'.create');
+  $_updateLink = route($resourceRoutesAlias.'.update', $record->id);
+}
 $_printLink = false;
 ?>
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
-    {!! Breadcrumbs::render($resourceRoutesAlias.'.edit', $record->id) !!}
+@if(isset($quizID))
+{!! Breadcrumbs::render($resourceRoutesAlias.'.edit',$quizID, $record->id) !!}
+
+@else   
+{!! Breadcrumbs::render($resourceRoutesAlias.'.edit', $record->id) !!}
+@endif
 @endsection
 
 {{-- Page Title --}}

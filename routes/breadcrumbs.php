@@ -53,13 +53,13 @@ Breadcrumbs::for('admin', function ($breadcrumbs) {
     $breadcrumbs->push('Admin', route('admin::index'));
 });
 
-// Home > Admin / {Resource} / {List|Edit|Create}
+// Home > Admin > {Resource} > {List|Edit|Create}
 $resources = [
     'users' => 'Users',
     'categories' => 'Categories',
     'visuals' => 'Visuals',
     'quizzes'=>'Quiz',
-    'questions'=>'Question'
+    'questions'=>'Question',
 ];
 foreach ($resources as $resource => $data) {
     $parent = 'admin';
@@ -86,3 +86,20 @@ foreach ($resources as $resource => $data) {
         $breadcrumbs->push('Edit', route($resource . '.edit', $id));
     });
 }
+
+// Home > Admin > Quiz > Question >
+Breadcrumbs::for('admin::QuizQuestion', function ($breadcrumbs,$quizID) {
+  $breadcrumbs->parent('admin::quizzes');
+  $breadcrumbs->push('Question', route('admin::QuizQuestion.index',$quizID));
+});
+
+// Home > Admin > Quiz > Question > Create
+Breadcrumbs::for('admin::QuizQuestion.create', function ($breadcrumbs,$quizID) {
+  $breadcrumbs->parent('admin::QuizQuestion',$quizID);
+  $breadcrumbs->push('Create', route('admin::QuizQuestion.create',$quizID));
+});
+// Home > Admin > Quiz > Question > Edit
+Breadcrumbs::for('admin::QuizQuestion.edit', function ($breadcrumbs,$quizID,$questionID) {
+  $breadcrumbs->parent('admin::QuizQuestion',$quizID);
+  $breadcrumbs->push('Edit', route('admin::QuizQuestion.edit',[$quizID,$questionID]));
+});
