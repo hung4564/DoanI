@@ -36,50 +36,47 @@
 <div class="col-md-12">
   <div class="form-group margin-b-5 margin-t-5{{ $errors->has('choices') ? ' has-error' : '' }}">
     <label for="type">Choices *</label>
-    <div id="vungchoice">
       <div class="choice" id="multichoice" @if($record->question_type!=2) hidden @endif>
         <?php
           $choices=explode(";", $record->choices);
           ?>
-          @for ($i = 0; $i
-          < 4; $i++) <div class="col-md-6">
+          @for ($i = 0; $i< 4; $i++) 
+          <div class="col-md-6">
             <label class="control-label"><i class="fa fa-check"></i>Choice {{$i+1}}</label> 
             @if($i<count($choices)) 
               <input type="text" class="form-control" name="choices[]" placeholder="" value="{{$choices[$i]}}">
             @else
-              <input type="text" class="form-control mulitchoice" name="" placeholder="" value=""> 
+              <input type="text" class="form-control mulitchoice" name="choices[]" placeholder="" value=""> 
             @endif
+          </div>
+          @endfor
       </div>
-      @endfor
-    </div>
-  </div>
-
-
-  <div class="choice" id="trueorflase" @if($record->question_type!=1) hidden @endif>
-    <input type="text" class="form-control" name="choice_tof" placeholder="Fill your answer below" value="" disabled>
-  </div>
-
-  <div class="choice" id="identification" @if($record->question_type!=0) hidden @endif>
-    <input type="text" class="form-control" name="choice_ide" placeholder="Fill your answer below" value="" disabled>
-  </div>
-
-  @if ($errors->has('choices'))
-  <span class="help-block">
+        <div class="choice" id="trueorflase" @if($record->question_type!=1) hidden @endif>
+          <input type="text" class="form-control" name="choice_tof" placeholder="Fill your answer below" value="" disabled>
+        </div>
+      
+        <div class="choice" id="identification" @if($record->question_type!=0) hidden @endif>
+          <input type="text" class="form-control" name="choice_ide" placeholder="Fill your answer below" value="" disabled>
+        </div>
+      @if ($errors->has('choices'))
+        <span class="help-block">
           <strong>{{ $errors->first('choices') }}</strong>
-      </span> @endif
-</div>
-<!-- /.form-group -->
+        </span> 
+      @endif
+    </div>
+  <!-- /.form-group -->
 </div>
 <!-- /.col-md-12 -->
 <div class="col-md-12">
   <div class="form-group margin-b-5 margin-t-5{{ $errors->has('answer') ? ' has-error' : '' }}">
     <label for="type">Answer *</label>
-    <input type="text" class="form-control answer" name="answer" placeholder="Fill your answer" value="" id="answer_input"  
-    @if($record->question_type!=0) hidden @endif> 
-    <div id="div_answer_multi" @if($record->question_type==0) hidden @endif>
-        <select class="form-control select2 answer" style="width: 100%;" name="question_type" id="answer_multi" @if($record->question_type==0) hidden @endif>
-
-          </select> 
+    <input type="hidden" name="" id="answer_data" value="{{$record->answer}}">
+    <div class="answer" id="div_answer_single" @if($record->question_type!=0) hidden @endif>
+    <input type="text" class="form-control answer" name="answer" placeholder="Fill your answer" value="{{$record->answer}}" id="answer_input" @if($record->question_type!=0) hidden @endif> 
+    </div>
+    <div class="answer" id="div_answer_multi" @if($record->question_type==0) hidden @endif>
+      <select class="form-control select2 answer" style="width: 100%;" name="answer" id="answer_multi" @if($record->question_type==0) hidden @endif>
+      </select> 
     </div>
     
     @if ($errors->has('answer')) 
@@ -91,6 +88,32 @@
   <!-- /.form-group -->
 </div>
 <!-- /.col-md-12 -->
+<div class="col-md-12">
+    <div class="form-group margin-b-5 margin-t-5{{ $errors->has('points') ? ' has-error' : '' }}">
+      <label for="points">Points *</label>
+      <div>
+        <label>
+            <input type="radio" name="points" class="minimal-red" @if($record->points==1) checked @endif value="1">
+            Easy
+          </label>
+          <label>
+            <input type="radio" name="points" class="minimal-red" @if($record->points==2) checked @endif value="2">
+            Medium
+          </label>
+          <label>
+            <input type="radio" name="points" class="minimal-red" @if($record->points==3) checked @endif value="3">
+            Hard
+          </label>
+      </div>
+      @if ($errors->has('points')) 
+        <span class="help-block">
+            <strong>{{ $errors->first('points') }}</strong>
+        </span> 
+        @endif
+    </div>
+    <!-- /.form-group -->
+  </div>
+  <!-- /.col-md-12 -->
 
 @section('footer-extras')
 <!-- CSS for wysihtml5 -->>
@@ -109,6 +132,15 @@
  
 @section('footer-extras')
 <script>
+  val=$('#answer_data').val();
+  $('#answer_multi').val(val);
+  type=$('#choice_type').val();
+  if(type==1){
+    changeAnswer_TrueORFalse()
+  }
+  if(type==2){
+    changeAnswer_Multichoice()
+  }
   function changeAnswer_TrueORFalse(){  
     $("#answer_multi").html('').select2();
   var data = [
@@ -124,7 +156,7 @@
     for(var i = 0, l = data.length; i < l; i++)
     {
       var option = data[i];
-      newOption= new Option(option.text, option.value, option.selected);
+      newOption= new Option(option.text, option.id, option.selected);
       $('#answer_multi').append(newOption)
     }
     $('#answer_multi').trigger('change');
@@ -152,7 +184,7 @@
     for(var i = 0, l = data.length; i < l; i++)
     {
       var option = data[i];
-      newOption= new Option(option.text, option.value, option.selected);
+      newOption= new Option(option.text, option.id, option.selected);
       $('#answer_multi').append(newOption)
     }
     $('#answer_multi').trigger('change');
@@ -166,19 +198,20 @@
   function changeTypeChoice(type){
     switch (type) {
       case "0": 
-      $('#identification').show();    
+      $('#identification').show(); 
+      $('#div_answer_single').show();   
       $('#answer_input').show();     
       break;
       case "1":
       $('#trueorflase').show(); 
-      $('#answer_multi').show();
       $('#div_answer_multi').show();
+      $('#answer_multi').show();
       changeAnswer_TrueORFalse();       
         break;
       case "2":
       $('#multichoice').show();  
-      $('#answer_multi').show();  
       $('#div_answer_multi').show(); 
+      $('#answer_multi').show();
       changeAnswer_Multichoice()     
         break;
       default:

@@ -78,9 +78,18 @@ class QuestionController extends Controller
         $creating = is_null($record);
         $values = [];
         $values['name'] = $request->input('name', '');
-        $values['choices'] = $request->input('choices', '');
+        $values['question_type'] = $request->input('question_type', '');
+        if($values['question_type']==0){
+          $values['choices'] = "";
+        }else if($values['question_type']==1){          
+          $values['choices'] = "True;False";
+        }else if($values['question_type']==2){
+          $answers=$request->input('choices', '');
+          $answer=implode(";", $answers);
+          $values['choices'] = $answer;
+        }
         $values['answer'] = $request->input('answer', '');
-        $values['points'] = $request->input('points', '');
+        $values['points'] = $request->input('points', '1');
         return $values;
     }
 

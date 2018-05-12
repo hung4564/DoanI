@@ -20,7 +20,7 @@ else {
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
 @if(isset($quizID))
-{!! Breadcrumbs::render($resourceRoutesAlias'.create' , $quizID) !!}
+{!! Breadcrumbs::render($resourceRoutesAlias.'.create' , $quizID) !!}
 
 @else   
 {!! Breadcrumbs::render($resourceRoutesAlias.'.create') !!}
