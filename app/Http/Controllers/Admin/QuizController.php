@@ -99,4 +99,11 @@ class QuizController extends Controller
 
         return $this->getResourceModel()::paginate($show);
     }
+    
+    private function detroyRelations($id)
+    {      
+      $record = $this->getResourceModel()::findOrFail($id);
+      $record->Questions()->detach();
+      $record->Visual()->detach();
+    }
 }

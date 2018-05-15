@@ -43,7 +43,8 @@ class QuestionController extends Controller
     {
         return [
             'rules' => [
-                'name' => 'required|min:3|max:255',
+                'name' => 'required|min:3|',
+
             ],
             'messages' => [],
             'attributes' => [],
@@ -79,20 +80,28 @@ class QuestionController extends Controller
         $values = [];
         $values['name'] = $request->input('name', '');
         $values['question_type'] = $request->input('question_type', '');
-        if($values['question_type']==0){
-          $values['choices'] = "";
-        }else if($values['question_type']==1){          
-          $values['choices'] = "True;False";
-        }else if($values['question_type']==2){
-          $answers=$request->input('choices', '');
-          $answer=implode(";", $answers);
-          $values['choices'] = $answer;
+        if ($values['question_type'] == 0) {
+            $values['choices'] = "";
+        } else if ($values['question_type'] == 1) {
+            $values['choices'] = "True;False";
+        } else if ($values['question_type'] == 2) {
+            $answers = $request->input('choices', '');
+            $answer = implode(";", $answers);
+            $values['choices'] = $answer;
         }
         $values['answer'] = $request->input('answer', '');
         $values['points'] = $request->input('points', '1');
         return $values;
     }
 
+    private function updateRelations(Request $request, $idQuestion)
+    {
+        if ($this->quizID != null) {
+            $record = $this->getResourceModel()::findOrFail($idQuestion);
+            $quizid = $this->quizID;
+            $record->Quiz()->sync($quizid);
+        }
+    }
     /**
      * Retrieve the list of the resource.
      *
@@ -121,24 +130,32 @@ class QuestionController extends Controller
         $this->quizID = $quizID;
         return $this->edit($questionID);
     }
-    public function createByQuiz(){
-      
+    public function createByQuiz(Request $request, $quizID)
+    {
+        $this->quizID = $quizID;
+        return $this->create();
     }
-    public function destroyByQuiz(){
-
+    public function destroyByQuiz($quizID, $questionID)
+    {
+        $this->quizID = $quizID;
+        return $this->destroy($questionID);
     }
-    public function storeByQuiz(){
-
+    public function storeByQuiz(Request $request, $quizID)
+    {
+        $this->quizID = $quizID;
+        return $this->store($request);
     }
-    public function updateByQuiz(){
-
+    public function updateByQuiz(Request $request, $id)
+    {
+        $this->quizID = $quizID;
+        return $this->update($request, $questionID);
     }
     private function filterSearchViewData(Request $request, $data = [])
     {
         if ($this->quizID != null) {
             $data['resourceTitle'] = Quiz::findOrFail($this->quizID)->name;
             $data['quizID'] = $this->quizID;
-            $data['resourceRoutesAlias']="admin::QuizQuestion";
+            $data['resourceRoutesAlias'] = "admin::QuizQuestion";
         }
         return $data;
     }
@@ -146,8 +163,24 @@ class QuestionController extends Controller
     {
         if ($this->quizID != null) {
             $data['quizID'] = $this->quizID;
-            $data['resourceRoutesAlias']="admin::QuizQuestion";
+            $data['resourceRoutesAlias'] = "admin::QuizQuestion";
         }
         return $data;
+    }
+    private function filterCreateViewData($data = [])
+    {
+        if ($this->quizID != null) {
+            $data['quizID'] = $this->quizID;
+            $data['resourceRoutesAlias'] = "admin::QuizQuestion";
+        }
+        return $data;
+    }
+    private function getRedirectAfterSave($record)
+    {
+        if ($this->quizID != null) {
+            return redirect(route('admin::QuizQuestion.index', [$this->quizID]));
+        }
+
+        return redirect(route($this->getResourceRoutesAlias() . '.index'));
     }
 }

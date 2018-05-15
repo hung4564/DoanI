@@ -161,6 +161,10 @@ trait ResourceHelper
     {
       
     }
+    private function detroyRelations($id)
+    {
+      
+    }
     /**
      * Classes using this trait have to implement this method.
      * Retrieve the list of the resource.

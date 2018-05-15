@@ -77,7 +77,8 @@ class VisualController extends Controller
         $creating = is_null($record);
         $values = [];
         $values['name'] = $request->input('name', '');
-        $values['path'] = strtolower($values['name']);
+        $path=strtolower($values['name']);
+        $values['path'] = preg_replace('/\s+/', '', $path);
         return $values;
     }
 
@@ -113,10 +114,14 @@ class VisualController extends Controller
     }
     private function updateRelations(Request $request, $id)
     {
-        // $categorys sẽ lưu dữ liệu của các thẻ mới
-        
+        // $categorys sẽ lưu dữ liệu của các thẻ mới        
         $record = $this->getResourceModel()::findOrFail($id);
         $categorys = $request->input('categorys', '');
         $record->getCategory()->sync($categorys);
+    }
+    private function detroyRelations($id)
+    {      
+      $record = $this->getResourceModel()::findOrFail($id);
+      $record->getCategory()->detach();
     }
 }
