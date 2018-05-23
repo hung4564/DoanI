@@ -15,8 +15,7 @@ class CreateScoresTable extends Migration
     {
         Schema::create('quiz_user_score', function (Blueprint $table) {
             $table->increments('id');            
-            $table->unsignedInteger('user_id');             
-            $table->unsignedInteger('quiz_user_answer_id');           
+            $table->unsignedInteger('user_id');                 
             $table->unsignedInteger('score');    
             $table->unsignedInteger('total');
             $table->timestamps();

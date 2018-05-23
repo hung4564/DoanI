@@ -14,7 +14,7 @@ class CreateAnserTable extends Migration
     public function up()
     {
         Schema::create('quiz_user_answer', function (Blueprint $table) {
-            $table->unsignedInteger('quiz_user_answer_id');    
+            $table->unsignedInteger('quiz_user_score_id');    
             $table->unsignedInteger('question_id');     
             $table->unsignedInteger('answer');        
             $table->timestamps();
