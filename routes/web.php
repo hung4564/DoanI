@@ -11,7 +11,7 @@
 |
  */
 
-Route::get('/', 'WelcomeController@index')->name('welcome');
+Route::get('/', 'PagesController@index')->name('welcome');
 
 //cho login,logout
 Auth::routes();
@@ -94,4 +94,9 @@ Route::namespace ('Dashboard')->group(function () {
 Route::get('profile', 'ProfileController@showProfile')->name('profile');
 Route::post('profile', 'ProfileController@updateProfile')->name('profile.update');
 
-Route::get('{id}/{path}.html', 'VisualController@showVisual')->name('visual');
+Route::get('{id}/{path}.html', 'PagesController@showVisual')->name('visual');
+
+Route::get('tranning','PagesController@showTranning')->name('tranning');
+
+Route::get('tranning/quiz/{id}','PagesController@showQuiz')->name('quiz');
+Route::post('tranning/quiz/{id}','QuizController@postQuiz')->name('sendQuiz');

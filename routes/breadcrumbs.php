@@ -15,6 +15,18 @@ Breadcrumbs::for('login', function ($breadcrumbs) {
     $breadcrumbs->push('Login', route('login'));
 });
 
+// Home > Tranning
+Breadcrumbs::for('tranning',function($breadcrumbs){
+  $breadcrumbs->parent('home');
+  $breadcrumbs->push('Tranning',route('tranning'));
+});
+
+// Home > Tranning > {Quiz}
+Breadcrumbs::for('quiz',function($breadcrumbs,$id){
+  $breadcrumbs->parent('tranning');
+  $breadcrumbs->push('Quiz',route('quiz',$id));
+});
+
 if (config('adminlte.registration_open')) {
     // Home > Register
     Breadcrumbs::for('register', function ($breadcrumbs) {

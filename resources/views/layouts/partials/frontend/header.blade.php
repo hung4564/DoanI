@@ -12,7 +12,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Tranning</a></li>                    
+                    <li><a href="{{ route('tranning') }}">Tranning</a></li>                    
                     <li><a href="/">Transtion</a></li>
                 </ul>
             </div>

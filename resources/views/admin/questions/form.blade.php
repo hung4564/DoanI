@@ -4,7 +4,7 @@
     <input type="hidden" value="{{$quizID}}" name="quizID" /> @endif
     <label for="name">Name *</label>
     <textarea class="textarea" name="name" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
-      {{ old('detail', $record->name) }}
+      {{ old('name', $record->name) }}
     </textarea> 
     @if ($errors->has('name'))
       <span class="help-block">
@@ -38,12 +38,12 @@
     <label for="type">Choices *</label>
       <div class="choice" id="multichoice" @if($record->question_type!=2) hidden @endif>
         <?php
-          $choices=explode(";", $record->choices);
+          $choices=$record->Choices();
           ?>
           @for ($i = 0; $i< 4; $i++) 
           <div class="col-md-6">
             <label class="control-label"><i class="fa fa-check"></i>Choice {{$i+1}}</label> 
-            @if($i<count($choices)) 
+            @if($choices!=null&&$i<count($choices)) 
               <input type="text" class="form-control" name="choices[]" placeholder="" value="{{$choices[$i]}}">
             @else
               <input type="text" class="form-control mulitchoice" name="choices[]" placeholder="" value=""> 
@@ -70,9 +70,9 @@
 <div class="col-md-12">
   <div class="form-group margin-b-5 margin-t-5{{ $errors->has('answer') ? ' has-error' : '' }}">
     <label for="type">Answer *</label>
-    <input type="hidden" name="" id="answer_data" value="{{$record->answer}}">
+    <input type="hidden" name="" id="answer_data" value="{{ old('answer', $record->answer) }}">
     <div class="answer" id="div_answer_single" @if($record->question_type!=0) hidden @endif>
-    <input type="text" class="form-control answer" name="answer" placeholder="Fill your answer" value="{{$record->answer}}" id="answer_input" @if($record->question_type!=0) hidden @endif> 
+    <input type="text" class="form-control answer" name="answer" placeholder="Fill your answer" value="{{ old('answer', $record->answer) }}" id="answer_input" @if($record->question_type!=0) hidden @endif> 
     </div>
     <div class="answer" id="div_answer_multi" @if($record->question_type==0) hidden @endif>
       <select class="form-control select2 answer" style="width: 100%;" name="answer" id="answer_multi" @if($record->question_type==0) hidden @endif>

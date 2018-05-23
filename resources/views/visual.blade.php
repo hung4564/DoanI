@@ -31,36 +31,47 @@
   .bar {
     pointer-events: all
   }
-
-  .svg-container {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%;
-    /* aspect ratio */
-    vertical-align: top;
-    overflow: hidden;
-  }
-
-  .svg-content-responsive {
-    display: inline-block;
-    position: absolute;
-    top: 10px;
-    left: 0;
-  }
 </style>
 @endsection
  
 @section('content')
 <!-- Page Content -->
-<div class="row main-row fill">
+<div class="row">
   <div class="col-sm-9 vungve scrollmenu" style="background-color:lavender" id="viz">
   </div>
   <div class="col-sm-3" style="background-color:lavenderblush;">
-    <input type="button" value="lay du lieu" onclick="redner(test)">
-    <input type="button" value="doi cho" onclick="swap(6,7)">
-    <input type="button" value="sap xep" onclick="bubblesort()">
+    <!-- Custom Tabs -->
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab_1" data-toggle="tab">Tab 1</a></li>
+        <li><a href="#tab_2" data-toggle="tab">Tab 2</a></li>
+        <li><a href="#tab_3" data-toggle="tab">Tab 3</a></li> 
+        <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="tab_1">
+            <input type="button" value="lay du lieu" onclick="redner(test)">
+            <input type="button" value="doi cho" onclick="swap(6,7)">
+            <input type="button" value="sap xep" onclick="bubblesort()">
+            <br>
+          <b>How to use:</b>
+  
+          <p>Exactly like the original bootstrap tabs except you should use
+            the custom wrapper <code>.nav-tabs-custom</code> to achieve this style.</p>
+        </div>
+        <!-- /.tab-pane -->
+        <div class="tab-pane" id="tab_2">
+        </div>
+        <!-- /.tab-pane -->
+        <div class="tab-pane" id="tab_3">
+        </div>
+        <!-- /.tab-pane -->
+      </div>
+      <!-- /.tab-content -->
+    </div>
+    <!-- nav-tabs-custom -->
   </div>
+  <!-- /.col -->
 </div>
 <!-- end Page Content -->
 @endsection
