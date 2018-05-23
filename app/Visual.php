@@ -18,7 +18,7 @@ class Visual extends Model
     {
         return $this->name;
     }
-    public function getCategory(){
+    public function Categories(){
       return $this->belongsToMany('App\Category');
     }
 }

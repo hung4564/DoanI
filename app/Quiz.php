@@ -13,6 +13,9 @@ class Quiz extends Model
     {
         return $this->belongsTo('App\Visual');
     }
+    public function Categories(){
+      return $this->Visual->belongsToMany('App\Category');
+    }
     public function Questions()
     {
         return $this->belongsToMany('App\Question');

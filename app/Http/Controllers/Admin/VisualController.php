@@ -117,11 +117,11 @@ class VisualController extends Controller
         // $categorys sẽ lưu dữ liệu của các thẻ mới        
         $record = $this->getResourceModel()::findOrFail($id);
         $categorys = $request->input('categorys', '');
-        $record->getCategory()->sync($categorys);
+        $record->Categories()->sync($categorys);
     }
     private function detroyRelations($id)
     {      
       $record = $this->getResourceModel()::findOrFail($id);
-      $record->getCategory()->detach();
+      $record->Categories()->detach();
     }
 }

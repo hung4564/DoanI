@@ -26,7 +26,7 @@
 
 <!--Category-->
 <div id="category_php" style="display: none;">
-  @foreach($record->getCategory as $category)
+  @foreach($record->Categories as $category)
   <p>{{$category->id}}</p>
   @endforeach
 </div>
