@@ -1,16 +1,12 @@
-@extends('layouts.frontend') 
-{{-- Page Title --}} 
-@section('page-title', 'Quiz') 
-{{-- Page Subtitle --}} 
-@section('page-subtitle','') 
-{{-- Breadcrumbs --}} 
-@section('breadcrumbs') 
+@extends('layouts.frontend')
+{{-- Page Title --}}
+@section('page-title', 'Quiz')
+{{-- Page Subtitle --}}
+@section('page-subtitle','')
+{{-- Breadcrumbs --}}
+@section('breadcrumbs')
 {{-- {!! Breadcrumbs::render('quiz',$quiz->id) !!} --}}
 @endsection
- 
-<?php
-  $_storeLink= route('sendQuiz',[$quiz->id]);
-?>
 
 @section('header-extras')
 <style>
@@ -84,30 +80,32 @@
   }
 </style>
 @endsection
- 
+<?php
+  $_storeLink= route('sendQuiz',[$quiz->id]);
+?>
 @section('content')
 <?php
 $questions=$quiz->Questions;
 $count=count($questions);
 ?>
 
-<form class="form" role="form" method="POST" action="{{ $_storeLink }}" >
+<form class="form" role="form" method="POST" action="{{ $_storeLink }}">
   {{ csrf_field() }}
   <div class="col-xs-9">
     <!-- Tab panes -->
     <div class="tab-content">
       <div class="tab-pane active" id="home-r">Home Tab.</div>
-        @for($i=1;$i<=$count;$i++) 
-        <div class="tab-pane form-group" id="{{$i}}">
-          @include('layouts.partials.frontend.question',['question'=>$questions[$i-1]])
-        </div>
-        @endfor
+      @for($i=1;$i
+      <=$count;$i++) <div class="tab-pane form-group" id="{{$i}}">
+  @include('layouts.partials.frontend.question',['question'=>$questions[$i-1]])
     </div>
+    @endfor
+  </div>
   </div>
   <div class="col-xs-3">
     <!-- required for floating -->
     <div class="clock" style="height:100px; background-color:red;">
-
+        @include('layouts.partials.frontend.countdown')
     </div>
     <div class="submit">
       <button class="btn btn-info">
@@ -117,9 +115,9 @@ $count=count($questions);
     <!-- Nav tabs -->
     <ul class="nav nav-tabs tabs-right">
       <li class="active"><a href="#home-r" data-toggle="tab">Home</a></li>
-      @for($i=1;$i<=$count;$i++) 
-      <li><a href="#{{$i}}" data-toggle="tab">Question {{$i}}</a></li>
-      @endfor
+      @for($i=1;$i
+      <=$count;$i++) <li><a href="#{{$i}}" data-toggle="tab">Question {{$i}}</a></li>
+        @endfor
     </ul>
   </div>
 </form>
