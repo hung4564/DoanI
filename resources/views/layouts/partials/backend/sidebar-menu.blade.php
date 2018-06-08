@@ -20,4 +20,18 @@
             </a>
         </li>
     @endif
+    @if (Auth::user()->can('viewList', \App\Question::class))
+        <li class="{{ \App\Utils::checkRoute(['admin::questions.index', 'admin::questions.create']) ? 'active': '' }}">
+            <a href="{{ route('admin::questions.index') }}">
+                <i class="fa fa-user-secret"></i> <span>Questions</span>
+            </a>
+        </li>
+    @endif
+    @if (Auth::user()->can('viewList', \App\Visual::class))
+        <li class="{{ \App\Utils::checkRoute(['admin::visuals.index', 'admin::visuals.create']) ? 'active': '' }}">
+            <a href="{{ route('admin::visuals.index') }}">
+                <i class="fa fa-user-secret"></i> <span>Visuals</span>
+            </a>
+        </li>
+    @endif
 </ul>

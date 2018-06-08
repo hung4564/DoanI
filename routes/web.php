@@ -70,6 +70,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
                     Route::post('{quizid}', 'QuestionController@storeByQuiz')->name('QuizQuestion.store');
                     Route::put('{quizid}/{questionID}', 'QuestionController@updateByQuiz')->name('QuizQuestion.update');
                 });
+                /**
+                 * Question resource
+                 * namespace Admin/QuestionController
+                 * /admin/quiz/
+                 * admin::questions
+                 */
                 Route::resource('questions', 'QuestionController');
             });
         });
