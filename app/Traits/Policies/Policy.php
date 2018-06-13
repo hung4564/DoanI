@@ -2,12 +2,10 @@
 
 namespace App\Traits\Policies;
 use App\User;
-
 use Illuminate\Http\Request;
 
 trait Policy
 {
-  use PolicyHelper;
   //admin có tất cả các quyền
   public function before(User $user, $ability)
   {
