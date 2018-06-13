@@ -75,8 +75,11 @@ final class Utils
             $user = Auth::guard($guard)->user();
             if ($user->isAdmin()) {
                 return 'Administrator';
-            } else {
-                return 'Member';
+            } elseif($user->isTeacher()) {
+                return 'Teacher';
+            }
+            else{
+              return 'Member';
             }
         }
 
