@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
         CategoryTableSeeder::class,
         VisualTableSeeder::class,
         Category_VisualTableSeeder::class,
-        QuestionTableSeeder::class
+        QuestionTableSeeder::class,
+        StatusTableSeeder::class,
         ]);
     }
 }
