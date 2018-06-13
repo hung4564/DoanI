@@ -1,4 +1,9 @@
-<span id="time">01:00</span>
+<?php
+$minutes=round($countdowntime_minutes);
+$seconds=60*($countdowntime_minutes-$minutes)
+?>
+
+<span id="time">{!!sprintf("%02d", $minutes );!!}:{!!sprintf("%02d",$seconds);!!}</span>
 
 
 @section('footer-extras')
@@ -23,7 +28,7 @@
     }, 1000);
 }
 window.onload = function () {
-    var fiveMinutes = 60 * 0.1,
+    var fiveMinutes = {{$countdowntime_minutes}}*60,
     display = document.querySelector('#time');
     startTimer(fiveMinutes, display);
 };

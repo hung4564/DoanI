@@ -1,13 +1,10 @@
-@extends('layouts.frontend')
-{{-- Page Title --}}
-@section('page-title', 'Quiz')
-{{-- Page Subtitle --}}
+@extends('layouts.frontend') {{-- Page Title --}} 
+@section('page-title', 'Quiz') {{-- Page Subtitle --}} 
 @section('page-subtitle','')
-{{-- Breadcrumbs --}}
-@section('breadcrumbs')
-{{-- {!! Breadcrumbs::render('quiz',$quiz->id) !!} --}}
+{{-- Breadcrumbs --}} 
+@section('breadcrumbs') {{-- {!! Breadcrumbs::render('quiz',$quiz->id) !!} --}}
 @endsection
-
+ 
 @section('header-extras')
 <style>
   .tabs-right {
@@ -80,45 +77,50 @@
   }
 </style>
 @endsection
+
 <?php
   $_storeLink= route('sendQuiz',[$quiz->id]);
 ?>
+  
 @section('content')
-<?php
+  <?php
 $questions=$quiz->Questions;
 $count=count($questions);
+$countdowntime_minutes=5;
 ?>
 
-<form class="form" role="form" method="POST" action="{{ $_storeLink }}">
-  {{ csrf_field() }}
-  <div class="col-xs-9">
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div class="tab-pane active" id="home-r">Home Tab.</div>
-      @for($i=1;$i
-      <=$count;$i++) <div class="tab-pane form-group" id="{{$i}}">
-  @include('layouts.partials.frontend.question',['question'=>$questions[$i-1]])
+  <form class="form" role="form" method="POST" action="{{ $_storeLink }}">
+    {{ csrf_field() }}
+    <div class="col-xs-9">
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="home-r">Home Tab.
+
+        </div>
+        @for($i=1;$i<=$count;$i++) 
+        <div class="tab-pane form-group" id="{{$i}}">
+          @include('layouts.partials.frontend.question',['question'=>$questions[$i-1]])
+        </div>
+        @endfor
+      </div>
     </div>
-    @endfor
-  </div>
-  </div>
-  <div class="col-xs-3">
-    <!-- required for floating -->
-    <div class="clock" style="height:100px; background-color:red;">
-        @include('layouts.partials.frontend.countdown')
-    </div>
-    <div class="submit">
-      <button class="btn btn-info">
+    <div class="col-xs-3">
+      <!-- required for floating -->
+      <div class="clock" style="height:100px; background-color:red;">
+  @include('layouts.partials.frontend.countdown',['countdowntime_minutes'=>$countdowntime_minutes])
+      </div>
+      <div class="submit">
+        <button class="btn btn-info">
           <i class="fa fa-save"></i> <span>Submit</span>
       </button>
+      </div>
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs tabs-right">
+        <li class="active"><a href="#home-r" data-toggle="tab">Home</a></li>
+        @for($i=1;$i
+        <=$count;$i++) <li><a href="#{{$i}}" data-toggle="tab">Question {{$i}}</a></li>
+          @endfor
+      </ul>
     </div>
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs tabs-right">
-      <li class="active"><a href="#home-r" data-toggle="tab">Home</a></li>
-      @for($i=1;$i
-      <=$count;$i++) <li><a href="#{{$i}}" data-toggle="tab">Question {{$i}}</a></li>
-        @endfor
-    </ul>
-  </div>
-</form>
+  </form>
 @endsection
