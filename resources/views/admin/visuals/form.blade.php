@@ -45,7 +45,6 @@
       $('#category').trigger('change'); // Notify any JS components that the value changed
     
   });
-
 </script>
 @parent
 @endsection

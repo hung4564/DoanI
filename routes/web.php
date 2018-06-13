@@ -77,6 +77,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
                  * admin::questions
                  */
                 Route::resource('questions', 'QuestionController');
+                 /**
+                 * Course resource
+                 * namespace Admin/CourseController
+                 * /admin/quiz/
+                 * admin::courses
+                 */
+                Route::resource('courses', 'CourseController');
             });
         });
     });

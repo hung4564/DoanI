@@ -46,3 +46,15 @@ if (! function_exists('trustedproxy_config')) {
         return null;
     }
 }
+if (! function_exists('RandomStringGenerator')) {
+function RandomStringGenerator($codeLength)
+{
+    $box = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefjhijklmnopqrstuvwxyz0123456789";
+    $boxLength = strlen($box);
+
+    for ($i = 0; $i < $codeLength; $i++) {
+        $code[$i] = $box[rand() % $boxLength];
+    }
+    return implode('',$code);
+}
+}

@@ -10,6 +10,7 @@ class Reports
     private $totalCategory;
     private $totalVisual;
     private $totalQuiz;
+    private $totalCourse;
     /**
      * @return integer
      */
@@ -50,5 +51,12 @@ class Reports
         }
 
         return $this->totalQuiz;
+    }
+    public function getTotalCourse(){
+      if (is_null($this->totalCourse)) {
+        $this->totalCourse = Quiz::count();
+    }
+
+    return $this->totalCourse;
     }
 }
