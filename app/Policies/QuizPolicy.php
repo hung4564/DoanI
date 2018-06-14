@@ -13,4 +13,13 @@ class QuizPolicy
         Quiz::class => QuizPolicy::class,
     ];
     use Policy;
+    
+    public function addQuestion(User $user, $model)
+    {
+        return $user->isAdmin();
+    }
+    public function removeQuestion(User $user, $model)
+    {
+        return $user->isAdmin();
+    }
 }

@@ -56,7 +56,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
                  * admin::quizzes
                  */
                 Route::resource('quizzes', 'QuizController');
-                Route::get('quizzes/detail/{id}','QuizController@showDetail')->name('quizzes.detail');
+                Route::get('quizzes/detail/{id}', 'QuizController@showDetail')->name('quizzes.detail');
+                Route::get('quizzes/{quiz_id}/removeQuestion/{question_id}', 'QuizController@removeQuestion')->name('quizzes.removeQuestion');
+                Route::get('quizzes/{id}/disable', 'QuizController@disableQuiz')->name('quizzes.disable');
+                Route::get('quizzes/{id}/enable', 'QuizController@enableQuiz')->name('quizzes.enable');
+                Route::get('quizzes/{id}/public', 'QuizController@publicQuiz')->name('quizzes.public');
                 /**
                  * Quiz resource
                  * namespace Admin/QuestionController
@@ -85,11 +89,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
                  * admin::courses
                  */
                 Route::resource('courses', 'CourseController');
-                Route::get('courses/detail/{id}','CourseController@showDetail')->name('courses.detail');
-                Route::get('courses/{coure_id}/addquiz/{quiz_id}','CourseController@addQuiz')->name('course.addquiz');
-                Route::get('courses/{coure_id}/removequiz/{quiz_id}','CourseController@removeQuiz')->name('course.removequiz');
-                Route::get('courses/{coure_id}/addStudent/{quiz_id}','CourseController@addStudent')->name('course.addstudent');
-                Route::get('courses/{coure_id}/removeStudent/{quiz_id}','CourseController@removeStudent')->name('course.removestudent');
+                Route::get('courses/detail/{id}', 'CourseController@showDetail')->name('courses.detail');
+                Route::get('courses/{coure_id}/addquiz/{quiz_id}', 'CourseController@addQuiz')->name('course.addquiz');
+                Route::get('courses/{coure_id}/removequiz/{quiz_id}', 'CourseController@removeQuiz')->name('course.removequiz');
+                Route::get('courses/{coure_id}/addStudent/{quiz_id}', 'CourseController@addStudent')->name('course.addstudent');
+                Route::get('courses/{coure_id}/removeStudent/{quiz_id}', 'CourseController@removeStudent')->name('course.removestudent');
+                Route::get('courses/{id}/disable', 'CourseController@disableCourse')->name('courses.disable');
+                Route::get('courses/{id}/enable', 'CourseController@enableCourse')->name('courses.enable');
+                Route::get('courses/{id}/public', 'CourseController@publicCourse')->name('courses.public');
             });
         });
     });

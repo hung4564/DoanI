@@ -13,22 +13,39 @@ class Quiz extends Model
     {
         return $this->belongsTo('App\Visual');
     }
-    public function Categories(){
-      return $this->Visual->belongsToMany('App\Category');
+    public function Categories()
+    {
+        return $this->Visual->belongsToMany('App\Category');
+    }
+    public function Teacher()
+    {
+        return $this->belongsToMany('App\User')->first();
     }
     public function Questions()
     {
         return $this->belongsToMany('App\Question');
     }
-    public function Course(){
-      return $this->belongsToMany('App\Course');
+    public function Course()
+    {
+        return $this->belongsToMany('App\Course');
     }
-    public function User(){
-      return $this->belongsToMany('App\User');
+    public function User()
+    {
+        return $this->belongsToMany('App\User');
     }
     public function Disabe()
     {
-        return $this->status;
+
+        return (int) $this->status == 0;
+    }
+
+    public function IsPublic()
+    {
+        return (int) $this->status === 1;
+    }
+    public function Status()
+    {
+        return $this->belongsTo('App\Status', 'status');
     }
     public function getRecordTitle()
     {

@@ -121,3 +121,8 @@ Breadcrumbs::for('admin::courses.detail', function ($breadcrumbs,$courseID) {
   $breadcrumbs->parent('admin::courses');
   $breadcrumbs->push('Detail', route('admin::courses.detail',[$courseID]));
 });
+
+Breadcrumbs::for('admin::quizzes.detail', function ($breadcrumbs,$quizID) {
+  $breadcrumbs->parent('admin::quizzes');
+  $breadcrumbs->push('Detail', route('admin::quizzes.detail',[$quizID]));
+});

@@ -94,16 +94,42 @@ class QuizController extends Controller
     private function getSearchRecords(Request $request, $show = 15, $search = null)
     {
         if (!empty($search)) {
-            return $this->getResourceModel()::where('name', 'like' ,'%'.$search.'%')->paginate($show);
+            return $this->getResourceModel()::where('name', 'like', '%' . $search . '%')->paginate($show);
         }
 
         return $this->getResourceModel()::paginate($show);
     }
-    
+
     private function detroyRelations($id)
-    {      
-      $record = $this->getResourceModel()::findOrFail($id);
-      $record->Questions()->detach();
-      $record->Visual()->detach();
+    {
+        $record = $this->getResourceModel()::findOrFail($id);
+        $record->Questions()->detach();
+        $record->Visual()->detach();
+    }
+    public function showDetail($id)
+    {
+        $record = Quiz::findOrFail($id);
+        $questions = $record->Questions;
+        return view('admin.quizzes.detail', ['record' => $record, 'records' => $questions]);
+    }
+    public function removeQuestion($idQuiz, $idQuenstion)
+    {
+        $record = $this->getResourceModel()::findOrFail($idQuiz);
+        $record->Questions()->detach($idQuenstion);
+        return redirect()->back();
+    }
+    public function disableQuiz($id)
+    {
+        Quiz::whereId($id)->update(['status' => 0]);
+        return redirect()->back();
+    }
+    public function enableQuiz($id)
+    {
+        Quiz::whereId($id)->update(['status' => 2]);
+        return redirect()->back();}
+    public function publicQuiz($id)
+    {
+        Quiz::whereId($id)->update(['status' => 1]);
+        return redirect()->back();
     }
 }

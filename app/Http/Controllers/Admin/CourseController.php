@@ -158,4 +158,18 @@ class CourseController extends Controller
       $record->Students()->detach($user_id);
       return redirect()->back();
     }
+    public function disableCourse($id)
+    {
+        Course::whereId($id)->update(['status_id' => 0]);
+        return redirect()->back();
+    }
+    public function enableCourse($id)
+    {
+        Course::whereId($id)->update(['status_id' => 2]);
+        return redirect()->back();}
+    public function publicCourse($id)
+    {
+        Course::whereId($id)->update(['status_id' => 1]);
+        return redirect()->back();
+    }
 }

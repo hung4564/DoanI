@@ -67,14 +67,14 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
             </div>
         </div>
         @if($record->IsEnable())
-          <button type="button" class="btn btn-default" onclick="">Disable</button>
+          <button type="button" class="btn btn-default" onclick="location.href='{{route('admin::courses.disable',$record->id)}}'">Disable</button>
         @else
-          <button type="button" class="btn btn-default" onclick="location.href=''">Enable</button>
+          <button type="button" class="btn btn-default" onclick="location.href='{{route('admin::courses.enable',$record->id)}}'">Enable</button>
         @endif
         @if($record->IsPublic())
-          <button type="button" class="btn btn-default">Unpublic</button>
+          <button type="button" class="btn btn-default" onclick="location.href='{{route('admin::courses.enable',$record->id)}}'">Unpublic</button>
         @else
-          <button type="button" class="btn btn-default">Public</button>
+          <button type="button" class="btn btn-default" onclick="location.href='{{route('admin::courses.public',$record->id)}}'">Public</button>
         @endif
         <button type="button" class="btn btn-default"  data-toggle="modal" data-target="#modal-addquiz">Add Quiz</button>
         <button type="button" class="btn btn-default"data-toggle="modal" data-target="#modal-addstudent">Add Student</button>
@@ -246,15 +246,9 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
                                         @can('view', $quiz)
                                         <a href="{{route('admin::quizzes.detail',$quiz->id)}}" class="btn btn-info btn-sm"><i class="fa fa-list"></i></a>
                                         @endcan
-                                        @if($quiz->IsInCourse($record->id))
                                         @can('removeQuiz', $record)
                                         <a href="{{route('admin::course.removequiz',[$record->id,$quiz->id])}}" class="btn btn-danger btn-sm"><i class="fa fa-minus"></i></a>
                                         @endcan
-                                        @else
-                                        @can('addQuiz', $record)
-                                        <a href="{{route('admin::course.addquiz',[$record->id,$quiz->id])}}" class="btn btn-warning btn-sm"><i class="fa fa-plus"></i></a>
-                                        @endcan
-                                        @endif
                                       </div>
                                     </td>
                                   </tr>
