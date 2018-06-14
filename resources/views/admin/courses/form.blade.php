@@ -26,6 +26,26 @@
 </div>
 <div class="col-md-5">
   <div class="col-md-12">
+    <div class="form-group margin-b-5 margin-t-5{{ $errors->has('category') ? ' has-error' : '' }}">
+      <label>Category</label>
+      <select name="categorys[]" id="category" class="form-control select2" multiple="multiple" data-placeholder="Select a State"
+        style="width: 100%;">
+          @foreach(\App\Category::All() as $category)
+            <option value="{{$category->id}}">{{$category->name}}</option>
+          @endforeach
+      </select>
+    </div>
+    <!-- /.form-group -->
+  </div>
+  <!-- /.col-md-12 -->
+  <div class="col-md-12">
+    <div id="category_php" style="display: none;">
+      @foreach($record->Categories as $category)
+      <p>{{$category->id}}</p>
+      @endforeach
+    </div>
+  </div>
+  <div class="col-md-12">
     <label for="status">Status</label>
     <div class="form-group margin-b-5 margin-t-5{{ $errors->has('status') ? ' has-error' : '' }}">
       <ul class="list">
@@ -114,6 +134,16 @@
       radioClass   : 'iradio_minimal-red',
       increaseArea: '20%'
     })
-</script>
+    $(document).ready(function() {
+      $('#category').select2();
+      var data = [];
+      $('#category_php p').each(function(){
+        data.push($(this).text());
+      });
+      console.log(data);
+        $('#category').val(data);
+        $('#category').trigger('change'); // Notify any JS components that the value changed
+    });
+  </script>
 @parent
 @endsection

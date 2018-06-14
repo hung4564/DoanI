@@ -56,6 +56,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
                  * admin::quizzes
                  */
                 Route::resource('quizzes', 'QuizController');
+                Route::get('quizzes/detail/{id}','QuizController@showDetail')->name('quizzes.detail');
                 /**
                  * Quiz resource
                  * namespace Admin/QuestionController
@@ -63,9 +64,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
                  * admin::QuizQuestion
                  */
                 Route::prefix('quiz')->group(function () {
-                    Route::get('{quizid}', 'QuestionController@getListbyQuiz')->name('QuizQuestion.index');                    
-                    Route::get('{quizid}/{questionID}/edit', 'QuestionController@editByQuiz')->name('QuizQuestion.edit');           
-                    Route::get('{quizid}/create', 'QuestionController@createByQuiz')->name('QuizQuestion.create'); 
+                    Route::get('{quizid}', 'QuestionController@getListbyQuiz')->name('QuizQuestion.index');
+                    Route::get('{quizid}/{questionID}/edit', 'QuestionController@editByQuiz')->name('QuizQuestion.edit');
+                    Route::get('{quizid}/create', 'QuestionController@createByQuiz')->name('QuizQuestion.create');
                     Route::delete('{quizid}/{questionID}', 'QuestionController@destroyByQuiz')->name('QuizQuestion.destroy');
                     Route::post('{quizid}', 'QuestionController@storeByQuiz')->name('QuizQuestion.store');
                     Route::put('{quizid}/{questionID}', 'QuestionController@updateByQuiz')->name('QuizQuestion.update');
@@ -77,13 +78,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
                  * admin::questions
                  */
                 Route::resource('questions', 'QuestionController');
-                 /**
+                /**
                  * Course resource
                  * namespace Admin/CourseController
                  * /admin/quiz/
                  * admin::courses
                  */
                 Route::resource('courses', 'CourseController');
+                Route::get('courses/detail/{id}','CourseController@showDetail')->name('courses.detail');
+                Route::get('courses/{coure_id}/addquiz/{quiz_id}','CourseController@addQuiz')->name('course.addquiz');
+                Route::get('courses/{coure_id}/removequiz/{quiz_id}','CourseController@removeQuiz')->name('course.removequiz');
             });
         });
     });
@@ -109,7 +113,7 @@ Route::post('profile', 'ProfileController@updateProfile')->name('profile.update'
 
 Route::get('{id}/{path}.html', 'PagesController@showVisual')->name('visual');
 
-Route::get('tranning','PagesController@showTranning')->name('tranning');
+Route::get('tranning', 'PagesController@showTranning')->name('tranning');
 
-Route::get('tranning/quiz/{id}','PagesController@showQuiz')->name('quiz');
-Route::post('tranning/quiz/{id}','QuizController@postQuiz')->name('sendQuiz');
+Route::get('tranning/quiz/{id}', 'PagesController@showQuiz')->name('quiz');
+Route::post('tranning/quiz/{id}', 'QuizController@postQuiz')->name('sendQuiz');

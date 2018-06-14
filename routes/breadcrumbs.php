@@ -116,3 +116,8 @@ Breadcrumbs::for('admin::QuizQuestion.edit', function ($breadcrumbs,$quizID,$que
   $breadcrumbs->parent('admin::QuizQuestion',$quizID);
   $breadcrumbs->push('Edit', route('admin::QuizQuestion.edit',[$quizID,$questionID]));
 });
+
+Breadcrumbs::for('admin::courses.detail', function ($breadcrumbs,$courseID) {
+  $breadcrumbs->parent('admin::courses');
+  $breadcrumbs->push('Detail', route('admin::courses.detail',[$courseID]));
+});
