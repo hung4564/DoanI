@@ -2,6 +2,7 @@
 
 namespace App;
 use App\User;
+use App\Quiz;
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
@@ -19,8 +20,20 @@ class Course extends Model
     {
       return $this->belongsTo('App\Status');
     }
+    public function IsEnable(){
+      return (int)$this->status_id!==0;
+    }
+    public function IsPublic(){
+      return (int)$this->status_id===1;
+    }
     public function getRecordTitle()
     {
       return $this->name;
+    }
+    public function Categories(){
+      return $this->belongsToMany('App\Category');
+    }
+    public function Quizzes(){
+      return $this->belongsToMany('App\Quiz');
     }
 }
