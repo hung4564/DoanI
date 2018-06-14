@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Course;
 use App\Http\Controllers\Controller;
-use App\RandomStringGenerator;
 use App\Traits\Controllers\ResourceController;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -115,5 +115,47 @@ class CourseController extends Controller
 
         }
         return $values;
+    }
+    private function updateRelations(Request $request, $id)
+    {
+        // $categorys sẽ lưu dữ liệu của các thẻ mới
+        $record = $this->getResourceModel()::findOrFail($id);
+        $categorys = $request->input('categorys', '');
+        $record->Categories()->sync($categorys);
+    }
+    private function detroyRelations($id)
+    {
+        $record = $this->getResourceModel()::findOrFail($id);
+        $record->Categories()->detach();
+    }
+    public function showDetail($id, $show = 15)
+    {
+        $record = Course::findOrFail($id);
+        $students = $record->Students;
+        return view('admin.courses.detail', ['record' => $record, 'records' => $students]);
+    }
+    public function addQuiz($course_id, $quiz_id)
+    {
+        $record = $this->getResourceModel()::findOrFail($course_id);
+        $record->Quizzes()->sync($quiz_id);
+        return redirect()->back();
+    }
+    public function removeQuiz($course_id, $quiz_id)
+    {
+        $record = $this->getResourceModel()::findOrFail($course_id);
+        $record->Quizzes()->detach($quiz_id);
+        return redirect()->back();
+    }
+    public function addStudent($course_id, $user_id)
+    {
+      $record = $this->getResourceModel()::findOrFail($course_id);
+      $record->Students_wait()->sync([$user_id => ['status_id' => 1]]);
+      return redirect()->back();
+    }
+    public function removeStudent($course_id, $user_id)
+    {
+      $record = $this->getResourceModel()::findOrFail($course_id);
+      $record->Students()->detach($user_id);
+      return redirect()->back();
     }
 }

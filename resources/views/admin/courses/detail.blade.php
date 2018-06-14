@@ -3,9 +3,9 @@
 $_pageTitle = (isset($addVarsForView['_pageTitle']) && ! empty($addVarsForView['_pageTitle']) ? $addVarsForView['_pageTitle'] : ucwords('Course'));
 $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsForView['_pageSubtitle']) ? $addVarsForView['_pageSubtitle'] : 'Detail');
 
-if (count($record->Students) > 0) {
-    $total = count($record->Students);
-}
+    $totalStudent = count($record->Students);
+    $totalQuiz = count($record->Quizzes);
+    $totalStudent_wait = count($record->Students_wait);
 ?>
 
 {{-- Page Title --}}
@@ -77,7 +77,7 @@ if (count($record->Students) > 0) {
           <button type="button" class="btn btn-default">Public</button>
         @endif
         <button type="button" class="btn btn-default"  data-toggle="modal" data-target="#modal-addquiz">Add Quiz</button>
-        <a href=""><button type="button" class="btn btn-default">Add Student</button></a>
+        <button type="button" class="btn btn-default"data-toggle="modal" data-target="#modal-addstudent">Add Student</button>
       </div>
       <div class="col-md-2 hidden-sm hidden-xs">
         thông tin về course
@@ -86,60 +86,195 @@ if (count($record->Students) > 0) {
   </div>
 </div>
 {{-- ./info --}}
-<div class="col-12 course-user">
-    <div class="box box-primary">
+<div class="row">
+    <div class="col-md-12">
+      <div class="box box-solid">
         <div class="box-header with-border">
-          Course Student
+          <h3 class="box-title">Course</h3>
         </div>
-        <div class="box-body no-padding">
-            @if (count($record->Students) > 0)
-                <div class="padding-5">
-                    <span class="text-green padding-l-5">Total: {{ $total }} items.</span>&nbsp;
-                </div>
-                <?php
-                    $tableCounter = 0;
-                ?>
-                <div class="table-responsive list-records">
-                  <table class="table table-hover table-bordered">
-                    <thead>
-                      <!--<th style="width: 10px;"><button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button></th>-->
-                      <th>#</th>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </thead>
-                    <tbody>
-                      @foreach ($records as $student)
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="box-group" id="accordion">
+            <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+            <div class="panel box box-primary">
+              <div class="box-header with-border">
+                <h4 class="box-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                      Course Student
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse in">
+                @if($totalStudent>0)
+                  <div class="padding-5">
+                      <span class="text-green padding-l-5">Total: {{ $totalStudent }} items.</span>&nbsp;
+                  </div>
+                @endif
+                @if($totalStudent_wait>0)
+                  <div class="padding-5">
+                      <span class="text-green padding-l-5">Total: {{ $totalStudent_wait }} wait.</span>&nbsp;
+                  </div>
+                @endif
+                <div class="box-body no-padding">
+                    @if(count($record->Students_wait) > 0)
+                    <?php
+                        $tableCounter = 0;
+                    ?>
+                    <div class="table-responsive list-records">
+                      <table class="table table-hover table-bordered">
+                        <thead>
+                          <!--<th style="width: 10px;"><button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button></th>-->
+                          <th>#</th>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th style="width: 100px;">Action</th>
+                        </thead>
+                        <tbody>
+                          @foreach ($record->Students_wait as $student)
+                            <?php
+                              $tableCounter++;
+                            ?>
+                            <tr>
+                              <!--<td><input type="checkbox" name="ids[]" value="{{ $student->id }}" class="square-blue"></td>-->
+                              <td>{{ $tableCounter }}</td>
+                              <td>{{ $student->id }}</td>
+                              <td class="table-text">
+                                {{ $student->name }}
+                              </td>
+                              <td>{{ $student->email }}</td>
+                              <td>
+                                <div class="btn-group">
+                                  @can('addStudent', $record)
+                                  <a href="{{route('admin::course.addstudent',[$record->id,$student->id])}}" class="btn btn-warning btn-sm"><i class="fa fa-plus"></i></a>
+                                  @endcan
+                                </div>
+                              </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                    @endif
+                    @if (count($record->Students) > 0)
                         <?php
-                          $tableCounter++;
+                            $tableCounter = 0;
                         ?>
-                        <tr>
-                          <!--<td><input type="checkbox" name="ids[]" value="{{ $student->id }}" class="square-blue"></td>-->
-                          <td>{{ $tableCounter }}</td>
-                          <td>{{ $student->id }}</td>
-                          <td class="table-text">
-                            {{ $student->name }}
-                          </td>
-                          <td>{{ $student->email }}</td>
-                          <td>
-                          </td>
-                          <td>
-                          </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                  </table>
+                        <div class="table-responsive list-records">
+                          <table class="table table-hover table-bordered">
+                            <thead>
+                              <!--<th style="width: 10px;"><button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button></th>-->
+                              <th>#</th>
+                              <th>ID</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th style="width: 100px;">Action</th>
+                            </thead>
+                            <tbody>
+                              @foreach ($records as $student)
+                                <?php
+                                  $tableCounter++;
+                                ?>
+                                <tr>
+                                  <!--<td><input type="checkbox" name="ids[]" value="{{ $student->id }}" class="square-blue"></td>-->
+                                  <td>{{ $tableCounter }}</td>
+                                  <td>{{ $student->id }}</td>
+                                  <td class="table-text">
+                                    {{ $student->name }}
+                                  </td>
+                                  <td>{{ $student->email }}</td>
+                                  <td>
+                                    <div class="btn-group">
+                                      @can('removeStudent', $record)
+                                      <a href="{{route('admin::course.removestudent',[$record->id,$student->id])}}" class="btn btn-danger btn-sm"><i class="fa fa-minus"></i></a>
+                                      @endcan
+                                    </div>
+                                  </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                          </table>
+                        </div>
+                    @else
+                        <p class="margin-l-5 lead text-green">No records found.</p>
+                    @endif
                 </div>
-            @else
-                <p class="margin-l-5 lead text-green">No records found.</p>
-            @endif
+              </div>
+            </div>
+            <div class="panel box box-primary">
+              <div class="box-header with-border">
+                <h4 class="box-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                      Course Quiz
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseTwo" class="panel-collapse collapse">
+                  <div class="box-body no-padding">
+                      @if (count($record->Quizzes) > 0)
+                          <div class="padding-5">
+                              <span class="text-green padding-l-5">Total: {{ $totalQuiz }} items.</span>&nbsp;
+                          </div>
+                          <?php
+                              $tableCounter = 0;
+                          ?>
+                          <div class="table-responsive list-records">
+                            <table class="table table-hover table-bordered">
+                              <thead>
+                                <!--<th style="width: 10px;"><button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button></th>-->
+                                <th>#</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th style="width: 100px;">Action</th>
+                              </thead>
+                              <tbody>
+                                @foreach ($record->Quizzes as $quiz)
+                                  <?php
+                                    $tableCounter++;
+                                  ?>
+                                  <tr>
+                                    <!--<td><input type="checkbox" name="ids[]" value="{{ $quiz->id }}" class="square-blue"></td>-->
+                                    <td>{{ $tableCounter }}</td>
+                                    <td>{{ $quiz->id }}</td>
+                                    <td class="table-text">
+                                      {{ $quiz->name }}
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                      <div class="btn-group">
+                                        @can('view', $quiz)
+                                        <a href="{{route('admin::quizzes.detail',$quiz->id)}}" class="btn btn-info btn-sm"><i class="fa fa-list"></i></a>
+                                        @endcan
+                                        @if($quiz->IsInCourse($record->id))
+                                        @can('removeQuiz', $record)
+                                        <a href="{{route('admin::course.removequiz',[$record->id,$quiz->id])}}" class="btn btn-danger btn-sm"><i class="fa fa-minus"></i></a>
+                                        @endcan
+                                        @else
+                                        @can('addQuiz', $record)
+                                        <a href="{{route('admin::course.addquiz',[$record->id,$quiz->id])}}" class="btn btn-warning btn-sm"><i class="fa fa-plus"></i></a>
+                                        @endcan
+                                        @endif
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  @endforeach
+                              </tbody>
+                            </table>
+                          </div>
+                      @else
+                          <p class="margin-l-5 lead text-green">No records found.</p>
+                      @endif
+                  </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
     </div>
-</div>
-{{-- ./student --}}
-
+    <!-- /.col -->
 <div class="modal fade" id="modal-addquiz">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -149,54 +284,14 @@ if (count($record->Students) > 0) {
         <h4 class="modal-title">Add Quiz</h4>
       </div>
       <div class="modal-body">
-          <div class="table-responsive list-records">
-            <table class="table table-hover table-bordered">
-              <thead>
-                <th>#</th>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Status</th>
-                <th style="width: 120px;">Action</th>
-              </thead>
-                <tbody>
-                    @foreach (Auth::user()->Quizzes as $quiz)
-                    <?php
-                      $tableCounter++;
-                    ?>
-                    <tr>
-                      <td>{{ $tableCounter }}</td>
-                      <td>{{ $quiz->id }}</td>
-                      <td class="table-text">
-                        {{ $quiz->name }}
-                      </td>
-                      <td>
-                        @if($quiz->IsInCourse($record->id))
-                        In Course
-                        @else
-                        Not in Course
-                        @endif
-                      </td>
-                      <td>
-                        <div class="btn-group">
-                            @can('view', $quiz)
-                            <a href="{{route('admin::quizzes.detail',$quiz->id)}}" class="btn btn-info btn-sm"><i class="fa fa-list"></i></a>
-                            @endcan
-                            @if($quiz->IsInCourse($record->id))
-                            @can('removeQuiz', $record)
-                            <a href="{{route('admin::course.removequiz',[$record->id,$quiz->id])}}" class="btn btn-danger btn-sm"><i class="fa fa-minus"></i></a>
-                            @endcan
-                            @else
-                            @can('addQuiz', $record)
-                            <a href="{{route('admin::course.addquiz',[$record->id,$quiz->id])}}" class="btn btn-warning btn-sm"><i class="fa fa-plus"></i></a>
-                            @endcan
-                            @endif
-                        </div>
-                      </td>
-                    @endforeach
-                </tbody>
-              </table>
-            </div>
-        </div>
+        <label for="">Quiz Id:</label>
+        <input type="text" name="" id="idQuiz">
+        @can('addQuiz', $record)
+        <button type="button" class="btn btn-primary" onclick="location.href='{{route('admin::course.addquiz',[$record->id,$quiz->id])}}'"><i class="fa fa-plus"></i></button>
+        <button type="button" class="btn btn-primary" onclick="gettext('idQuiz')"><i class="fa fa-plus"></i></button>
+        <button type="button" class="btn btn-primary" onclick="location.href=gohome()"><i class="fa fa-plus"></i></button>
+        @endcan
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
@@ -206,9 +301,40 @@ if (count($record->Students) > 0) {
   </div>
   <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
+<!-- /.modal quiz-->
+<div class="modal fade" id="modal-addstudent">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add Student</h4>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal student-->
+
 @endsection
 {{-- Footer Extras to be Included --}}
 @section('footer-extras')
-
+<script>
+  function gettext(idtext)
+  {
+  var id = document.getElementById(idtext).value;
+  return id;
+  }
+  function gohome(){
+    return {{route('home')}};
+  }
+</script>
 @endsection

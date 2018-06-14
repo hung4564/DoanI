@@ -11,7 +11,10 @@ class Course extends Model
         'name', 'teacher_id','code_invite','detail'
     ];
     public function Students(){
-      return $this->belongsToMany('App\User');
+      return $this->belongsToMany('App\User')->wherePivot('status_id',1);;
+    }
+    public function Students_wait(){
+      return $this->belongsToMany('App\User')->wherePivot('status_id',0);;
     }
     public function Teacher(){
       return $this->belongsTo('App\User');

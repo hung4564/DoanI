@@ -20,6 +20,12 @@ class Quiz extends Model
     {
         return $this->belongsToMany('App\Question');
     }
+    public function Course(){
+      return $this->belongsToMany('App\Course');
+    }
+    public function User(){
+      return $this->belongsToMany('App\User');
+    }
     public function Disabe()
     {
         return $this->status;

@@ -88,6 +88,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
                 Route::get('courses/detail/{id}','CourseController@showDetail')->name('courses.detail');
                 Route::get('courses/{coure_id}/addquiz/{quiz_id}','CourseController@addQuiz')->name('course.addquiz');
                 Route::get('courses/{coure_id}/removequiz/{quiz_id}','CourseController@removeQuiz')->name('course.removequiz');
+                Route::get('courses/{coure_id}/addStudent/{quiz_id}','CourseController@addStudent')->name('course.addstudent');
+                Route::get('courses/{coure_id}/removeStudent/{quiz_id}','CourseController@removeStudent')->name('course.removestudent');
             });
         });
     });
