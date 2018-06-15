@@ -102,15 +102,37 @@ Route::middleware(['auth', 'admin'])->group(function () {
     });
 });
 
-Route::namespace ('Dashboard')->group(function () {
-    // Controllers Within The "App\Http\Controllers\Dashboard" Namespace
-    Route::prefix('dashboard')->group(function () {
-        // Matches The "/dashboard/" URL
-        Route::name('dashboard::')->group(function () {
-            // Route assigned name "dashboard::"...
-
+Route::prefix('dashboard')->group(function () {
+    // Matches The "/dashboard/" URL
+    Route::name('dashboard::')->group(function () {
+        // Route assigned name "dashboard::"...
+        Route::namespace ('Dashboard')->group(function () {
+            // Controllers Within The "App\Http\Controllers\Dashboard" Namespace
             Route::get('/', 'IndexController@index')->name('index');
-
+            Route::resource('courses', 'CourseController');
+            Route::get('courses/detail/{id}', 'CourseController@showDetail')->name('courses.detail');
+            Route::get('courses/{coure_id}/addquiz/{quiz_id}', 'CourseController@addQuiz')->name('course.addquiz');
+            Route::get('courses/{coure_id}/removequiz/{quiz_id}', 'CourseController@removeQuiz')->name('course.removequiz');
+            Route::get('courses/{coure_id}/addStudent/{quiz_id}', 'CourseController@addStudent')->name('course.addstudent');
+            Route::get('courses/{coure_id}/removeStudent/{quiz_id}', 'CourseController@removeStudent')->name('course.removestudent');
+            Route::get('courses/{id}/disable', 'CourseController@disableCourse')->name('courses.disable');
+            Route::get('courses/{id}/enable', 'CourseController@enableCourse')->name('courses.enable');
+            Route::get('courses/{id}/public', 'CourseController@publicCourse')->name('courses.public');
+            Route::resource('quizzes', 'QuizController');
+            Route::get('quizzes/detail/{id}', 'QuizController@showDetail')->name('quizzes.detail');
+            Route::get('quizzes/{quiz_id}/removeQuestion/{question_id}', 'QuizController@removeQuestion')->name('quizzes.removeQuestion');
+            Route::get('quizzes/{id}/disable', 'QuizController@disableQuiz')->name('quizzes.disable');
+            Route::get('quizzes/{id}/enable', 'QuizController@enableQuiz')->name('quizzes.enable');
+            Route::get('quizzes/{id}/public', 'QuizController@publicQuiz')->name('quizzes.public');
+            Route::prefix('quiz')->group(function () {
+                Route::get('{quizid}', 'QuestionController@getListbyQuiz')->name('QuizQuestion.index');
+                Route::get('{quizid}/{questionID}/edit', 'QuestionController@editByQuiz')->name('QuizQuestion.edit');
+                Route::get('{quizid}/create', 'QuestionController@createByQuiz')->name('QuizQuestion.create');
+                Route::delete('{quizid}/{questionID}', 'QuestionController@destroyByQuiz')->name('QuizQuestion.destroy');
+                Route::post('{quizid}', 'QuestionController@storeByQuiz')->name('QuizQuestion.store');
+                Route::put('{quizid}/{questionID}', 'QuestionController@updateByQuiz')->name('QuizQuestion.update');
+            });
+            Route::resource('questions', 'QuestionController');
         });
     });
 });
@@ -121,8 +143,6 @@ Route::get('profile', 'ProfileController@showProfile')->name('profile');
 Route::post('profile', 'ProfileController@updateProfile')->name('profile.update');
 
 Route::get('{id}/{path}.html', 'PagesController@showVisual')->name('visual');
-
-Route::get('tranning', 'PagesController@showTranning')->name('tranning');
 
 Route::get('tranning/quiz/{id}', 'PagesController@showQuiz')->name('quiz');
 Route::post('tranning/quiz/{id}', 'QuizController@postQuiz')->name('sendQuiz');

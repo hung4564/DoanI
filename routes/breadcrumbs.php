@@ -47,12 +47,46 @@ Breadcrumbs::for('password-reset', function ($breadcrumbs) {
     $breadcrumbs->push('Reset Password', route('password.reset'));
 });
 
+$resources = [
+  'users' => 'Users',
+  'categories' => 'Categories',
+  'visuals' => 'Visuals',
+  'quizzes'=>'Quiz',
+  'questions'=>'Question',
+  'courses'=>'Course',
+];
+
 // Home > Dashboard
 Breadcrumbs::for('dashboard', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Dashboard', route('dashboard::index'));
 });
+// Home > Dashboard > {Resource} > {List|Edit|Create}
+foreach ($resources as $resource => $data) {
+  $parent = 'dashboard';
+  $title = $data;
+  if (is_array($data)) {
+      $title = $data['title'];
+      $parent = $data['parent'];
+  }
+  $resource = 'dashboard::' . $resource;
 
+  // List
+  Breadcrumbs::for($resource, function ($breadcrumbs) use ($resource, $title, $parent) {
+      $breadcrumbs->parent($parent);
+      $breadcrumbs->push($title, route($resource . '.index'));
+  });
+  // Create
+  Breadcrumbs::for($resource . '.create', function ($breadcrumbs) use ($resource) {
+      $breadcrumbs->parent($resource);
+      $breadcrumbs->push('Create', route($resource . '.create'));
+  });
+  // Edit
+  Breadcrumbs::for($resource . '.edit', function ($breadcrumbs, $id) use ($resource) {
+      $breadcrumbs->parent($resource);
+      $breadcrumbs->push('Edit', route($resource . '.edit', $id));
+  });
+}
 // Home > Dashboard > Profile
 Breadcrumbs::for('profile', function ($breadcrumbs) {
     $breadcrumbs->parent('dashboard');
@@ -66,14 +100,6 @@ Breadcrumbs::for('admin', function ($breadcrumbs) {
 });
 
 // Home > Admin > {Resource} > {List|Edit|Create}
-$resources = [
-    'users' => 'Users',
-    'categories' => 'Categories',
-    'visuals' => 'Visuals',
-    'quizzes'=>'Quiz',
-    'questions'=>'Question',
-    'courses'=>'Course',
-];
 foreach ($resources as $resource => $data) {
     $parent = 'admin';
     $title = $data;
@@ -122,7 +148,16 @@ Breadcrumbs::for('admin::courses.detail', function ($breadcrumbs,$courseID) {
   $breadcrumbs->push('Detail', route('admin::courses.detail',[$courseID]));
 });
 
+Breadcrumbs::for('dashboard::courses.detail', function ($breadcrumbs,$courseID) {
+  $breadcrumbs->parent('dashboard::courses');
+  $breadcrumbs->push('Detail', route('dashboard::courses.detail',[$courseID]));
+});
+
 Breadcrumbs::for('admin::quizzes.detail', function ($breadcrumbs,$quizID) {
   $breadcrumbs->parent('admin::quizzes');
   $breadcrumbs->push('Detail', route('admin::quizzes.detail',[$quizID]));
+});
+Breadcrumbs::for('dashboard::quizzes.detail', function ($breadcrumbs,$quizID) {
+  $breadcrumbs->parent('dashboard::quizzes');
+  $breadcrumbs->push('Detail', route('dashboard::quizzes.detail',[$quizID]));
 });

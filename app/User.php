@@ -43,7 +43,15 @@ class User extends Authenticatable
     {
         return $this->Teacher();
     }
-    public function Quizzes(){
+    public function Courses()
+    {
+      if($this->isTeacher()){
+        return $this->hasMany('App\Course','teacher_id');
+      }
+
+    }
+    public function Quizzes()
+    {
         return $this->belongsToMany('App\Quiz');
     }
     /**
