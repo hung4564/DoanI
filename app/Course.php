@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     protected $fillable = [
-        'name', 'teacher_id','code_invite','detail'
+        'name', 'teacher_id','code_invite','detail','status_id'
     ];
     public function Students(){
       return $this->belongsToMany('App\User')->wherePivot('status_id',1);;

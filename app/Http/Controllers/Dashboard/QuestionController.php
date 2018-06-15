@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Question;
 use App\Quiz;
 use App\Traits\Controllers\ResourceController;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
@@ -15,12 +17,12 @@ class QuestionController extends Controller
     /**
      * @var string
      */
-    protected $resourceAlias = 'admin.questions';
+    protected $resourceAlias = 'dashboard.questions';
 
     /**
      * @var string
      */
-    protected $resourceRoutesAlias = 'admin::questions';
+    protected $resourceRoutesAlias = 'dashboard::questions';
 
     /**
      * Fully qualified class name
@@ -78,6 +80,7 @@ class QuestionController extends Controller
     {
         $creating = is_null($record);
         $values = [];
+        $values['user_id'] = auth()->user()->id;
         $values['name'] = $request->input('name', '');
         $values['question_type'] = $request->input('question_type', '');
         if ($values['question_type'] == 0) {
@@ -91,7 +94,6 @@ class QuestionController extends Controller
         }
         $values['answer'] = $request->input('answer', '');
         $values['points'] = $request->input('points', '1');
-        $values['user_id'] = Auth::user()->id;
         return $values;
     }
 
@@ -114,12 +116,12 @@ class QuestionController extends Controller
     private function getSearchRecords(Request $request, $show = 15, $search = null)
     {
         if (!empty($search)) {
-            return $this->getResourceModel()::where('name', 'like' ,'%'.$search.'%')->paginate($show);
+            return $this->getResourceModel()::where('name', 'like', '%' . $search . '%')->paginate($show);
         }
         if ($this->quizID != null) {
             return Quiz::findOrFail($this->quizID)->Questions()->paginate($show);
         }
-        return $this->getResourceModel()::paginate($show);
+        return User::find(Auth::user()->id)->Questions()->paginate($show);
     }
     public function getListbyQuiz(Request $request, $quizID)
     {
@@ -156,7 +158,7 @@ class QuestionController extends Controller
         if ($this->quizID != null) {
             $data['resourceTitle'] = Quiz::findOrFail($this->quizID)->name;
             $data['quizID'] = $this->quizID;
-            $data['resourceRoutesAlias'] = "admin::QuizQuestion";
+            $data['resourceRoutesAlias'] = "dashboard::QuizQuestion";
         }
         return $data;
     }
@@ -164,7 +166,7 @@ class QuestionController extends Controller
     {
         if ($this->quizID != null) {
             $data['quizID'] = $this->quizID;
-            $data['resourceRoutesAlias'] = "admin::QuizQuestion";
+            $data['resourceRoutesAlias'] = "dashboard::QuizQuestion";
         }
         return $data;
     }
@@ -172,14 +174,14 @@ class QuestionController extends Controller
     {
         if ($this->quizID != null) {
             $data['quizID'] = $this->quizID;
-            $data['resourceRoutesAlias'] = "admin::QuizQuestion";
+            $data['resourceRoutesAlias'] = "dashboard::QuizQuestion";
         }
         return $data;
     }
     private function getRedirectAfterSave($record)
     {
         if ($this->quizID != null) {
-            return redirect(route('admin::QuizQuestion.index', [$this->quizID]));
+            return redirect(route('dashboard::QuizQuestion.index', [$this->quizID]));
         }
 
         return redirect(route($this->getResourceRoutesAlias() . '.index'));

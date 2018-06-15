@@ -2,8 +2,9 @@
 
 namespace App\Policies;
 
-use App\Traits\Policies\Policy;
 use App\Quiz;
+use App\Traits\Policies\Policy;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class QuizPolicy
@@ -13,7 +14,7 @@ class QuizPolicy
         Quiz::class => QuizPolicy::class,
     ];
     use Policy;
-    
+
     public function addQuestion(User $user, $model)
     {
         return $user->isAdmin();
