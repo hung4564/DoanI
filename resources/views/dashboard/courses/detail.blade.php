@@ -151,7 +151,7 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
               <th style="width: 100px;">Action</th>
             </thead>
             <tbody>
-              @foreach ($students as $student)
+              @foreach ($record->Students as $student)
                 <?php
                   $tableCounter++;
                 ?>
@@ -178,10 +178,10 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
     @else
         <p class="margin-l-5 lead text-green">No records found.</p>
     @endif
+  </div>
+<!-- /.box-body -->
 </div>
-  <!-- /.box-body -->
-</div>
-<!-- /.box -->
+<!-- /.box student -->
 <div class="box">
   <div class="box-header with-border">
     <h3 class="box-title">Course Quiz</h3>
@@ -243,7 +243,7 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
   </div>
   <!-- /.box-body -->
 </div>
-<!-- /.box -->
+<!-- /.box quiz -->
 <div class="modal fade" id="modal-addquiz">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -256,11 +256,15 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
         <label for="">Quiz Id:</label>
         <input type="text" name="" id="idQuiz">
         @can('addQuiz', $record)
+        <button type="button" class="btn btn-primary" onclick="getInfoQuiz()"><i class="fa fa-plus"></i></button>
         @endcan
+        <div id="resultQuiz" >
+
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" onclick="addQuiz()">Add Quiz</button>
       </div>
     </div>
     <!-- /.modal-content -->
@@ -277,11 +281,18 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
         <h4 class="modal-title">Add Student</h4>
       </div>
       <div class="modal-body">
+        <label for="">Student Id:</label>
+        <input type="text" name="" id="idStudent">
+        @can('addStudent', $record)
+        <button type="button" class="btn btn-primary" onclick="getInfoStudent()"><i class="fa fa-plus"></i></button>
+        @endcan
+        <div id="resultStudent" >
 
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" onclick="addStudent()">Add Student</button>
       </div>
     </div>
     <!-- /.modal-content -->
@@ -294,13 +305,49 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
 {{-- Footer Extras to be Included --}}
 @section('footer-extras')
 <script>
-  function gettext(idtext)
+  function getInfoQuiz()
   {
-  var id = document.getElementById(idtext).value;
-  return id;
+    var quizId=$('#idQuiz').val();
+    if(quizId!=""){
+      $.ajax({
+            type:'get',
+            url:'/ajax/quiz/'+ quizId,
+            success:function(data){
+              $('#resultQuiz').html(data);
+            }
+        });
+    }
+    else {
+      $('#resultQuiz').html("input the quiz id first");
+    }
   }
-  function gohome(){
-    return {{route('home')}};
+  function addQuiz(){
+    var url= "{{route('dashboard::course.addquiz',[$record->id,"#link"])}}";
+    var quizId=$('#idQuiz').val();
+    url = url.replace("#link", quizId);
+    location.href=url;
+  }
+  function getInfoStudent()
+  {
+     var studentID=$('#idStudent').val();
+    if(studentID!=""){
+      $.ajax({
+            type:'get',
+            url:'/ajax/student/'+ studentID,
+            success:function(data){
+              $('#resultStudent').html(data);
+            }
+        });
+    }
+    else {
+      $('#resultStudent').html("input the quiz id first");
+    }
+  }
+  function addStudent(){
+    var url= "{{route('dashboard::course.addstudent',[$record->id,"#link"])}}";
+    var studentId=$('#idStudent').val();
+    url = url.replace("#link", studentId);
+    location.href=url;
   }
 </script>
 @endsection

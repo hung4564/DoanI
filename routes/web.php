@@ -146,3 +146,9 @@ Route::get('{id}/{path}.html', 'PagesController@showVisual')->name('visual');
 
 Route::get('tranning/quiz/{id}', 'PagesController@showQuiz')->name('quiz');
 Route::post('tranning/quiz/{id}', 'QuizController@postQuiz')->name('sendQuiz');
+
+//ajax
+Route::get('ajax/quiz/{id}','AjaxController@getInfoQuiz')->name('ajax.quiz');
+Route::get('ajax/student/{id}','AjaxController@getInfoStudent')->name('ajax.student');
+
+Route::get('ajax/test','AjaxController@test')->name('ajax.test');

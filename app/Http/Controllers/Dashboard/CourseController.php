@@ -97,7 +97,7 @@ class CourseController extends Controller
         $values['code_invite'] = $request->input('code_invite', '');
         $values['name'] = $request->input('name', '');
         $values['detail'] = $request->input('detail', '');
-        $values['status_id'] = (int)$request->input('status', 0);
+        $values['status_id'] = (int) $request->input('status', 0);
         if ((int) $values['status_id'] == 1) {
             $values['code_invite'] = "";
         } else {
@@ -131,7 +131,7 @@ class CourseController extends Controller
         $record = Course::findOrFail($id);
         $students = $record->Students();
         $quizzes = $record->Quizzes();
-        return view('dashboard.courses.detail', ['record' => $record, 'students' => $students,'quizzes'=>$quizzes]);
+        return view('dashboard.courses.detail', ['record' => $record, 'students' => $students, 'quizzes' => $quizzes]);
     }
     public function addQuiz($course_id, $quiz_id)
     {
@@ -148,7 +148,13 @@ class CourseController extends Controller
     public function addStudent($course_id, $user_id)
     {
         $record = $this->getResourceModel()::findOrFail($course_id);
-        $record->Students_wait()->sync([$user_id => ['status_id' => 1]]);
+        if ($record->Students_wait->contains('id', $user_id)) {
+            $record->Students_wait()->sync([$user_id => ['status_id' => 1]]);
+        }
+        if (!$record->Students->contains('id', $user_id)) {
+            $record->Students()->sync([$user_id => ['status_id' => 1]]);
+        }
+
         return redirect()->back();
     }
     public function removeStudent($course_id, $user_id)
