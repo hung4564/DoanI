@@ -12,12 +12,6 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
         <ul class="nav navbar-nav">
-          @if (Route::has('tranning'))
-          <li><a href="{{route('tranning') }}">Tranning</a></li>
-          @endif
-          @if (Route::has('transtion'))
-          <li><a href="{{route('transtion') }}">Transtion</a></li>
-          @endif
         </ul>
       </div>
       <!-- /.navbar-collapse -->
@@ -43,10 +37,7 @@
 
             <ul class="dropdown-menu" role="menu">
               <li>
-                <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
+                <a href="{{ route('logout') }}" onclick="event.preventDefault();                                                 document.getElementById('logout-form').submit();">Logout</a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   {{ csrf_field() }}

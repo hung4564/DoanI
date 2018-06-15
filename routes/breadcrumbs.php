@@ -143,6 +143,22 @@ Breadcrumbs::for('admin::QuizQuestion.edit', function ($breadcrumbs,$quizID,$que
   $breadcrumbs->push('Edit', route('admin::QuizQuestion.edit',[$quizID,$questionID]));
 });
 
+// Home > dashboard > Quiz > Question >
+Breadcrumbs::for('dashboard::QuizQuestion', function ($breadcrumbs,$quizID) {
+  $breadcrumbs->parent('dashboard::quizzes');
+  $breadcrumbs->push('Question', route('dashboard::QuizQuestion.index',$quizID));
+});
+// Home > dashboard > Quiz > Question > Create
+Breadcrumbs::for('dashboard::QuizQuestion.create', function ($breadcrumbs,$quizID) {
+  $breadcrumbs->parent('dashboard::QuizQuestion',$quizID);
+  $breadcrumbs->push('Create', route('dashboard::QuizQuestion.create',$quizID));
+});
+// Home > dashboard > Quiz > Question > Edit
+Breadcrumbs::for('dashboard::QuizQuestion.edit', function ($breadcrumbs,$quizID,$questionID) {
+  $breadcrumbs->parent('dashboard::QuizQuestion',$quizID);
+  $breadcrumbs->push('Edit', route('dashboard::QuizQuestion.edit',[$quizID,$questionID]));
+});
+
 Breadcrumbs::for('admin::courses.detail', function ($breadcrumbs,$courseID) {
   $breadcrumbs->parent('admin::courses');
   $breadcrumbs->push('Detail', route('admin::courses.detail',[$courseID]));

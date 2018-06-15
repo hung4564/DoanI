@@ -19,7 +19,7 @@ to be Included --}}
     <!-- small box -->
     <div class="small-box bg-aqua">
       <div class="inner">
-        <h3>{{ $reports->getTotalUsers() }}</h3>
+        <h3>{{ $reports->getTotalCourseByUser(Auth::user()->id) }}</h3>
         <p>Users</p>
       </div>
       <div class="icon">
@@ -47,21 +47,6 @@ to be Included --}}
   <!-- ./col -->
   <div class="col-lg-3 col-xs-6">
     <!-- small box -->
-    <div class="small-box bg-yellow">
-      <div class="inner">
-        <h3>{{ $reports->getTotalVisual()}}</h3>
-
-        <p>Visual</p>
-      </div>
-      <div class="icon">
-        <i class="ion ion-person-add"></i>
-      </div>
-      <a href="{{ route('admin::visuals.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-    </div>
-  </div>
-  <!-- ./col -->
-  <div class="col-lg-3 col-xs-6">
-    <!-- small box -->
     <div class="small-box bg-red">
       <div class="inner">
         <h3>{{ $reports->getTotalQuiz()}}</h3>
@@ -81,7 +66,7 @@ to be Included --}}
       <div class="inner">
         <h3>{{ $reports->getTotalQuiz()}}</h3>
 
-        <p>Quiz</p>
+        <p>Questions</p>
       </div>
       <div class="icon">
         <i class="ion ion-pie-graph"></i>

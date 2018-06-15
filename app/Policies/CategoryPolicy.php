@@ -2,8 +2,9 @@
 
 namespace App\Policies;
 
-use App\Traits\Policies\Policy;
 use App\Category;
+use App\User;
+use App\Traits\Policies\Policy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CategoryPolicy
@@ -13,4 +14,9 @@ class CategoryPolicy
         Category::class => CategoryPolicy::class,
     ];
     use Policy;
+
+    public function viewList(User $user)
+    {
+        return $user->isAdmin();
+    }
 }
