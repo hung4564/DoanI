@@ -21,7 +21,7 @@ trait Policy
    */
   public function viewList(User $user)
   {
-      return $user->isAdmin();
+      return $user->isTeacher();
   }
   /**
    * Xác định xem người dùng có thể xem hay không.
@@ -32,7 +32,7 @@ trait Policy
    */
   public function view(User $user, $model)
   {
-      return $user->isAdmin();
+      return $user->isTeacher();
   }
 
   /**
@@ -43,7 +43,7 @@ trait Policy
    */
   public function create(User $user)
   {
-      return $user->isAdmin();
+      return $user->isTeacher();
   }
 
   /**
@@ -55,7 +55,7 @@ trait Policy
    */
   public function update(User $user, $model)
   {
-      return $user->isAdmin();
+      return $user->isTeacher();
   }
 
   /**
@@ -67,6 +67,6 @@ trait Policy
    */
   public function delete(User $user, $model)
   {
-      return $user->isAdmin();
+      return $user->isTeacher();
   }
 }
