@@ -11,8 +11,15 @@
 {!! Breadcrumbs::render('home') !!}
 @endsection
 
+{{-- Header Extras to be Included --}}
+@section('head-extras')
+
+@endsection
+
 @section('content')
-@foreach(\App\Visual::all() as $visual)
-@include('layouts.partials.frontend.item',['visual'=>$visual])    
+<div class="row">
+@foreach($records as $record)
+@include('layouts.partials.frontend.item',['Course'=>$record])
 @endforeach
+</div>
 @endsection

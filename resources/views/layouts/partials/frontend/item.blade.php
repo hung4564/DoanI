@@ -1,17 +1,12 @@
-<!-- item -->
-<div class=" col-sm-6 col-md-4 col-lg-3">
-  <div class="col-md-12">
-    <a href="{{route('visual',['id'=>$visual->id,'path'=>$visual->path])}}">
-          <img class="img-responsive" src="image/320x150.png" alt="{{route('visual',['id'=>$visual->id,'path'=>$visual->path])}}">
-      </a>
-  </div>
-  <div class="col-md-12">
-    <a href="{{route('visual',['id'=>$visual->id,'path'=>$visual->path])}}"><strong>{{$visual->name}}</strong></a>
-  </div>
-
-  <div class="col-md-12">
-    @foreach($visual->Categories as $category)
-    <button type="button" class="btn btn-default btn-xs">{{$category->name}}</button> @endforeach
-  </div>
+<div class="col-md-3 text-center">
+    <div class="box">
+        <div class="box-content no-padding">
+          <img class="img-responsive" src="image/320x150.png" alt="" height="150px">
+          {{$Course->name}}<br />
+          <small>{{$Course->Teacher->name}}</small>
+          <hr />
+          <p>{!!$Course->detail!!}</p>
+          <a href="{{route('course.detail',[$Course->id])}}" class="btn btn-primary btn-block">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
 </div>
-<!-- end item -->

@@ -41,34 +41,39 @@ class User extends Authenticatable
      */
     public function isTeacher()
     {
-        return $this->Teacher();
+        return $this->Teacher()->exists();
     }
     public function Courses()
     {
-      if($this->isTeacher()){
-        return $this->hasMany('App\Course','teacher_id');
-      }
+        if ($this->isTeacher()) {
+            return $this->hasMany('App\Course', 'teacher_id');
+        }
     }
-    public function Questions(){
-      return $this->hasMany('App\Question');
+    public function inCourse()
+    {
+        return $this->belongsToMany('App\Course');
+    }
+    public function Questions()
+    {
+        return $this->hasMany('App\Question');
     }
     public function Quizzes()
     {
         return $this->belongsToMany('App\Quiz');
     }
-    /**
-     * @return string
-     */
     public function getLogoPath()
     {
         return Utils::logoPath($this->logo_number);
     }
-
-    /**
-     * @return mixed
-     */
     public function getRecordTitle()
     {
         return $this->name;
+    }
+    public function haveCourse($idCourse)
+    {
+        if ($this->inCourse()->exists()) {
+            return $this->inCourse->contains($idCourse);
+        }
+        return false;
     }
 }

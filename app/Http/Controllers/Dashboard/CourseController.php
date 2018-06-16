@@ -129,9 +129,7 @@ class CourseController extends Controller
     public function showDetail($id, $show = 15)
     {
         $record = Course::findOrFail($id);
-        $students = $record->Students();
-        $quizzes = $record->Quizzes();
-        return view('dashboard.courses.detail', ['record' => $record, 'students' => $students, 'quizzes' => $quizzes]);
+        return view('dashboard.courses.detail', ['record' => $record]);
     }
     public function addQuiz($course_id, $quiz_id)
     {
@@ -176,5 +174,10 @@ class CourseController extends Controller
     {
         Course::whereId($id)->update(['status_id' => 1]);
         return redirect()->back();
+    }
+    public function listCourse()
+    {
+        $records = Auth::user()->inCourse;
+        return view('dashboard.courses.list', ['records'=>$records] );
     }
 }

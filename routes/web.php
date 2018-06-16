@@ -109,6 +109,7 @@ Route::prefix('dashboard')->group(function () {
         Route::namespace ('Dashboard')->group(function () {
             // Controllers Within The "App\Http\Controllers\Dashboard" Namespace
             Route::get('/', 'IndexController@index')->name('index');
+
             Route::resource('courses', 'CourseController');
             Route::get('courses/detail/{id}', 'CourseController@showDetail')->name('courses.detail');
             Route::get('courses/{coure_id}/addquiz/{quiz_id}', 'CourseController@addQuiz')->name('course.addquiz');
@@ -118,12 +119,15 @@ Route::prefix('dashboard')->group(function () {
             Route::get('courses/{id}/disable', 'CourseController@disableCourse')->name('courses.disable');
             Route::get('courses/{id}/enable', 'CourseController@enableCourse')->name('courses.enable');
             Route::get('courses/{id}/public', 'CourseController@publicCourse')->name('courses.public');
+            Route::get('courseslist', 'CourseController@listCourse')->name('courses.listCourses');
+
             Route::resource('quizzes', 'QuizController');
             Route::get('quizzes/detail/{id}', 'QuizController@showDetail')->name('quizzes.detail');
             Route::get('quizzes/{quiz_id}/removeQuestion/{question_id}', 'QuizController@removeQuestion')->name('quizzes.removeQuestion');
             Route::get('quizzes/{id}/disable', 'QuizController@disableQuiz')->name('quizzes.disable');
             Route::get('quizzes/{id}/enable', 'QuizController@enableQuiz')->name('quizzes.enable');
             Route::get('quizzes/{id}/public', 'QuizController@publicQuiz')->name('quizzes.public');
+
             Route::prefix('quiz')->group(function () {
                 Route::get('{quizid}', 'QuestionController@getListbyQuiz')->name('QuizQuestion.index');
                 Route::get('{quizid}/{questionID}/edit', 'QuestionController@editByQuiz')->name('QuizQuestion.edit');
@@ -132,6 +136,7 @@ Route::prefix('dashboard')->group(function () {
                 Route::post('{quizid}', 'QuestionController@storeByQuiz')->name('QuizQuestion.store');
                 Route::put('{quizid}/{questionID}', 'QuestionController@updateByQuiz')->name('QuizQuestion.update');
             });
+
             Route::resource('questions', 'QuestionController');
         });
     });
@@ -142,13 +147,13 @@ Route::prefix('dashboard')->group(function () {
 Route::get('profile', 'ProfileController@showProfile')->name('profile');
 Route::post('profile', 'ProfileController@updateProfile')->name('profile.update');
 
-Route::get('{id}/{path}.html', 'PagesController@showVisual')->name('visual');
-
-Route::get('tranning/quiz/{id}', 'PagesController@showQuiz')->name('quiz');
-Route::post('tranning/quiz/{id}', 'QuizController@postQuiz')->name('sendQuiz');
-
 //ajax
-Route::get('ajax/quiz/{id}','AjaxController@getInfoQuiz')->name('ajax.quiz');
-Route::get('ajax/student/{id}','AjaxController@getInfoStudent')->name('ajax.student');
+Route::get('ajax/quiz/{id}', 'AjaxController@getInfoQuiz')->name('ajax.quiz');
+Route::get('ajax/student/{id}', 'AjaxController@getInfoStudent')->name('ajax.student');
 
-Route::get('ajax/test','AjaxController@test')->name('ajax.test');
+Route::get('ajax/test', 'AjaxController@test')->name('ajax.test');
+
+Route::get('course/{id}/detail.html', 'PagesController@showCourse')->name('course.detail');
+Route::get('enrollment/{id}', 'CourseController@Enrollment')->name('enrollment');
+Route::get('quiz/{idCourse}/{idQuiz}/do.html','PagesController@showQuiz')->name('quiz.do');
+Route::post('sendQuiz','QuizController@postQuiz')->name('sendQuiz');

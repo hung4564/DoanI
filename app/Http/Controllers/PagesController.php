@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
+use App\Quiz;
+use Illuminate\Support\Facades\Auth;
+
 class PagesController extends Controller
 {
     /**
@@ -11,22 +15,32 @@ class PagesController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $Courses = Course::where('status_id', '1')->get();
+        return view('welcome', ['records' => $Courses]);
     }
-
-    public function showVisual($visualid, $visualpath)
+    public function showCourse($id)
     {
-        $visual = \App\Visual::find($visualid);
-        return view('visual', ['visual' => $visual]);
+        $Course = Course::find($id);
+        if (Auth::check()) {
+            if (Auth::id() == $Course->Teacher->id || Auth::user()->haveCourse($id)) {
+                return view('incourse', ['course' => $Course]);
+            }
+        }
+        return view('course', ['course' => $Course]);
     }
-    public function showTranning()
+    public function showQuiz($idCourse, $idQuiz)
     {
-        $quizzes = \App\Quiz::All()->where('status', '=', '1');
-        return view('tranning', ['quizzes' => $quizzes]);
-    }
-    public function showQuiz($id)
-    {
-        $quiz = \App\Quiz::find($id);
-        return view('quiz', ['quiz' => $quiz]);
+        if (!Auth::check()) {
+            return redirect(route('login'));
+        } else {
+            if (Auth::user()->haveCourse($idCourse)) {
+                $course = Course::find($idCourse);
+                if ($course->haveQuestion($idQuiz)) {
+                    $quiz = Quiz::find($idQuiz);
+                    return view('quiz', ['quiz' => $quiz]);
+                }
+            }
+        }
+        return redirect(route('home'));
     }
 }
