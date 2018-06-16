@@ -1,7 +1,6 @@
 <!-- sidebar menu: : style can be found in sidebar.less -->
 <?php
-$route_name=Route::currentRouteName();
-$route_name= substr($route_name,0, strpos($route_name, '::')+2);
+$route_name= Auth::user()->isAdmin() ? "admin::":"dashboard::";
 ?>
 <ul class="sidebar-menu" data-widget="tree">
     <li class="header">MAIN NAVIGATION</li>
