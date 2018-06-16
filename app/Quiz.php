@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Quiz extends Model
 {
     protected $fillable = [
-        'name', 'status', 'visual_id',
+        'name', 'status', 'countdown_s','level','course_id'
     ];
     public function Visual()
     {
