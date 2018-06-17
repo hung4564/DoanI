@@ -46,6 +46,7 @@ class QuizController extends Controller
         return [
             'rules' => [
                 'name' => 'required|min:3|',
+                'countdown_s'=>'required',
             ],
             'messages' => [],
             'attributes' => [],
@@ -64,6 +65,7 @@ class QuizController extends Controller
         return [
             'rules' => [
                 'name' => 'required|min:3|',
+                'countdown_s'=>'required',
             ],
             'messages' => [],
             'attributes' => [],
@@ -82,6 +84,9 @@ class QuizController extends Controller
         $values['name'] = $request->input('name', '');
         $values['visual_id'] = $request->input('visual', '1');
         $values['status'] = $request->input('status', '0');
+        $values['countdown_s'] = $request->input('countdown_s', '0');
+        $values['level'] = $request->input('level', '0');
+
         return $values;
     }
 
@@ -99,12 +104,17 @@ class QuizController extends Controller
             return $this->getResourceModel()::where('name', 'like', '%' . $search . '%')->paginate($show);
         }
 
-        return User::find(Auth::user()->id)->Quizzes()->paginate($show);
+        return Auth::user()->Quizzes()->paginate($show);
     }
-
+    private function updateRelations(Request $request, $id)
+    {
+      $record = $this->getResourceModel()::findOrFail($id);
+      $record->Teachers()->sync(Auth::id());
+    }
     private function detroyRelations($id)
     {
         $record = $this->getResourceModel()::findOrFail($id);
+        $record->Teachers()->detach();
         $record->Questions()->detach();
         $record->Visual()->detach();
     }

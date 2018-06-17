@@ -86,7 +86,7 @@ class QuestionController extends Controller
         if ($values['question_type'] == 0) {
             $values['choices'] = "";
         } else if ($values['question_type'] == 1) {
-            $values['choices'] = "True;False";
+            $values['choices'] = "False;True";
         } else if ($values['question_type'] == 2) {
             $answers = $request->input('choices', '');
             $answer = implode(";", $answers);
