@@ -48,7 +48,7 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> @yield('head-extras')
 
-  @yield('header-extras') 
+  @yield('header-extras')
 </head>
 
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
@@ -59,7 +59,7 @@
   @include('layouts.partials.frontend.header')
 
     <!-- Full Width Column -->
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="background-color: white;">
       <div class="container">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -83,15 +83,6 @@
       <!-- /.container -->
     </div>
     <!-- /.content-wrapper -->
-
-    @auth
-    <footer class="main-footer">
-      <div class="pull-right hidden-xs">
-        <b>Version</b> {{ config('adminlte.version') }}
-      </div>
-      <strong>Copyright &copy; {{ date('Y') }}. {!! config('adminlte.credits') !!}</strong>. All rights reserved.
-    </footer>
-    @endauth
   </div>
   <!-- ./wrapper -->
 
@@ -134,7 +125,7 @@
             })(jQuery);
   </script>
 
-  @yield('footer-extras') 
+  @yield('footer-extras')
   @stack('footer-scripts')
 </body>
 

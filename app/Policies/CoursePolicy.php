@@ -34,4 +34,10 @@ class CoursePolicy
     {
         return $user->isTeacher();
     }
+    public function viewListInCoursse(User $user){
+      return true;
+    }
+    public function coursesEnrollemnt(User $user){
+      return true;
+    }
 }

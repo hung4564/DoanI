@@ -51,4 +51,19 @@ $route_name= Auth::user()->isAdmin() ? "admin::":"dashboard::";
             </a>
         </li>
     @endif
+    @if (Auth::user()->can('viewListInCoursse', \App\Course::class))
+        <li class="{{ \App\Utils::checkRoute([$route_name.'courses.listCourses', $route_name.'courses.enrollment']) ? 'active': '' }}">
+            <a href="{{ route($route_name.'courses.listCourses') }}">
+                <i class="fa  fa-cubes"></i> <span>My Courses</span>
+            </a>
+        </li>
+    @endif
+
+    @if (Auth::user()->can('coursesEnrollemnt', \App\Course::class))
+        <li class="{{ \App\Utils::checkRoute([$route_name.'courses.enrollment']) ? 'active': '' }}">
+            <a href="{{ route($route_name.'courses.enrollment') }}">
+                <i class="fa  fa-plus"></i> <span>My Courses</span>
+            </a>
+        </li>
+    @endif
 </ul>

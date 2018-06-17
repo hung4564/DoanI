@@ -159,21 +159,32 @@ Breadcrumbs::for('dashboard::QuizQuestion.edit', function ($breadcrumbs,$quizID,
   $breadcrumbs->push('Edit', route('dashboard::QuizQuestion.edit',[$quizID,$questionID]));
 });
 
+// Home > Admin > Course > Detail
 Breadcrumbs::for('admin::courses.detail', function ($breadcrumbs,$courseID) {
   $breadcrumbs->parent('admin::courses');
   $breadcrumbs->push('Detail', route('admin::courses.detail',[$courseID]));
 });
 
+// Home > Dashboard > Course > Detail
 Breadcrumbs::for('dashboard::courses.detail', function ($breadcrumbs,$courseID) {
   $breadcrumbs->parent('dashboard::courses');
   $breadcrumbs->push('Detail', route('dashboard::courses.detail',[$courseID]));
 });
 
+// Home > Admin > Quiz > Detail
 Breadcrumbs::for('admin::quizzes.detail', function ($breadcrumbs,$quizID) {
   $breadcrumbs->parent('admin::quizzes');
   $breadcrumbs->push('Detail', route('admin::quizzes.detail',[$quizID]));
 });
+
+// Home > Dashboard > Quiz > Detail
 Breadcrumbs::for('dashboard::quizzes.detail', function ($breadcrumbs,$quizID) {
   $breadcrumbs->parent('dashboard::quizzes');
   $breadcrumbs->push('Detail', route('dashboard::quizzes.detail',[$quizID]));
+});
+
+// Home > Dashboard > Course > List
+Breadcrumbs::for('dashboard::courses.list', function ($breadcrumbs) {
+  $breadcrumbs->parent('dashboard');
+  $breadcrumbs->push('List', route('dashboard::courses.listCourses'));
 });

@@ -175,9 +175,53 @@ class CourseController extends Controller
         Course::whereId($id)->update(['status_id' => 1]);
         return redirect()->back();
     }
-    public function listCourse()
+    public function listCourse(Request $request)
     {
-        $records = Auth::user()->inCourse;
-        return view('dashboard.courses.list', ['records'=>$records] );
+        $paginatorData = [];
+        $show = (int) $request->input('show', '');
+        $show = (is_numeric($show) && $show > 0 && $show <= 100) ? $show : 15;
+        if ($show != 15) {
+            $paginatorData['show'] = $show;
+        }
+        $search = trim($request->input('search', ''));
+        if (!empty($search)) {
+            $paginatorData['search'] = $search;
+        }
+        if (!empty($search)) {
+            $records = Auth::user()->inCourse()->where('name', 'like', '%' . $search . '%')->paginate($show);
+        } else {
+            $records = Auth::user()->inCourse()->paginate($show);
+        }
+
+        $records->appends($paginatorData);
+        return view('dashboard.courses.list', $this->filterSearchViewData($request, [
+            'records' => $records,
+            'search' => $search,
+            'resourceAlias' => $this->getResourceAlias(),
+            'resourceRoutesAlias' => $this->getResourceRoutesAlias(),
+            'resourceTitle' => $this->getResourceTitle(),
+        ]));
+    }
+    public function coursesEnrollemnt(Request $request)
+    {
+        return view('dashboard.courses.enrollemnt', $this->filterSearchViewData($request, [
+            'resourceAlias' => $this->getResourceAlias(),
+            'resourceRoutesAlias' => $this->getResourceRoutesAlias(),
+            'resourceTitle' => $this->getResourceTitle(),
+        ]));
+    }
+    public function postEnrollemnt(Request $request)
+    {
+        $code_invite = $request->input('code_invite', '');
+        if ($code_invite != "") {
+            $course = Course::where('code_invite',"=", $code_invite);
+            if ($course->status_id == 1) {
+                $course->Students()->sync([Auth::id() => ['status_id' => 1]]);
+                return redirect()->back();
+            } else {
+                $course->Students()->sync([Auth::id() => ['status_id' => 0]]);
+                return redirect()->back();
+            }
+        }
     }
 }
