@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Question;
 use App\Quiz;
 use App\Traits\Controllers\ResourceController;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
@@ -78,12 +80,13 @@ class QuestionController extends Controller
     {
         $creating = is_null($record);
         $values = [];
+        $values['user_id'] = auth()->user()->id;
         $values['name'] = $request->input('name', '');
         $values['question_type'] = $request->input('question_type', '');
         if ($values['question_type'] == 0) {
             $values['choices'] = "";
         } else if ($values['question_type'] == 1) {
-            $values['choices'] = "True;False";
+            $values['choices'] = "False;True";
         } else if ($values['question_type'] == 2) {
             $answers = $request->input('choices', '');
             $answer = implode(";", $answers);
@@ -91,7 +94,6 @@ class QuestionController extends Controller
         }
         $values['answer'] = $request->input('answer', '');
         $values['points'] = $request->input('points', '1');
-        $values['user_id'] = Auth::user()->id;
         return $values;
     }
 
@@ -114,12 +116,13 @@ class QuestionController extends Controller
     private function getSearchRecords(Request $request, $show = 15, $search = null)
     {
         if (!empty($search)) {
-            return $this->getResourceModel()::where('name', 'like' ,'%'.$search.'%')->paginate($show);
+            return $this->getResourceModel()::where('name', 'like', '%' . $search . '%')->paginate($show);
         }
         if ($this->quizID != null) {
             return Quiz::findOrFail($this->quizID)->Questions()->paginate($show);
         }
         return $this->getResourceModel()::paginate($show);
+
     }
     public function getListbyQuiz(Request $request, $quizID)
     {

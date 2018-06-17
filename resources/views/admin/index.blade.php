@@ -19,7 +19,7 @@ to be Included --}}
     <!-- small box -->
     <div class="small-box bg-aqua">
       <div class="inner">
-        <h3>{{ $reports->getTotalCourseByUser(Auth::user()->id) }}</h3>
+        <h3>{{ $reports->getTotalUsers() }}</h3>
         <p>Users</p>
       </div>
       <div class="icon">

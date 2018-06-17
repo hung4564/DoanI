@@ -50,19 +50,19 @@
     <div class="form-group margin-b-5 margin-t-5{{ $errors->has('status') ? ' has-error' : '' }}">
       <ul class="list">
         <li>
-          <input type="radio" name="status" class="minimal-red" value="0" @if($record->status_id==0)checked @endif>
+          <input type="radio" name="status" class="minimal-red" value=0 @if($record->status_id==0)checked @endif>
           <label>
             Disable
           </label>
         </li>
         <li>
-          <input type="radio" name="status" class="minimal-red" value="1"@if($record->status_id==1)checked @endif>
+          <input type="radio" name="status" class="minimal-red" value=1 @if($record->status_id==1)checked @endif>
           <label>
             Public
           </label>
         </li>
         <li>
-          <input type="radio" name="status" class="minimal-red" value="2"@if($record->status_id==2)checked @endif>
+          <input type="radio" name="status" class="minimal-red" value=2 @if($record->status_id==2)checked @endif>
           <label>
             Private
           </label>

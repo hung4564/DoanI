@@ -77,7 +77,7 @@
     <div class="col-xs-12">
       <div class="form-group margin-b-5 margin-t-5">
           <label for="is_admin">
-              <input type="checkbox" class="square-blue" name="is_teacher" value="1" {{ old('isTeacher', $record->isTeacher) ? 'checked' : '' }}>
+              <input type="checkbox" class="square-blue" name="is_teacher" value="1" {{ old('isTeacher', $record->isTeacher()) ? 'checked' : '' }}>
               Is Teacher
           </label>
       </div>

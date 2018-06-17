@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Quiz;
+use App\User;
 use App\Traits\Controllers\ResourceController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
@@ -44,6 +46,7 @@ class QuizController extends Controller
         return [
             'rules' => [
                 'name' => 'required|min:3|',
+                'countdown_s'=>'required',
             ],
             'messages' => [],
             'attributes' => [],
@@ -62,6 +65,7 @@ class QuizController extends Controller
         return [
             'rules' => [
                 'name' => 'required|min:3|',
+                'countdown_s'=>'required',
             ],
             'messages' => [],
             'attributes' => [],
@@ -80,6 +84,9 @@ class QuizController extends Controller
         $values['name'] = $request->input('name', '');
         $values['visual_id'] = $request->input('visual', '1');
         $values['status'] = $request->input('status', '0');
+        $values['countdown_s'] = $request->input('countdown_s', '0');
+        $values['level'] = $request->input('level', '0');
+
         return $values;
     }
 
@@ -93,16 +100,22 @@ class QuizController extends Controller
      */
     private function getSearchRecords(Request $request, $show = 15, $search = null)
     {
-        if (!empty($search)) {
-            return $this->getResourceModel()::where('name', 'like', '%' . $search . '%')->paginate($show);
-        }
-
-        return $this->getResourceModel()::paginate($show);
+      if (!empty($search)) {
+        return $this->getResourceModel()::where('name', 'like', '%' . $search . '%')->paginate($show);
     }
 
+    return $this->getResourceModel()::paginate($show);
+
+    }
+    private function updateRelations(Request $request, $id)
+    {
+      $record = $this->getResourceModel()::findOrFail($id);
+      $record->Teachers()->sync(Auth::id());
+    }
     private function detroyRelations($id)
     {
         $record = $this->getResourceModel()::findOrFail($id);
+        $record->Teachers()->detach();
         $record->Questions()->detach();
         $record->Visual()->detach();
     }

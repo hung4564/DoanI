@@ -97,6 +97,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
                 Route::get('courses/{id}/disable', 'CourseController@disableCourse')->name('courses.disable');
                 Route::get('courses/{id}/enable', 'CourseController@enableCourse')->name('courses.enable');
                 Route::get('courses/{id}/public', 'CourseController@publicCourse')->name('courses.public');
+                Route::get('courseslist', 'CourseController@listCourse')->name('courses.listCourses');
+                Route::get('coursesEnrollemnt', 'CourseController@coursesEnrollemnt')->name('courses.enrollment');
+                Route::post('coursesEnrollemnt', 'CourseController@postEnrollemnt')->name('courses.postenrollment');
             });
         });
     });

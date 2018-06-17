@@ -188,3 +188,9 @@ Breadcrumbs::for('dashboard::courses.list', function ($breadcrumbs) {
   $breadcrumbs->parent('dashboard');
   $breadcrumbs->push('List', route('dashboard::courses.listCourses'));
 });
+
+// Home > admin > Course > List
+Breadcrumbs::for('admin::courses.list', function ($breadcrumbs) {
+  $breadcrumbs->parent('admin');
+  $breadcrumbs->push('List', route('admin::courses.listCourses'));
+});

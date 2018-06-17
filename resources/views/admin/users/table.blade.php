@@ -23,19 +23,19 @@
           <td>{{ $tableCounter }}</td>
           <td>
             @can('update', $record)
-            <a href="{{ $editLink }}">{{ $record->id }}</a> 
-            @else {{ $record->id }} 
+            <a href="{{ $editLink }}">{{ $record->id }}</a>
+            @else {{ $record->id }}
             @endcan
           </td>
           <td class="table-text">
             <a href="{{ $editLink }}">{{ $record->name }}</a>
           </td>
           <td>{{ $record->email }}</td>
-          @if ($record->isTeacher == true)
+          @if ($record->isTeacher() == true)
           <td><span class="label label-info">Yes</span></td>
           @else
-          <td></td>          
-          @endif 
+          <td></td>
+          @endif
           @if ($record->is_admin == true)
           <td><span class="label label-info">Yes</span></td>
           @else
