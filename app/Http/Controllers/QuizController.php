@@ -16,7 +16,7 @@ class QuizController extends Controller
       } else {
           $iduser = "";
       }
-      $data = ["user_id" => $iduser, "score" => 0, "total" => 0];
+      $data = ["quiz_id"=>$id,"user_id" => $iduser, "score" => 0, "total" => 0];
       $score = Quiz_User_Score::Create($data);
       $score_id = $score->id;
       $question_true = 0;
@@ -24,10 +24,6 @@ class QuizController extends Controller
       foreach ($question_ids as $question_id) {
           $answer = $request["answer_$question_id"];
           $questionAnswer = $request["questionanswer_$question_id"];
-          //Nếu câu hỏi ko có trả lời thì ko lưu
-          if ($answer != null) {
-              $answer_intable = Quiz_User_Answer::Create(['quiz_user_score_id' => $score_id, 'question_id' => $question_id, 'answer' => $answer]);
-          }
           if ($answer === $questionAnswer) {
               $question_true++;
           }
@@ -35,5 +31,6 @@ class QuizController extends Controller
       $data['score'] = $question_true;
       $data['total'] = count($question_ids);
       $score->update($data);
+      echo $data['score'];
   }
 }
