@@ -15,7 +15,7 @@
 
   <div class="col-md-12">
     <label for="detail">Detail *</label>
-
+    <input type="hidden" name="link" value="{{$record->link}}">
     <div class="form-group margin-b-5 margin-t-5{{ $errors->has('detail') ? ' has-error' : '' }}">
       <textarea class="textarea" name="detail" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
             {{ old('detail', $record->detail) }}

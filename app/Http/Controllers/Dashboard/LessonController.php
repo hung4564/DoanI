@@ -84,14 +84,17 @@ class LessonController extends Controller
         $values['title'] = $request->input('title', '');
         $values['detail'] = $request->input('detail', '');
         $values['type'] = $request->input('type', '0');
-        $values['link'] = "";
+        $values['link'] = $request->input('link', RandomStringGenerator(5).'.txt');
         $values['course_id'] = $request->input('course_id', '0');
         $values['level'] = $request->input('level', '0');
         return $values;
     }
     private function alterValuesToSave(Request $request, $values)
     {
-        $file='demo.txt';
+        $file=$values['link'];
+        if($file==null){
+          $file=RandomStringGenerator(5).'.txt';
+        }
         $contents=$values['detail'];
         Storage::put($file, $contents);
         $values['link'] = $file;

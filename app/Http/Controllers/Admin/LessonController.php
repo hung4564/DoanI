@@ -7,7 +7,7 @@ use App\Lesson;
 use App\Traits\Controllers\ResourceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
+
 class LessonController extends Controller
 {
     use ResourceController;
@@ -84,23 +84,26 @@ class LessonController extends Controller
         $values['title'] = $request->input('title', '');
         $values['detail'] = $request->input('detail', '');
         $values['type'] = $request->input('type', '0');
-        $values['link'] = "";
+        $values['link'] = $request->input('link', RandomStringGenerator(5) . '.txt');
         $values['course_id'] = $request->input('course_id', '0');
         $values['level'] = $request->input('level', '0');
         return $values;
     }
     private function alterValuesToSave(Request $request, $values)
     {
-        $file='demo.txt';
-        $contents=$values['detail'];
+        $file = $values['link'];
+        if ($file == null) {
+            $file = RandomStringGenerator(5) . '.txt';
+        }
+        $contents = $values['detail'];
         Storage::put($file, $contents);
         $values['link'] = $file;
         return $values;
     }
     private function filterEditViewData($record, $data = [])
     {
-      $link=$record['link'];
-      $data['record']['detail']=Storage::get($link);
-      return $data;
+        $link = $record['link'];
+        $data['record']['detail'] = Storage::get($link);
+        return $data;
     }
 }
