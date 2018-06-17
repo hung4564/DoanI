@@ -14,6 +14,10 @@ $route_name= Auth::user()->isAdmin() ? "admin::":"dashboard::";
             <a href="{{ route($route_name.'users.index') }}">
                 <i class="fa fa-user-secret"></i> <span>Users</span>
             </a>
+            <ul class="treeview-menu">
+                <li class=""><a href="{{ route($route_name.'users.index') }}"> List</a></li>
+                <li class=""><a href="{{ route($route_name.'users.create') }}">Add</a></li>
+            </ul>
         </li>
     @endif
     @if (Auth::user()->can('viewList', \App\Category::class))
@@ -21,6 +25,10 @@ $route_name= Auth::user()->isAdmin() ? "admin::":"dashboard::";
             <a href="{{ route($route_name.'categories.index') }}">
                 <i class="fa fa-ellipsis-h"></i> <span>Categories</span>
             </a>
+            <ul class="treeview-menu">
+                <li class=""><a href="{{ route($route_name.'categories.index') }}"> List</a></li>
+                <li class=""><a href="{{ route($route_name.'categories.create') }}"> Add</a></li>
+            </ul>
         </li>
     @endif
     @if (Auth::user()->can('viewList', \App\Question::class))
@@ -28,13 +36,10 @@ $route_name= Auth::user()->isAdmin() ? "admin::":"dashboard::";
             <a href="{{ route($route_name.'questions.index') }}">
                 <i class="fa fa-question"></i> <span>Questions</span>
             </a>
-        </li>
-    @endif
-    @if (Auth::user()->can('viewList', \App\Visual::class))
-        <li class="{{ \App\Utils::checkRoute([$route_name.'visuals.index', $route_name.'visuals.create']) ? 'active': '' }}">
-            <a href="{{ route($route_name.'visuals.index') }}">
-                <i class="fa fa-user-secret"></i> <span>Visuals</span>
-            </a>
+            <ul class="treeview-menu">
+                <li class=""><a href="{{ route($route_name.'questions.index') }}"> List</a></li>
+                <li class=""><a href="{{ route($route_name.'questions.create') }}"> Add</a></li>
+            </ul>
         </li>
     @endif
     @if (Auth::user()->can('viewList', \App\Quiz::class))
@@ -42,6 +47,10 @@ $route_name= Auth::user()->isAdmin() ? "admin::":"dashboard::";
             <a href="{{ route($route_name.'quizzes.index') }}">
                 <i class="fa fa-cube"></i> <span>Quizzes</span>
             </a>
+            <ul class="treeview-menu">
+                <li class=""><a href="{{ route($route_name.'quizzes.index') }}"> List</a></li>
+                <li class=""><a href="{{ route($route_name.'quizzes.create') }}">Add</a></li>
+            </ul>
         </li>
     @endif
     @if (Auth::user()->can('viewList', \App\Course::class))
@@ -49,6 +58,10 @@ $route_name= Auth::user()->isAdmin() ? "admin::":"dashboard::";
             <a href="{{ route($route_name.'courses.index') }}">
                 <i class="fa  fa-cubes"></i> <span>Courses</span>
             </a>
+            <ul class="treeview-menu">
+                <li class=""><a href="{{ route($route_name.'courses.index') }}"> List</a></li>
+                <li class=""><a href="{{ route($route_name.'courses.create') }}"> Add</a></li>
+            </ul>
         </li>
     @endif
     @if (Auth::user()->can('viewListInCoursse', \App\Course::class))
