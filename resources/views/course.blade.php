@@ -51,7 +51,7 @@ $totalStudent = count($course->Students);
             <div class="itemlabel">Category:</div>
             <div class="itemvalue">
                 @foreach($course->Categories as $category)
-                <a href="{{$category->id}}" class="btn btn-sm">{{$category->name}}</a>
+                {{$category->name}},
               @endforeach
             </div>
           </div>

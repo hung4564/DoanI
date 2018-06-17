@@ -65,7 +65,7 @@ $seconds=$countdown_s%60
     <nav class="col-sm-2">
         <div class="center">
           <span id="time">{!!sprintf("%02d", $minutes );!!}:{!!sprintf("%02d",$seconds);!!}</span>
-          <div class="submitbutton">
+          <div class="tab submitbutton">
             <button class="btn btn-danger" type="button" onclick="submitForm()">Submit</button>
           </div>
         </div>
@@ -107,6 +107,7 @@ $seconds=$countdown_s%60
       <div id="result" hidden>
           <h1>Result</h1>
           <h2>Correct: <span id="totalRight"></span>/{{$count}} </h2>
+          <a href="{{route('course.detail',$quiz->Course()->first()->id)}}" class="btn btn-primary">Back</a>
       </div>
     </div>
   </div>
@@ -154,9 +155,10 @@ $seconds=$countdown_s%60
     }
 
   }
+  var countedonw;
  function startTimer(duration, display) {
     var timer = duration, minutes, seconds;
-    var countedonw=setInterval(function () {
+    countedonw=setInterval(function () {
         minutes = parseInt(timer / 60, 10)
         seconds = parseInt(timer % 60, 10);
 
@@ -171,6 +173,9 @@ $seconds=$countdown_s%60
             timer = duration;
         }
     }, 1000);
+}
+function stopTimer(){
+  clearInterval(countedonw);
 }
 function showCorrectAnswer(){
   var questionIds=new Array();
@@ -224,7 +229,9 @@ function showCorrectAnswer(){
       });
     });
     $('#totalRight').text(showCorrectAnswer());
+    $('.tab').hide();
     $('#result').show();
+    stopTimer()
   }
   function beginQuiz(){
     $('#begin').hide();
