@@ -94,6 +94,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
                 Route::get('courses/{coure_id}/removequiz/{quiz_id}', 'CourseController@removeQuiz')->name('course.removequiz');
                 Route::get('courses/{coure_id}/addStudent/{quiz_id}', 'CourseController@addStudent')->name('course.addstudent');
                 Route::get('courses/{coure_id}/removeStudent/{quiz_id}', 'CourseController@removeStudent')->name('course.removestudent');
+                Route::get('courses/{coure_id}/addlesson/{lesson_id}', 'CourseController@addlesson')->name('course.addlesson');
+                Route::get('courses/{coure_id}/removelesson/{lesson_id}', 'CourseController@removelesson')->name('course.removelesson');
                 Route::get('courses/{id}/disable', 'CourseController@disableCourse')->name('courses.disable');
                 Route::get('courses/{id}/enable', 'CourseController@enableCourse')->name('courses.enable');
                 Route::get('courses/{id}/public', 'CourseController@publicCourse')->name('courses.public');
@@ -127,6 +129,10 @@ Route::prefix('dashboard')->group(function () {
             Route::get('courseslist', 'CourseController@listCourse')->name('courses.listCourses');
             Route::get('coursesEnrollemnt', 'CourseController@coursesEnrollemnt')->name('courses.enrollment');
             Route::post('coursesEnrollemnt', 'CourseController@postEnrollemnt')->name('courses.postenrollment');
+
+            Route::get('courses/{coure_id}/addlesson/{lesson_id}', 'CourseController@addlesson')->name('course.addlesson');
+            Route::get('courses/{coure_id}/removelesson/{lesson_id}', 'CourseController@removelesson')->name('course.removelesson');
+
             Route::resource('quizzes', 'QuizController');
             Route::get('quizzes/detail/{id}', 'QuizController@showDetail')->name('quizzes.detail');
             Route::get('quizzes/{quiz_id}/removeQuestion/{question_id}', 'QuizController@removeQuestion')->name('quizzes.removeQuestion');
@@ -144,6 +150,7 @@ Route::prefix('dashboard')->group(function () {
             });
 
             Route::resource('questions', 'QuestionController');
+            Route::resource('lessons', 'LessonController');
         });
     });
 });
@@ -156,7 +163,7 @@ Route::post('profile', 'ProfileController@updateProfile')->name('profile.update'
 //ajax
 Route::get('ajax/quiz/{id}', 'AjaxController@getInfoQuiz')->name('ajax.quiz');
 Route::get('ajax/student/{id}', 'AjaxController@getInfoStudent')->name('ajax.student');
-
+Route::get('ajax/lesson/{id}', 'AjaxController@getInfoLesson')->name('ajax.lesson');
 Route::get('ajax/test', 'AjaxController@test')->name('ajax.test');
 
 Route::get('course/{id}/detail.html', 'PagesController@showCourse')->name('course.detail');

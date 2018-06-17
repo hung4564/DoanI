@@ -40,4 +40,12 @@ class CoursePolicy
     public function coursesEnrollemnt(User $user){
       return true;
     }
+    public function addLesson(User $user, $model)
+    {
+        return $user->isTeacher();
+    }
+    public function removeLesson(User $user, $model)
+    {
+        return $user->isTeacher();
+    }
 }

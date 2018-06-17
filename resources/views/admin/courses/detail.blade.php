@@ -10,6 +10,7 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
 <?php
 $totalQuiz = count($record->Quizzes);
 $totalStudent = count($record->Students);
+$totalLesson = count($record->Lessons);
 ?>
 
 {{-- Page Title --}}
@@ -80,11 +81,14 @@ $totalStudent = count($record->Students);
         @else
           <button type="button" class="btn btn-danger" onclick="location.href='{{route('admin::courses.public',$record->id)}}'">Public</button>
         @endif
+        @can('update', $record)
+        <button type="button" class="btn btn-primary" onclick="location.href='{{route('admin::courses.edit',$record->id)}}'">Edit Course</button>
+        @endcan
         </div>
         <br>
         <div class="btn-group margin-b-5 margin-t-5">
-        @can('update', $record)
-        <button type="button" class="btn btn-primary" onclick="location.href='{{route('admin::courses.edit',$record->id)}}'">Edit Course</button>
+        @can('addLesson', $record)
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-addlesson">Add Lesson</button>
         @endcan
         @can('addQuiz', $record)
         <button type="button" class="btn btn-info"  data-toggle="modal" data-target="#modal-addquiz">Add Quiz</button>
@@ -263,6 +267,70 @@ $totalStudent = count($record->Students);
   <!-- /.box-body -->
 </div>
 <!-- /.box quiz -->
+<div class="box">
+  <div class="box-header with-border">
+    <h3 class="box-title">Course Lesson</h3>
+    <div class="box-tools pull-right">
+      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+      </button>
+    </div>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body no-padding">
+    @if ($totalLesson  > 0)
+        <div class="padding-5">
+            <span class="text-green padding-l-5">Total: {{ $totalLesson  }} items.</span>&nbsp;
+        </div>
+        <?php
+            $tableCounter = 0;
+        ?>
+        <div class="table-responsive list-records">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <!--<th style="width: 10px;"><button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button></th>-->
+              <th>#</th>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Level</th>
+              <th style="width: 100px;">Action</th>
+            </thead>
+            <tbody>
+              @foreach ($record->Lessons as $lesson)
+                <?php
+                  $tableCounter++;
+                ?>
+                <tr>
+                  <!--<td><input type="checkbox" name="ids[]" value="{{ $lesson->id }}" class="square-blue"></td>-->
+                  <td>{{ $tableCounter }}</td>
+                  <td>{{ $lesson->id }}</td>
+                  <td class="table-text">
+                    {{ $lesson->title }}
+                  </td>
+                  <td>
+                    {{ $lesson->level }}
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      @can('view', $quiz)
+                      <a href="{{route('admin::lessons.edit',$quiz->id)}}" class="btn btn-info btn-sm"><i class="fa fa-list"></i></a>
+                      @endcan
+                      @can('removeQuiz', $record)
+                      <a href="{{route('admin::course.removelesson',[$record->id,$lesson->id])}}" class="btn btn-danger btn-sm"><i class="fa fa-minus"></i></a>
+                      @endcan
+                    </div>
+                  </td>
+                </tr>
+                @endforeach
+            </tbody>
+          </table>
+        </div>
+    @else
+        <p class="margin-l-5 lead text-green">No records found.</p>
+    @endif
+  </div>
+  <!-- /.box-body -->
+</div>
+<!-- /.box lesson -->
 <div class="modal fade" id="modal-addquiz">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -320,6 +388,34 @@ $totalStudent = count($record->Students);
 </div>
 <!-- /.modal student-->
 
+<div class="modal fade" id="modal-addlesson">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add lesson</h4>
+      </div>
+      <div class="modal-body">
+        <label for="">lesson Id:</label>
+        <input type="text" name="" id="idlesson">
+        @can('addLesson', $record)
+        <button type="button" class="btn btn-primary" onclick="getInfoLesson()"><i class="fa fa-plus"></i></button>
+        @endcan
+        <div id="resultLesson" >
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="addLesson()">Add Lesson</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal student-->
 @endsection
 {{-- Footer Extras to be Included --}}
 @section('footer-extras')
@@ -373,6 +469,33 @@ $totalStudent = count($record->Students);
     if(studentId!="")
     {
       url = url.replace("#link", studentId);
+      location.href=url;
+    }
+    else{
+      alert('need quiz id');
+    }
+  }
+  function getInfoLesson(){
+    var lessonID=$('#idlesson').val();
+    if(lessonID!=""){
+      $.ajax({
+            type:'get',
+            url:'/ajax/lesson/'+ lessonID,
+            success:function(data){
+              $('#resultLesson').html(data);
+            }
+        });
+    }
+    else {
+      $('#resultLesson').html("input the quiz id first");
+    }
+  }
+  function addLesson(){
+    var url= "{{route('admin::course.addlesson',[$record->id,"#link"])}}";
+    var lessonId=$('#lessonIdget').text();
+    if(lessonId!="")
+    {
+      url = url.replace("#link", lessonId);
       location.href=url;
     }
     else{

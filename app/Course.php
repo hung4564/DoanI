@@ -52,4 +52,7 @@ class Course extends Model
         }
         return false;
     }
+    public function Lessons(){
+      return $this->hasMany('App\Lesson');
+    }
 }

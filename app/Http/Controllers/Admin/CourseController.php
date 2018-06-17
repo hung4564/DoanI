@@ -6,6 +6,7 @@ use App\Course;
 use App\Http\Controllers\Controller;
 use App\Traits\Controllers\ResourceController;
 use App\User;
+use App\Lesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -159,6 +160,16 @@ class CourseController extends Controller
     {
         $record = $this->getResourceModel()::findOrFail($course_id);
         $record->Students()->detach($user_id);
+        return redirect()->back();
+    }
+    public function addLesson($course_id, $lesson_id)
+    {
+      Lesson::whereId($lesson_id)->update(['course_id' => $course_id]);
+      return redirect()->back();
+    }
+    public function removeLesson($course_id, $lesson_id)
+    {
+        Lesson::whereId($lesson_id)->update(['course_id' => 0]);
         return redirect()->back();
     }
     public function disableCourse($id)

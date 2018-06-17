@@ -53,6 +53,17 @@ $route_name= Auth::user()->isAdmin() ? "admin::":"dashboard::";
             </ul>
         </li>
     @endif
+    @if (Auth::user()->can('viewList', \App\Lesson::class))
+        <li class="{{ \App\Utils::checkRoute([$route_name.'lessons.index', $route_name.'lessons.create']) ? 'active': '' }}">
+            <a href="{{ route($route_name.'lessons.index') }}">
+                <i class="fa  fa-book"></i> <span>Lessons</span>
+            </a>
+            <ul class="treeview-menu">
+                <li class=""><a href="{{ route($route_name.'lessons.index') }}"> List</a></li>
+                <li class=""><a href="{{ route($route_name.'lessons.create') }}"> Add</a></li>
+            </ul>
+        </li>
+    @endif
     @if (Auth::user()->can('viewList', \App\Course::class))
         <li class="{{ \App\Utils::checkRoute([$route_name.'courses.index', $route_name.'courses.create']) ? 'active': '' }}">
             <a href="{{ route($route_name.'courses.index') }}">

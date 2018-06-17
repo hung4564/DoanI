@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Lesson;
@@ -8,6 +8,7 @@ use App\Traits\Controllers\ResourceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 class LessonController extends Controller
 {
     use ResourceController;
@@ -15,12 +16,12 @@ class LessonController extends Controller
     /**
      * @var string
      */
-    protected $resourceAlias = 'admin.lessons';
+    protected $resourceAlias = 'dashboard.lessons';
 
     /**
      * @var string
      */
-    protected $resourceRoutesAlias = 'admin::lessons';
+    protected $resourceRoutesAlias = 'dashboard::lessons';
 
     /**
      * Fully qualified class name
@@ -36,10 +37,9 @@ class LessonController extends Controller
     private function getSearchRecords(Request $request, $show = 15, $search = null)
     {
         if (!empty($search)) {
-            return $this->getResourceModel()::where('title', 'like', '%' . $search . '%')->paginate($show);
+            return Auth::user()->Lessons()::where('name', 'like', '%' . $search . '%')->paginate($show);
         }
-
-        return $this->getResourceModel()::paginate($show);
+        return Auth::user()->Lessons()->paginate($show);
     }
     private function resourceStoreValidationData()
     {

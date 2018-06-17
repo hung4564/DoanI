@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Course;
 use App\Http\Controllers\Controller;
+use App\Lesson;
 use App\Traits\Controllers\ResourceController;
 use App\User;
 use Illuminate\Http\Request;
@@ -159,6 +160,16 @@ class CourseController extends Controller
     {
         $record = $this->getResourceModel()::findOrFail($course_id);
         $record->Students()->detach($user_id);
+        return redirect()->back();
+    }
+    public function addLesson($course_id, $lesson_id)
+    {
+        Lesson::whereId($lesson_id)->update(['course_id' => $course_id]);
+        return redirect()->back();
+    }
+    public function removeLesson($course_id, $lesson_id)
+    {
+        Lesson::whereId($lesson_id)->update(['course_id' => 0]);
         return redirect()->back();
     }
     public function disableCourse($id)

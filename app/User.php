@@ -53,6 +53,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Course')->wherePivot('status_id', 1);;
     }
+    public function Lessons(){
+      return $this->hasMany('App\Lesson');
+    }
     public function Questions()
     {
         return $this->hasMany('App\Question');
