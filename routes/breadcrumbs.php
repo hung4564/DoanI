@@ -54,6 +54,7 @@ $resources = [
   'quizzes'=>'Quiz',
   'questions'=>'Question',
   'courses'=>'Course',
+  'lessons'=>'Lesson',
 ];
 
 // Home > Dashboard
