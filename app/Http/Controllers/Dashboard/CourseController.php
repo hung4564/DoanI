@@ -134,7 +134,7 @@ class CourseController extends Controller
     public function addQuiz($course_id, $quiz_id)
     {
         $record = $this->getResourceModel()::findOrFail($course_id);
-        $record->Quizzes()->sync($quiz_id);
+        $record->Quizzes()->attach($quiz_id);
         return redirect()->back();
     }
     public function removeQuiz($course_id, $quiz_id)
@@ -147,10 +147,10 @@ class CourseController extends Controller
     {
         $record = $this->getResourceModel()::findOrFail($course_id);
         if ($record->Students_wait->contains('id', $user_id)) {
-            $record->Students_wait()->sync([$user_id => ['status_id' => 1]]);
+            $record->Students_wait()->attach([$user_id => ['status_id' => 1]]);
         }
         if (!$record->Students->contains('id', $user_id)) {
-            $record->Students()->sync([$user_id => ['status_id' => 1]]);
+            $record->Students()->attach([$user_id => ['status_id' => 1]]);
         }
 
         return redirect()->back();

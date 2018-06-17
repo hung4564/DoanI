@@ -56,7 +56,7 @@ $totalStudent = count($course->Students);
             </div>
           </div>
         </div>
-        <button type="button" class="btn btn-primary" onclick="location.href='{{route('enrollment',[$course->id])}}'">Enrollment</button>
+        <a href="#QuizCourse" class="btn btn-primary">Begin Quiz</a>
       </div>
       <div class="col-md-3 hidden-sm hidden-xs">
         <ul style="list-style-type:none">
@@ -70,12 +70,33 @@ $totalStudent = count($course->Students);
 </div>
 {{-- ./info --}}
 <div class="col-md-9">
-  <div class="box box-primary">
+  <div class="box box-primary" id="QuizCourse">
     <div class="box-header with-border">
-      Course Detail
+      Course Quiz
+      <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+      </div>
     </div>
     <div class="box-body">
-      {!!$course->detail!!}
+        <div class="table-responsive list-records">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <th>Name</th>
+              </thead>
+              <tbody>
+                @foreach ($course->Quizzes()->orderBy('level','desc')->get() as $quiz)
+                  <tr>
+                      <td>
+                          <a href="{{route('quiz.do',[$course->id,$quiz->id])}}"><i class="fa fa-question"></i>
+                        {{ $quiz->name }}
+                      </a>
+                      </td>
+                  </tr>
+                  @endforeach
+              </tbody>
+            </table>
+          </div>
     </div>
   </div>
 </div>
@@ -94,34 +115,13 @@ $totalStudent = count($course->Students);
   </div>
 </div>
 <div class="col-md-9">
-    <div class="box box-primary">
-      <div class="box-header with-border">
-        Course Quiz
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-        </div>
-      </div>
-      <div class="box-body">
-          <div class="table-responsive list-records">
-              <table class="table table-hover table-bordered">
-                <thead>
-                  <th>Name</th>
-                </thead>
-                <tbody>
-                  @foreach ($course->Quizzes()->orderBy('level','desc')->get() as $quiz)
-                    <tr>
-                        <td>
-                            <a href="{{route('quiz.do',[$course->id,$quiz->id])}}"><i class="fa fa-question"></i>
-                          {{ $quiz->name }}
-                        </a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-              </table>
-            </div>
-      </div>
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      Course Detail
+    </div>
+    <div class="box-body">
+      {!!$course->detail!!}
     </div>
   </div>
+</div>
 @endsection

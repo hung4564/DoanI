@@ -341,10 +341,15 @@ $totalStudent = count($record->Students);
     }
   }
   function addQuiz(){
-    var url= "{{route('dashboard::course.addquiz',[$record->id,"#link"])}}";
-    var quizId=$('#idQuiz').val();
-    url = url.replace("#link", quizId);
-    location.href=url;
+    var url= "{{route('admin::course.addquiz',[$record->id,"#link"])}}";
+    var quizId=$('#quizIdget').text();
+    if(quizId!=""){
+      url = url.replace("#link", quizId);
+      location.href=url;
+    }
+    else{
+      alert('need quiz id');
+    }
   }
   function getInfoStudent()
   {
@@ -363,10 +368,16 @@ $totalStudent = count($record->Students);
     }
   }
   function addStudent(){
-    var url= "{{route('dashboard::course.addstudent',[$record->id,"#link"])}}";
-    var studentId=$('#idStudent').val();
-    url = url.replace("#link", studentId);
-    location.href=url;
+    var url= "{{route('admin::course.addstudent',[$record->id,"#link"])}}";
+    var studentId=$('#studentIdget').text();
+    if(studentId!="")
+    {
+      url = url.replace("#link", studentId);
+      location.href=url;
+    }
+    else{
+      alert('need quiz id');
+    }
   }
 </script>
 @endsection
