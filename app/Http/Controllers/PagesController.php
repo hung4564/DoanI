@@ -22,7 +22,7 @@ class PagesController extends Controller
     {
         $Course = Course::find($id);
         if (Auth::check()) {
-            if (Auth::id() == $Course->Teacher->id || Auth::user()->haveCourse($id)) {
+            if (Auth::user()->isAdmin()||Auth::id() == $Course->Teacher->id || Auth::user()->haveCourse($id)) {
                 return view('incourse', ['course' => $Course]);
             }
         }
@@ -33,7 +33,7 @@ class PagesController extends Controller
         if (!Auth::check()) {
             return redirect(route('login'));
         } else {
-            if (Auth::user()->haveCourse($idCourse)) {
+            if (Auth::user()->isAdmin()||Auth::user()->haveCourse($idCourse)) {
                 $course = Course::find($idCourse);
                 if ($course->haveQuestion($idQuiz)) {
                     $quiz = Quiz::find($idQuiz);
