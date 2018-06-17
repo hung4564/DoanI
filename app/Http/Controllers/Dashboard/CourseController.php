@@ -214,14 +214,17 @@ class CourseController extends Controller
     {
         $code_invite = $request->input('code_invite', '');
         if ($code_invite != "") {
-            $course = Course::where('code_invite',"=", $code_invite);
-            if ($course->status_id == 1) {
-                $course->Students()->sync([Auth::id() => ['status_id' => 1]]);
-                return redirect()->back();
-            } else {
-                $course->Students()->sync([Auth::id() => ['status_id' => 0]]);
-                return redirect()->back();
+            $course = Course::where('code_invite', "=", $code_invite)->first();
+            if ($course != null) {
+                if ($course->status_id == 1) {
+                    $course->Students()->sync([Auth::id() => ['status_id' => 1]]);
+                    return redirect()->back();
+                } else {
+                    $course->Students()->sync([Auth::id() => ['status_id' => 0]]);
+                    return redirect()->back();
+                }
             }
         }
+        return redirect()->back();
     }
 }

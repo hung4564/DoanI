@@ -120,7 +120,8 @@ Route::prefix('dashboard')->group(function () {
             Route::get('courses/{id}/enable', 'CourseController@enableCourse')->name('courses.enable');
             Route::get('courses/{id}/public', 'CourseController@publicCourse')->name('courses.public');
             Route::get('courseslist', 'CourseController@listCourse')->name('courses.listCourses');
-
+            Route::get('coursesEnrollemnt', 'CourseController@coursesEnrollemnt')->name('courses.enrollment');
+            Route::post('coursesEnrollemnt', 'CourseController@postEnrollemnt')->name('courses.postenrollment');
             Route::resource('quizzes', 'QuizController');
             Route::get('quizzes/detail/{id}', 'QuizController@showDetail')->name('quizzes.detail');
             Route::get('quizzes/{quiz_id}/removeQuestion/{question_id}', 'QuizController@removeQuestion')->name('quizzes.removeQuestion');
@@ -156,4 +157,4 @@ Route::get('ajax/test', 'AjaxController@test')->name('ajax.test');
 Route::get('course/{id}/detail.html', 'PagesController@showCourse')->name('course.detail');
 Route::get('enrollment/{id}', 'CourseController@Enrollment')->name('enrollment');
 Route::get('quiz/{idCourse}/{idQuiz}/do.html','PagesController@showQuiz')->name('quiz.do');
-Route::post('sendQuiz','QuizController@postQuiz')->name('sendQuiz');
+Route::post('sendQuiz/{id}','QuizController@postQuiz')->name('sendQuiz');
