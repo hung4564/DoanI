@@ -21,6 +21,10 @@ class Quiz extends Model
     {
         return $this->belongsToMany('App\User')->first();
     }
+    public function Teachers()
+    {
+        return $this->belongsToMany('App\User');
+    }
     public function Questions()
     {
         return $this->belongsToMany('App\Question');
@@ -42,10 +46,6 @@ class Quiz extends Model
     public function IsPublic()
     {
         return (int) $this->status === 1;
-    }
-    public function Status()
-    {
-        return $this->belongsTo('App\Status', 'status');
     }
     public function getRecordTitle()
     {
