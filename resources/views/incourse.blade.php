@@ -69,7 +69,7 @@ $totalStudent = count($course->Students);
   </div>
 </div>
 {{-- ./info --}}
-<div class="col-md-9">
+<div class="col-md-6">
   <div class="box box-primary" id="QuizCourse">
     <div class="box-header with-border">
       Course Quiz
@@ -100,6 +100,50 @@ $totalStudent = count($course->Students);
     </div>
   </div>
 </div>
+{{-- /.quiz --}}
+<div class="col-md-6">
+  <div class="box box-primary" id="QuizCourse">
+    <div class="box-header with-border">
+      Course Lesson
+      <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+      </div>
+    </div>
+    <div class="box-body">
+        <div class="table-responsive list-records">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <th>Title</th>
+              </thead>
+              <tbody>
+                @foreach ($course->Lessons()->orderBy('level','desc')->get() as $lesson)
+                  <tr>
+                      <td>
+                          <a href="{{route('lesson.read',[$lesson->id])}}"><i class="fa fa-book"></i>
+                        {{ $lesson->title }}
+                      </a>
+                      </td>
+                  </tr>
+                  @endforeach
+              </tbody>
+            </table>
+          </div>
+    </div>
+  </div>
+</div>
+{{-- /.quiz --}}
+<div class="col-md-9">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      Course Detail
+    </div>
+    <div class="box-body">
+      {!!$course->detail!!}
+    </div>
+  </div>
+</div>
+{{-- ./ detail --}}
 <div class="col-md-3">
   <div class="box box-primary">
     <div class="box-header with-border">
@@ -114,14 +158,5 @@ $totalStudent = count($course->Students);
     </div>
   </div>
 </div>
-<div class="col-md-9">
-  <div class="box box-primary">
-    <div class="box-header with-border">
-      Course Detail
-    </div>
-    <div class="box-body">
-      {!!$course->detail!!}
-    </div>
-  </div>
-</div>
+{{-- ./teach --}}
 @endsection

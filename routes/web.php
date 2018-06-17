@@ -170,3 +170,4 @@ Route::get('course/{id}/detail.html', 'PagesController@showCourse')->name('cours
 Route::get('enrollment/{id}', 'CourseController@Enrollment')->name('enrollment');
 Route::get('quiz/{idCourse}/{idQuiz}/do.html', 'PagesController@showQuiz')->name('quiz.do');
 Route::post('sendQuiz/{id}', 'QuizController@postQuiz')->name('sendQuiz');
+route::get('lesson/{id}/read.html','PagesController@showLesson')->name('lesson.read');

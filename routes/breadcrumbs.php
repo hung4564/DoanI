@@ -195,3 +195,9 @@ Breadcrumbs::for('admin::courses.list', function ($breadcrumbs) {
   $breadcrumbs->parent('admin');
   $breadcrumbs->push('List', route('admin::courses.listCourses'));
 });
+
+// Home > lesson
+Breadcrumbs::for('lesson', function ($breadcrumbs,$idLesson) {
+  $breadcrumbs->parent('home');
+  $breadcrumbs->push('Lesson', route('lesson.read',$idLesson));
+});

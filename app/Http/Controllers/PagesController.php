@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\Quiz;
+use App\Lesson;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PagesController extends Controller
 {
@@ -42,5 +44,11 @@ class PagesController extends Controller
             }
         }
         return redirect(route('home'));
+    }
+    public function showLesson($idLeson){
+      $lesson = Lesson::findOrFail($idLeson);
+      $link= $lesson->link;
+      $detail=Storage::get($link);
+      return view('lesson', ['lesson' => $lesson,'detail'=>$detail]);
     }
 }
