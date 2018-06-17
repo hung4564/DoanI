@@ -164,7 +164,7 @@ trait ResourceController
 
         if (!$this->checkDestroy($record)) {
             return redirect(route($this->getResourceRoutesAlias() . '.index'));
-        }          
+        }
         $this->detroyRelations($id);
         if ($record->delete()) {
             flash()->success('Element successfully deleted.');

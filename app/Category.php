@@ -10,10 +10,6 @@ class Category extends Model
         'name', 'detail',
     ];
     public $timestamps = false;
-    public static function getAll()
-    {
-        return Category::All();
-    }
     /**
      * @return mixed
      */

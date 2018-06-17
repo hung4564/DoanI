@@ -107,7 +107,7 @@ class VisualController extends Controller
     private function getSearchRecords(Request $request, $show = 15, $search = null)
     {
         if (!empty($search)) {
-            return $this->getResourceModel()::like('name', $search)->paginate($show);
+            return $this->getResourceModel()::where('name', 'like' ,'%'.$search.'%')->paginate($show);
         }
 
         return $this->getResourceModel()::paginate($show);

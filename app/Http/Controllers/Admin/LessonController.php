@@ -1,0 +1,109 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Lesson;
+use App\Traits\Controllers\ResourceController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class LessonController extends Controller
+{
+    use ResourceController;
+
+    /**
+     * @var string
+     */
+    protected $resourceAlias = 'admin.lessons';
+
+    /**
+     * @var string
+     */
+    protected $resourceRoutesAlias = 'admin::lessons';
+
+    /**
+     * Fully qualified class name
+     *
+     * @var string
+     */
+    protected $resourceModel = Lesson::class;
+
+    /**
+     * @var string
+     */
+    protected $resourceTitle = 'Lessons';
+    private function getSearchRecords(Request $request, $show = 15, $search = null)
+    {
+        if (!empty($search)) {
+            return $this->getResourceModel()::where('title', 'like', '%' . $search . '%')->paginate($show);
+        }
+
+        return $this->getResourceModel()::paginate($show);
+    }
+    private function resourceStoreValidationData()
+    {
+        return [
+            'rules' => [
+                'title' => 'required|min:3|max:255',
+                'detail' => 'required',
+            ],
+            'messages' => [],
+            'attributes' => [],
+        ];
+    }
+
+    /**
+     * Used to validate update.
+     *
+     * @param $record
+     * @return array
+     */
+    private function resourceUpdateValidationData($record)
+    {
+        return [
+            'rules' => [
+                'title' => 'required|min:3|max:255',
+                'detail' => 'required',
+            ],
+            'messages' => [],
+            'attributes' => [],
+        ];
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param null $record
+     * @return array
+     */
+    private function getValuesToSave(Request $request, $record = null)
+    {
+        $creating = is_null($record);
+        $values = [];
+        $values['user_id'] = Auth::id();
+        $values['title'] = $request->input('title', '');
+        $values['detail'] = $request->input('detail', '');
+        $values['type'] = $request->input('type', '0');
+        $values['link'] = $request->input('link', RandomStringGenerator(5) . '.txt');
+        $values['course_id'] = $request->input('course_id', '0');
+        $values['level'] = $request->input('level', '0');
+        return $values;
+    }
+    private function alterValuesToSave(Request $request, $values)
+    {
+        $file = $values['link'];
+        if ($file == null) {
+            $file = RandomStringGenerator(5) . '.txt';
+        }
+        $contents = $values['detail'];
+        Storage::put($file, $contents);
+        $values['link'] = $file;
+        return $values;
+    }
+    private function filterEditViewData($record, $data = [])
+    {
+        $link = $record['link'];
+        $data['record']['detail'] = Storage::get($link);
+        return $data;
+    }
+}

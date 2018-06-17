@@ -19,7 +19,8 @@ class AuthServiceProvider extends ServiceProvider
         'App\Visual' => 'App\Policies\VisualPolicy',
         'App\Quiz' => 'App\Policies\QuizPolicy',
         'App\Question' => 'App\Policies\QuestionPolicy',
-
+        'App\Course' => 'App\Policies\CoursePolicy',
+        'App\Lesson' => 'App\Policies\LessonPolicy',
     ];
 
     /**
@@ -29,7 +30,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
+      $this->registerPolicies();
         //
     }
 }

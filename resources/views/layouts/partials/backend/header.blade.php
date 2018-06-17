@@ -30,7 +30,6 @@
             <!-- User image -->
             <li class="user-header">
               <img src="{{ Auth::user()->getLogoPath() }}" class="img-circle" alt="{{ Auth::user()->name }}">
-
               <p>
                 {{ Auth::user()->name }}
               </p>

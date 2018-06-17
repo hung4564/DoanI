@@ -1,16 +1,17 @@
-{{-- Extends Layout --}} 
-@extends('layouts.backend') {{-- Page Title --}} 
-@section('page-title', 'Admin') {{-- Page Subtitle
---}} 
-@section('page-subtitle', 'Control panel') {{-- Breadcrumbs --}} 
+{{-- Extends Layout --}}
+@extends('layouts.backend')
+{{-- Page Title --}}
+@section('page-title', 'Admin')
+{{-- Page Subtitle--}}
+@section('page-subtitle', 'Control panel')
+{{-- Breadcrumbs --}}
 @section('breadcrumbs')
 {!! Breadcrumbs::render('admin') !!}
 @endsection
  {{-- Header Extras
-to be Included --}} 
+to be Included --}}
 @section('head-extras') @parent
 @endsection
- 
 @section('content')
 
 <!-- Small boxes (Stat box) -->
@@ -35,7 +36,6 @@ to be Included --}}
     <div class="small-box bg-green">
       <div class="inner">
         <h3>{{ $reports->getTotalCategory()}}</h3>
-
         <p>Category</p>
       </div>
       <div class="icon">
@@ -49,22 +49,7 @@ to be Included --}}
     <!-- small box -->
     <div class="small-box bg-yellow">
       <div class="inner">
-        <h3>{{ $reports->getTotalVisual()}}</h3>
-
-        <p>Visual</p>
-      </div>
-      <div class="icon">
-        <i class="ion ion-person-add"></i>
-      </div>
-      <a href="{{ route('admin::visuals.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-    </div>
-  </div>
-  <!-- ./col -->
-  <div class="col-lg-3 col-xs-6">
-    <!-- small box -->
-    <div class="small-box bg-red">
-      <div class="inner">
-        <h3>{{ $reports->getTotalQuiz()}}</h3>
+        <h3>{{ $reports->getTotalQuestion()}}</h3>
 
         <p>Quiz</p>
       </div>
@@ -81,7 +66,7 @@ to be Included --}}
       <div class="inner">
         <h3>{{ $reports->getTotalQuiz()}}</h3>
 
-        <p>Quiz</p>
+        <p>Questions</p>
       </div>
       <div class="icon">
         <i class="ion ion-pie-graph"></i>
@@ -90,7 +75,36 @@ to be Included --}}
     </div>
   </div>
   <!-- ./col -->
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-blue">
+      <div class="inner">
+        <h3>{{ $reports->getTotalCourse()}}</h3>
+
+        <p>Coures</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-pie-graph"></i>
+      </div>
+      <a href="{{ route('admin::courses.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <!-- ./col --><div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-blue">
+      <div class="inner">
+        <h3>{{ $reports->getTotalCourse()}}</h3>
+
+        <p>Coures</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-pie-graph"></i>
+      </div>
+      <a href="{{ route('admin::lessons.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <!-- ./col -->
 @endsection
- {{-- Footer Extras to be Included --}} 
+ {{-- Footer Extras to be Included --}}
 @section('footer-extras')
 @endsection

@@ -17,7 +17,6 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'is_admin', 'logo_number',
     ];
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -33,27 +32,51 @@ class User extends Authenticatable
     {
         return (int) $this->is_admin === 1;
     }
+    public function Teacher()
+    {
+        return $this->hasOne('App\Teacher');
+    }
     /**
      * @return boolean
      */
-    public function canAccess($modelname,$method){
-      if(isAdmin()) return true;
-      
-      return false;
+    public function isTeacher()
+    {
+        return $this->Teacher()->exists();
     }
-    /**
-     * @return string
-     */
+    public function Courses()
+    {
+        if ($this->isTeacher()) {
+            return $this->hasMany('App\Course', 'teacher_id');
+        }
+    }
+    public function inCourse()
+    {
+        return $this->belongsToMany('App\Course')->wherePivot('status_id', 1);;
+    }
+    public function Lessons(){
+      return $this->hasMany('App\Lesson');
+    }
+    public function Questions()
+    {
+        return $this->hasMany('App\Question');
+    }
+    public function Quizzes()
+    {
+        return $this->belongsToMany('App\Quiz');
+    }
     public function getLogoPath()
     {
         return Utils::logoPath($this->logo_number);
     }
-
-    /**
-     * @return mixed
-     */
     public function getRecordTitle()
     {
         return $this->name;
+    }
+    public function haveCourse($idCourse)
+    {
+        if ($this->inCourse()->exists()) {
+            return $this->inCourse->contains($idCourse);
+        }
+        return false;
     }
 }
