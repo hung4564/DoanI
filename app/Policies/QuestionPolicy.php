@@ -10,7 +10,7 @@ class QuestionPolicy
 {
     use HandlesAuthorization;
     protected $policies = [
-        Quiz::class => QuizPolicy::class,
+        Question::class => QuestionPolicy::class,
     ];
     use Policy;
 }
