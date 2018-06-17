@@ -7,6 +7,10 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
     $totalQuiz = count($record->Quizzes);
     $totalStudent_wait = count($record->Students_wait);
 ?>
+<?php
+$totalQuiz = count($record->Quizzes);
+$totalStudent = count($record->Students);
+?>
 
 {{-- Page Title --}}
 @section('page-title', $_pageTitle)
@@ -60,27 +64,42 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
             <div class="listitem">
               <div class="itemlabel">Category:</div>
               <div class="itemvalue">
-                  @foreach($record->Categories as $category)
-                  <a href="{{$category->id}}" class="btn btn-sm">{{$category->name}}</a>
+                  @foreach($record->Categories as $category){{$category->name}}
                 @endforeach
               </div>
             </div>
         </div>
+        <div class="btn-group margin-b-5 margin-t-5">
         @if($record->IsEnable())
           <button type="button" class="btn btn-default" onclick="location.href='{{route('dashboard::courses.disable',$record->id)}}'">Disable</button>
         @else
-          <button type="button" class="btn btn-default" onclick="location.href='{{route('dashboard::courses.enable',$record->id)}}'">Enable</button>
+          <button type="button" class="btn btn-warning" onclick="location.href='{{route('dashboard::courses.enable',$record->id)}}'">Enable</button>
         @endif
         @if($record->IsPublic())
           <button type="button" class="btn btn-default" onclick="location.href='{{route('dashboard::courses.enable',$record->id)}}'">Unpublic</button>
         @else
-          <button type="button" class="btn btn-default" onclick="location.href='{{route('dashboard::courses.public',$record->id)}}'">Public</button>
+          <button type="button" class="btn btn-danger" onclick="location.href='{{route('dashboard::courses.public',$record->id)}}'">Public</button>
         @endif
-        <button type="button" class="btn btn-default"  data-toggle="modal" data-target="#modal-addquiz">Add Quiz</button>
-        <button type="button" class="btn btn-default"data-toggle="modal" data-target="#modal-addstudent">Add Student</button>
+        </div>
+        <br>
+        <div class="btn-group margin-b-5 margin-t-5">
+        @can('update', $record)
+        <button type="button" class="btn btn-primary" onclick="location.href='{{route('dashboard::courses.edit',$record->id)}}'">Edit Course</button>
+        @endcan
+        @can('addQuiz', $record)
+        <button type="button" class="btn btn-info"  data-toggle="modal" data-target="#modal-addquiz">Add Quiz</button>
+        @endcan
+        @can('addStudent', $record)
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-addstudent">Add Student</button>
+        @endcan
+        </div>
       </div>
       <div class="col-md-2 hidden-sm hidden-xs">
-        thông tin về course
+        <ul style="list-style-type:none">
+          <li><i class="fa fa-question-circle"></i> <b>{{$totalQuiz}}</b> Quiz</li>
+          <li><i class="fa fa-user"></i> <b>{{$totalStudent}}</b> Student</li>
+          <li></li>
+        </ul>
       </div>
     </div>
   </div>

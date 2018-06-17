@@ -17,10 +17,14 @@ class QuizPolicy
 
     public function addQuestion(User $user, $model)
     {
-        return $user->isAdmin();
+        return $user->isTeacher();
     }
     public function removeQuestion(User $user, $model)
     {
-        return $user->isAdmin();
+        return $user->isTeacher();
+    }
+    public function viewDetail(User $user, $model)
+    {
+        return $user->isTeacher();
     }
 }

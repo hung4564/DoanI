@@ -21,7 +21,7 @@ class Question extends Model
         if ($this->question_type == 0) {
             $choices = "";
         } else if ($this->question_type == 1) {
-            $choices = ['True', 'False'];
+            $choices = ['False', 'True'];
         } else if ($this->question_type == 2) {
             $choices = explode(";", $this->choices);
         }

@@ -2,6 +2,7 @@
 <?php
 $_pageTitle = (isset($addVarsForView['_pageTitle']) && ! empty($addVarsForView['_pageTitle']) ? $addVarsForView['_pageTitle'] : ucwords('Quiz'));
 $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsForView['_pageSubtitle']) ? $addVarsForView['_pageSubtitle'] : 'Detail');
+$totalQuiz= count($records);
 ?>
 
 {{-- Page Title --}}
@@ -53,12 +54,6 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
               <div class="itemlabel">Status:</div>
               <div class="itemvalue">{{$record->Status->name}}</div>
             </div>
-            <div class="listitem">
-              <div class="itemlabel">Category:</div>
-              <div class="itemvalue">
-                test
-              </div>
-            </div>
         </div>
         @if(!$record->Disabe())
           <button type="button" class="btn btn-default" onclick="location.href='{{route('dashboard::quizzes.disable',$record->id)}}'">Disable</button>
@@ -73,7 +68,14 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
         <button type="button" class="btn btn-default"  onclick="location.href='{{route('dashboard::QuizQuestion.create',$record->id)}}'">Add Question</button>
       </div>
       <div class="col-md-2 hidden-sm hidden-xs">
-        thông tin về quiz
+          <li><i class="fa fa-question-circle"></i>: <b>{{$totalQuiz}}</b> Question</li>
+          <li><i class="fa fa-hourglass-o"></i>: <b>{{$record->countdown_s}}</b> seconds </li>
+          <li><i class="fa fa-book"></i>: <b>
+              @if($record->level==0) Easy
+              @elseif($record->level==1) Medium
+              @else Hard
+              @endif
+            </b></li>
       </div>
     </div>
   </div>
@@ -135,10 +137,10 @@ $_pageSubtitle = (isset($addVarsForView['_pageSubtitle']) && ! empty($addVarsFor
                     <td>
                       <div class="btn-group">
                         @can('update', $question)
-                        <a href="{{route('dashboard::questions.edit', $record->id)}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
+                          <a href="{{route('dashboard::questions.edit', $record->id)}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
                         @endcan
                         @can('removeQuestion', $record)
-                        <a href="{{route('dashboard::quizzes.removeQuestion', [$record->id,$question->id])}}" class="btn btn-danger btn-sm"><i class="fa fa-minus"></i></a>
+                          <a href="{{route('dashboard::quizzes.removeQuestion', [$record->id,$question->id])}}" class="btn btn-danger btn-sm"><i class="fa fa-minus"></i></a>
                         @endcan
                       </div>
                     </td>

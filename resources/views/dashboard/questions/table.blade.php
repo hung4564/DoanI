@@ -15,11 +15,11 @@
       <?php
             $tableCounter++;
             if(isset($quizID))
-            {                
+            {
             $editLink = route('dashboard::QuizQuestion.edit', ['quizID'=>$quizID,'questionID'=>$record->id]);
             $deleteLink = route('dashboard::QuizQuestion.destroy', ['quizID'=>$quizID,'questionID'=>$record->id]);
             }
-            else{              
+            else{
             $editLink = route($resourceRoutesAlias.'.edit', $record->id);
             $deleteLink = route($resourceRoutesAlias.'.destroy', $record->id);
             }
@@ -37,17 +37,17 @@
           </td>
           <td class="table-text">
             <a href="{{ $editLink }}">
-              @switch($record->question_type) 
-              @case(0) 
-              Identification 
-              @break 
-              @case(1) 
+              @switch($record->question_type)
+              @case(0)
+              Identification
+              @break
+              @case(1)
               True or False
-              @break 
-              @case(2) 
-              Multiple choice 
-              @break 
-              @default 
+              @break
+              @case(2)
+              Multiple choice
+              @break
+              @default
               Unknow
               @endswitch
             </a>
